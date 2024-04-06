@@ -9,9 +9,15 @@ export const registerFlowOneFormSchema = yup.object().shape({
   fullName: yup.string().required("Fullname is required"),
   email: yup
     .string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  phoneNumber: yup.string().required("Phone number is required"),
+    .required("Email is required")
+    .matches(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+      "Invalid email format"
+    ),
+  phoneNumber: yup
+    .string()
+    .required("Phone number is required")
+    .matches(/^[0-9]+$/, "Phone number must contain only numeric digits"),
 });
 
 export const registerFlowTwoFormSchema = yup.object().shape({

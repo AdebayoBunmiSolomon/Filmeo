@@ -19,7 +19,7 @@ export const useCachedResources = () => {
           "source-sans-light": SourceSansPro_300Light,
           "source-sans-regular": SourceSansPro_400Regular,
           "source-sans-semibold": SourceSansPro_600SemiBold,
-          "sources-sans-bold": SourceSansPro_700Bold,
+          "source-sans-bold": SourceSansPro_700Bold,
         });
       } catch (error) {
         console.warn(error);

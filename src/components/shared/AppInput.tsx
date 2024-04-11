@@ -19,7 +19,7 @@ import {
   useSelectedCountry,
   useVisibility,
 } from "@src/hooks/state";
-import { CountryCodeSelection } from "../core";
+import { CountryCodeSelection } from "./Country-Code-Selection";
 
 type appInputProps = {
   placeholder: string;

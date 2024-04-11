@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
   },
   image: {
     height: "75%",
-    width: screenWidth - 15,
+    width: screenWidth - 30,
   },
   subTitle: {
-    maxWidth: DVW(70),
+    maxWidth: DVW(80),
     textAlign: "center",
     lineHeight: layout.size22,
   },

@@ -21,7 +21,7 @@ export const Onboarding = ({ navigation }: AuthScreenProps<"Onboarding">) => {
   const nextSlide = () => {
     const nextSlideIndex = currSlideIndex + 1;
     if (nextSlideIndex !== onboardingScreenSlides.length) {
-      const offset = nextSlideIndex * screenWidth;
+      const offset = nextSlideIndex * (screenWidth - 30);
       flatListRef?.current?.scrollToOffset({ offset });
       setCurrSlideIndex(nextSlideIndex);
     }
@@ -30,7 +30,7 @@ export const Onboarding = ({ navigation }: AuthScreenProps<"Onboarding">) => {
   const prevSlide = () => {
     const prevSlideIndex = currSlideIndex - 1;
     if (prevSlideIndex >= 0) {
-      const offset = prevSlideIndex * screenWidth;
+      const offset = prevSlideIndex * (screenWidth - 30);
       flatListRef?.current?.scrollToOffset({ offset });
       setCurrSlideIndex(prevSlideIndex);
     }

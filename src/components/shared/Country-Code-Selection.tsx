@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AppInput, AppText } from "../shared";
+import React, { useContext } from "react";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { colors } from "@src/resources/Colors";
@@ -7,7 +6,8 @@ import { layout, moderateScale } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { truncateText } from "@src/helper/helper";
 import { useCountryCodeSelection, useSelectedCountry } from "@src/hooks/state";
-import { Loader } from "./Loader";
+import { Loader } from "../core/Loader";
+import { AppInput, AppText } from ".";
 
 type countryCodeSelectionProps = {
   closeModal: () => void;

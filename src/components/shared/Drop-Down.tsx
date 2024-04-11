@@ -32,7 +32,7 @@ export const DropDown: React.FC<dropDownProps> = ({
     <TouchableWithoutFeedback onPress={() => onCloseDropDown()}>
       <View style={[styles.container, {}]}>
         <Animated.View
-          entering={ZoomIn.springify().damping(10)}
+          entering={ZoomIn}
           exiting={ZoomOut}
           style={[
             styles.dropDownContainer,

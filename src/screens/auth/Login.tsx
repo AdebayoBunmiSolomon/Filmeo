@@ -12,6 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@src/form/validation";
 import { loginFormType } from "@src/form/types";
+import { KeyboardDismissal } from "@src/components/core";
 
 export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
   const { theme } = useContext(ThemeContext);
@@ -30,60 +31,64 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
 
   return (
     <Screen>
-      <Header
-        onPress={() => navigation.goBack()}
-        title='Login'
-        rightIcon={
-          <Entypo
-            name='key'
-            color={
-              theme === "dark" ? colors.primaryColor : colors.primaryColor2
+      <KeyboardDismissal>
+        <View>
+          <Header
+            onPress={() => navigation.goBack()}
+            title='Login'
+            rightIcon={
+              <Entypo
+                name='key'
+                color={
+                  theme === "dark" ? colors.primaryColor : colors.primaryColor2
+                }
+                size={layout.size18}
+              />
             }
-            size={layout.size18}
           />
-        }
-      />
-      <View>
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <AppInput
-              label='Username or Email'
-              placeholder='example@gmail.com'
-              error={errors?.userName?.message}
-              value={field.value}
-              onChangeText={(text) => field.onChange(text)}
-              onSubmitEditing={() => console.log("Hello, username")}
+          <View>
+            <Controller
+              control={control}
+              render={({ field }) => (
+                <AppInput
+                  label='Username or Email'
+                  placeholder='example@gmail.com'
+                  error={errors?.userName?.message}
+                  value={field.value}
+                  onChangeText={(text) => field.onChange(text)}
+                  onSubmitEditing={() => console.log("Hello, username")}
+                />
+              )}
+              name='userName'
+              defaultValue=''
             />
-          )}
-          name='userName'
-          defaultValue=''
-        />
 
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <AppInput
-              label='Password'
-              placeholder='********'
-              passwordInput
-              error={errors?.password?.message}
-              value={field.value}
-              onChangeText={(text) => field.onChange(text)}
+            <Controller
+              control={control}
+              render={({ field }) => (
+                <AppInput
+                  label='Password'
+                  placeholder='********'
+                  passwordInput
+                  error={errors?.password?.message}
+                  value={field.value}
+                  onChangeText={(text) => field.onChange(text)}
+                />
+              )}
+              name='password'
+              defaultValue=''
             />
-          )}
-          name='password'
-          defaultValue=''
-        />
-        <AppButton
-          title='Continue'
-          onPress={handleSubmit(onSubmit)}
-          style={{
-            alignSelf: "center",
-            marginTop: layout.size6,
-          }}
-        />
-      </View>
+            <AppButton
+              title='Continue'
+              onPress={handleSubmit(onSubmit)}
+              style={{
+                alignSelf: "center",
+                marginTop: layout.size6,
+              }}
+            />
+          </View>
+        </View>
+      </KeyboardDismissal>
     </Screen>
   );
 };

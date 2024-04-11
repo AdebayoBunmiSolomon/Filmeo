@@ -16,7 +16,7 @@ export const AppLoader: React.FC<{}> = () => {
           resizeMode='contain'
           style={styles.image}
         />
-        <AppText fontBold mainColor sizeXtraLarge>
+        <AppText mainColor sizeXtraLarge>
           Filmeo
         </AppText>
       </View>

@@ -53,6 +53,7 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
               error={errors?.userName?.message}
               value={field.value}
               onChangeText={(text) => field.onChange(text)}
+              onSubmitEditing={() => console.log("Hello, username")}
             />
           )}
           name='userName'

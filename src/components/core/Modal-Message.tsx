@@ -9,10 +9,56 @@ import Animated, {
   FadeOut,
   ZoomIn,
   ZoomOut,
+  SlideInUp,
+  SlideOutUp,
+  SlideInDown,
+  SlideOutDown,
+  SlideInLeft,
+  SlideOutLeft,
+  SlideInRight,
+  SlideOutRight,
+  BounceIn,
+  BounceOut,
+  BounceInLeft,
+  BounceOutLeft,
+  BounceInRight,
+  BounceOutRight,
+  BounceInDown,
+  BounceOutDown,
+  BounceInUp,
+  BounceOutUp,
 } from "react-native-reanimated";
+
+const animationIn = {
+  ZoomIn,
+  SlideInUp,
+  SlideInDown,
+  SlideInLeft,
+  SlideInRight,
+  BounceIn,
+  BounceInLeft,
+  BounceInRight,
+  BounceInDown,
+  BounceInUp,
+};
+
+const animationOut = {
+  ZoomOut,
+  SlideOutUp,
+  SlideOutDown,
+  SlideOutLeft,
+  SlideOutRight,
+  BounceOut,
+  BounceOutLeft,
+  BounceOutRight,
+  BounceOutDown,
+  BounceOutUp,
+};
 
 type modalMessageProps = {
   visible: boolean;
+  enteringAnimation: keyof typeof animationIn;
+  exitingAnimation: keyof typeof animationOut;
   setVisible: () => void;
   title?: string;
   btnTitle?: string;
@@ -22,6 +68,8 @@ type modalMessageProps = {
 
 export const ModalMessage: React.FC<modalMessageProps> = ({
   visible,
+  enteringAnimation,
+  exitingAnimation,
   setVisible,
   title,
   btnTitle,
@@ -86,8 +134,8 @@ export const ModalMessage: React.FC<modalMessageProps> = ({
             },
           ]}>
           <Animated.View
-            entering={ZoomIn}
-            exiting={ZoomOut}
+            entering={animationIn[enteringAnimation]}
+            exiting={animationOut[exitingAnimation]}
             style={[
               styles.messageContainer,
               {

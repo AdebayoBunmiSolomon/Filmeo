@@ -143,6 +143,8 @@ export const RegisterFlowTwo = ({
         btnTitle={modalMessage.btnTitle}
         onPress={() => console.log("modal button pressed")}
         type={modalMessage.type}
+        enteringAnimation='SlideInDown'
+        exitingAnimation='SlideOutDown'
       />
     </>
   );

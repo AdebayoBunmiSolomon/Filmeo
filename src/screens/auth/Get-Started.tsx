@@ -7,14 +7,14 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { DVW, layout } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
-import { AppButton, DropDown } from "@src/components/shared";
+import { AppButton, AppText, DropDown } from "@src/components/shared";
 import { useVisibility } from "@src/hooks/state";
 import { SheetModal } from "@src/components/core";
 
 export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
   const { theme } = useContext(ThemeContext);
   const { dropDownVisible, onToggleDropDownVisible } = useVisibility();
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   return (
     <>
@@ -63,7 +63,10 @@ export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
             />
             <AppButton
               title='Register'
-              onPress={() => navigation.navigate("RegisterFlowOne")}
+              onPress={() => {
+                // navigation.navigate("RegisterFlowOne");
+                setIsModalVisible(!isModalVisible);
+              }}
               outline
               rightIcon={
                 <MaterialIcons
@@ -103,9 +106,17 @@ export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
       />
       <SheetModal
         visible={isModalVisible}
-        setVisible={(visible) => setModalVisible(visible)}
-        snapPointHeight={1.5}
-      />
+        setVisible={setIsModalVisible}
+        snapHeight={"18%"}>
+        <>
+          <AppText fontBold sizeLarge mainColor>
+            Welcome onboard.
+          </AppText>
+          <AppText fontBold sizeLarge black>
+            T for Thanks!!!
+          </AppText>
+        </>
+      </SheetModal>
     </>
   );
 };

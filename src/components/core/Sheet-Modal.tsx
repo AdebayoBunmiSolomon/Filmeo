@@ -1,145 +1,71 @@
-import "react-native-gesture-handler";
 import React, { useContext } from "react";
-import { StyleSheet, Pressable, View, ScrollView } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { ThemeContext } from "@src/resources/Theme";
+import { AntDesign } from "@expo/vector-icons";
+import { colors } from "@src/resources/Colors";
+import { DVW, layout, screenHeight, screenWidth } from "@src/resources";
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  runOnJS,
-  withTiming,
   SlideInDown,
   SlideOutDown,
   FadeIn,
   FadeOut,
 } from "react-native-reanimated";
-import { DVW, layout, screenHeight, screenWidth } from "@src/resources";
-import { colors } from "@src/resources/Colors";
-import { ThemeContext } from "@src/resources/Theme";
-import { AppText } from "../shared";
+
+type snap = `${number}%`;
 
 type sheetModalProps = {
   visible: boolean;
   setVisible: (value: React.SetStateAction<boolean>) => void;
-  snapPointHeight: number;
+  children: React.ReactNode;
+  /**
+   * snapHeight must be in percentage e.g. 25% or any percentage of your choice
+   * */
+  snapHeight: snap;
 };
-
-const data = [
-  "#782AEB",
-  "#38ACDD",
-  "#57B495",
-  "#FF6259",
-  "#FFD61E",
-  "#82CAB2",
-  "#B58DF1",
-  "#E9DBFF",
-  "#D7F0FA",
-  "#D3F5E4",
-  "#FFDCDB",
-  "#FFF9DB",
-  "#DFF2EC",
-  "#F5EEFF",
-];
-
-const OVERDRAG = 20;
-const BACKGROUND_COLOR = "#F8F9FF";
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export const SheetModal: React.FC<sheetModalProps> = ({
   visible,
   setVisible,
-  snapPointHeight,
+  children,
+  snapHeight,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const offset = useSharedValue(0);
-  const HEIGHT = screenHeight / snapPointHeight;
-
-  const toggleSheet = () => {
-    setVisible(!visible);
-    offset.value = 0;
-  };
-
-  const pan = Gesture.Pan()
-    .onChange((event) => {
-      const offsetDelta = event.changeY + offset.value;
-
-      const clamp = Math.max(-OVERDRAG, offsetDelta);
-      offset.value = offsetDelta > 0 ? offsetDelta : withSpring(clamp);
-    })
-    .onFinalize(() => {
-      if (offset.value < HEIGHT / 3) {
-        offset.value = withSpring(0);
-      } else {
-        offset.value = withTiming(HEIGHT, {}, () => {
-          runOnJS(toggleSheet)();
-        });
-      }
-    });
-
-  const translateY = useAnimatedStyle(() => ({
-    transform: [{ translateY: offset.value }],
-  }));
-
+  const numericPercentage = parseFloat(snapHeight);
+  const height = (numericPercentage / 100) * screenHeight;
   return (
     <>
       {visible && (
-        <>
-          <AnimatedPressable
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={[
+            styles.container,
+            {
+              backgroundColor: colors.modalBg,
+            },
+          ]}>
+          <Animated.View
+            entering={SlideInDown}
+            exiting={SlideOutDown}
             style={[
-              styles.backdrop,
+              styles.modal,
               {
-                backgroundColor: colors.modalBg,
+                backgroundColor: theme === "dark" ? colors.black : colors.white,
+                height: height,
               },
-            ]}
-            entering={FadeIn}
-            exiting={FadeOut}
-            onPress={toggleSheet}
-          />
-          <GestureDetector gesture={pan}>
-            <Animated.View
-              style={[
-                styles.sheet,
-                translateY,
-                {
-                  backgroundColor:
-                    theme === "dark" ? colors.black : colors.white,
-                  height: HEIGHT,
-                },
-              ]}
-              entering={SlideInDown.springify().damping(15)}
-              exiting={SlideOutDown}>
-              <View style={styles.draggableIndicator} />
-              <View
-                style={{
-                  width: screenWidth,
-                  height: "100%",
-                  backgroundColor: "red",
-                }}>
-                <ScrollView
-                  contentContainerStyle={{
-                    flexGrow: 1,
-                    backgroundColor: "green",
-                  }}>
-                  {data &&
-                    data.map((items, index) => (
-                      <AppText
-                        key={index}
-                        fontRegular
-                        sizeMedium
-                        gray
-                        style={{
-                          colors: items,
-                          padding: layout.size20,
-                        }}>
-                        {items}
-                      </AppText>
-                    ))}
-                </ScrollView>
-              </View>
-            </Animated.View>
-          </GestureDetector>
-        </>
+            ]}>
+            <TouchableOpacity
+              onPress={() => setVisible(!visible)}
+              style={styles.backBtn}>
+              <AntDesign
+                name='arrowleft'
+                size={layout.size22}
+                color={theme === "dark" ? colors.white : colors.black}
+              />
+            </TouchableOpacity>
+            <View>{children && children}</View>
+          </Animated.View>
+        </Animated.View>
       )}
     </>
   );
@@ -147,27 +73,24 @@ export const SheetModal: React.FC<sheetModalProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: BACKGROUND_COLOR,
-  },
-  sheet: {
-    padding: 16,
-    width: "100%",
+    height: "100%",
+    width: screenWidth,
     position: "absolute",
-    bottom: -OVERDRAG * 1.1,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    zIndex: 1,
+    zIndex: 10,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "flex-end",
   },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 1,
+  modal: {
+    paddingVertical: layout.size26,
+    paddingBottom: layout.size34,
+    paddingHorizontal: layout.size10,
+    borderTopLeftRadius: layout.size18,
+    borderTopRightRadius: layout.size18,
   },
-  draggableIndicator: {
-    borderWidth: DVW(0.5),
-    backgroundColor: "darkgray",
-    borderColor: "darkgray",
-    borderRadius: layout.size6,
-    width: DVW(16),
-    alignSelf: "center",
+  backBtn: {
+    width: DVW(10),
+    marginBottom: layout.size18,
   },
 });

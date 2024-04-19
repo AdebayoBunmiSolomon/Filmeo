@@ -1,5 +1,5 @@
 import { AuthScreenProps } from "@src/router/Types";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Screen } from "../Screen";
 import { Image, StyleSheet, View } from "react-native";
 import { Header } from "@src/components/auth";
@@ -7,14 +7,12 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { DVW, layout } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
-import { AppButton, AppText, DropDown } from "@src/components/shared";
+import { AppButton, DropDown } from "@src/components/shared";
 import { useVisibility } from "@src/hooks/state";
-import { SheetModal } from "@src/components/core";
 
 export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
   const { theme } = useContext(ThemeContext);
   const { dropDownVisible, onToggleDropDownVisible } = useVisibility();
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   return (
     <>
@@ -64,8 +62,7 @@ export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
             <AppButton
               title='Register'
               onPress={() => {
-                // navigation.navigate("RegisterFlowOne");
-                setIsModalVisible(!isModalVisible);
+                navigation.navigate("RegisterFlowOne");
               }}
               outline
               rightIcon={
@@ -104,19 +101,6 @@ export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
           },
         ]}
       />
-      <SheetModal
-        visible={isModalVisible}
-        setVisible={setIsModalVisible}
-        snapHeight={"18%"}>
-        <>
-          <AppText fontBold sizeLarge mainColor>
-            Welcome onboard.
-          </AppText>
-          <AppText fontBold sizeLarge black>
-            T for Thanks!!!
-          </AppText>
-        </>
-      </SheetModal>
     </>
   );
 };

@@ -20,7 +20,7 @@ type sheetModalProps = {
   /**
    * snapHeight must be in percentage e.g. 25% or any percentage of your choice
    * */
-  snapHeight: snap;
+  snapHeight?: snap;
 };
 
 export const SheetModal: React.FC<sheetModalProps> = ({
@@ -30,7 +30,7 @@ export const SheetModal: React.FC<sheetModalProps> = ({
   snapHeight,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const numericPercentage = parseFloat(snapHeight);
+  const numericPercentage = parseFloat(snapHeight ? snapHeight : "0%");
   const height = (numericPercentage / 100) * screenHeight;
   return (
     <>
@@ -51,7 +51,7 @@ export const SheetModal: React.FC<sheetModalProps> = ({
               styles.modal,
               {
                 backgroundColor: theme === "dark" ? colors.black : colors.white,
-                height: height,
+                height: height ? height : "26%",
               },
             ]}>
             <TouchableOpacity
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
     left: 0,
     right: 0,
-    bottom: 0,
     justifyContent: "flex-end",
   },
   modal: {

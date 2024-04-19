@@ -4,9 +4,9 @@ import { AppButton, AppInput } from "@src/components/shared";
 import { AuthScreenProps } from "@src/router/Types";
 import { Screen } from "@src/screens/Screen";
 import { FontAwesome6 } from "@expo/vector-icons";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "@src/resources/Theme";
-import { layout } from "@src/resources";
+import { DVH, DVW, layout } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,6 +14,10 @@ import { registerFlowTwoFormSchema } from "@src/form/validation";
 import { createUser, registerFlowTwoFormType } from "@src/form/types";
 import { registerFlowTwoFormLookUp } from "@src/form/lookup";
 import { useModalMessage } from "@src/hooks/state";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import { RegisterSheetModal } from "@src/components/auth/Register/Sheet-Modal";
+import { useSheetModalServices } from "@src/components/core/services";
 
 export const RegisterFlowTwo = ({
   navigation,
@@ -22,6 +26,8 @@ export const RegisterFlowTwo = ({
   const { theme } = useContext(ThemeContext);
   const { modalMessage, setModalMessage } = useModalMessage();
   const { data }: any = route.params ?? { data: undefined };
+  const { isModalVisible, setIsModalVisible } = useSheetModalServices();
+  const [image, selectedImage] = useState<string>("");
   const flowOneData = data && data;
   const {
     control,
@@ -79,6 +85,31 @@ export const RegisterFlowTwo = ({
           }
         />
         <ScrollContainer style={{ flex: 1 }}>
+          {!image ? (
+            <View
+              style={[
+                styles.selectImgContainer,
+                {
+                  borderWidth: DVW(0.3),
+                  borderColor: colors.gray,
+                },
+              ]}>
+              <TouchableOpacity
+                onPress={() => setIsModalVisible(!isModalVisible)}>
+                <Entypo
+                  name='images'
+                  size={layout.size22}
+                  color={colors.gray}
+                />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <Image
+              source={require("@src/assets/images/get-started.png")}
+              resizeMode='contain'
+              style={styles.image}
+            />
+          )}
           <Controller
             control={control}
             render={({ field }) => (
@@ -146,6 +177,27 @@ export const RegisterFlowTwo = ({
         enteringAnimation='SlideInDown'
         exitingAnimation='SlideOutDown'
       />
+      <RegisterSheetModal
+        visible={isModalVisible}
+        setVisible={setIsModalVisible}
+      />
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  selectImgContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: DVW(20),
+    height: DVH(10),
+    alignSelf: "center",
+    borderRadius: layout.size50,
+  },
+  image: {
+    width: DVW(20),
+    height: DVH(10),
+    alignSelf: "center",
+    borderRadius: layout.size50,
+  },
+});

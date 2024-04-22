@@ -8,7 +8,6 @@ import { colors } from "@src/resources/Colors";
 import { AppButton, AppText } from "@src/components/shared";
 import { useCameraServices } from "@src/components/core/services";
 import { Camera, CameraType, FlashMode } from "expo-camera";
-import App from "App";
 
 type registerSheetModalTypes = {
   visible: boolean;

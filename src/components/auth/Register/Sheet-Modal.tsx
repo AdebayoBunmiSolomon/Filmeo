@@ -1,13 +1,12 @@
-import { SheetModal } from "@src/components/core";
-import React, { useContext, useEffect } from "react";
-import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
+import { CameraModal, SheetModal } from "@src/components/core";
+import React, { useContext } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { DVW, layout, screenWidth } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
-import { AppButton, AppText } from "@src/components/shared";
+import { AppText } from "@src/components/shared";
 import { useCameraServices } from "@src/components/core/services";
-import { Camera, CameraType, FlashMode } from "expo-camera";
 
 type registerSheetModalTypes = {
   visible: boolean;
@@ -18,23 +17,8 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
   visible,
   setVisible,
 }) => {
-  const {
-    requestPermission,
-    type,
-    flash,
-    cameraRef,
-    takeAPicture,
-    image,
-    setImage,
-    setType,
-    setFlash,
-  } = useCameraServices();
-
-  useEffect(() => {
-    requestPermission();
-  }, []);
-
   const { theme } = useContext(ThemeContext);
+  const { isModalVisible, toggleModalVisibility } = useCameraServices();
   return (
     <>
       <SheetModal visible={visible} setVisible={setVisible} snapHeight='22%'>
@@ -64,6 +48,7 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
           </View>
           <View>
             <TouchableOpacity
+              onPress={() => toggleModalVisibility()}
               style={[
                 styles.imgBtn,
                 {
@@ -87,53 +72,10 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
           </View>
         </View>
       </SheetModal>
-      <View style={styles.cameraContainer}>
-        {!image ? (
-          <Camera
-            style={styles.camera}
-            flashMode={flash}
-            type={type}
-            ref={cameraRef}>
-            <View
-              style={{
-                paddingTop: 70,
-              }}>
-              <AppButton
-                title='Rotate'
-                onPress={() => {
-                  setType(
-                    type === CameraType.back
-                      ? CameraType.front
-                      : CameraType.back
-                  );
-                }}
-              />
-
-              <AppButton
-                title='Flash'
-                onPress={() => {
-                  setFlash(
-                    flash === FlashMode.off ? FlashMode.on : FlashMode.off
-                  );
-                }}
-              />
-            </View>
-          </Camera>
-        ) : (
-          <Image source={{ uri: image }} style={styles.camera} />
-        )}
-
-        <View>
-          {image ? (
-            <View>
-              <AppButton title='Re-take' onPress={() => setImage(null)} />
-              <AppButton title='Save' onPress={() => {}} />
-            </View>
-          ) : (
-            <AppButton title='Take a picture' onPress={() => takeAPicture()} />
-          )}
-        </View>
-      </View>
+      <CameraModal
+        visible={isModalVisible}
+        onRequestCloseModal={toggleModalVisibility}
+      />
     </>
   );
 };

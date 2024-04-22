@@ -4,7 +4,7 @@ import { AppButton, AppInput } from "@src/components/shared";
 import { AuthScreenProps } from "@src/router/Types";
 import { Screen } from "@src/screens/Screen";
 import { FontAwesome6 } from "@expo/vector-icons";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "@src/resources/Theme";
 import { DVH, DVW, layout } from "@src/resources";
 import { colors } from "@src/resources/Colors";
@@ -18,6 +18,7 @@ import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { RegisterSheetModal } from "@src/components/auth/Register/Sheet-Modal";
 import { useSheetModalServices } from "@src/components/core/services";
+import { useImageStore } from "@src/components/core/store";
 
 export const RegisterFlowTwo = ({
   navigation,
@@ -27,7 +28,7 @@ export const RegisterFlowTwo = ({
   const { modalMessage, setModalMessage } = useModalMessage();
   const { data }: any = route.params ?? { data: undefined };
   const { isModalVisible, setIsModalVisible } = useSheetModalServices();
-  const [image, selectedImage] = useState<string>("");
+  const { capturedImage } = useImageStore();
   const flowOneData = data && data;
   const {
     control,
@@ -85,7 +86,7 @@ export const RegisterFlowTwo = ({
           }
         />
         <ScrollContainer style={{ flex: 1 }}>
-          {!image ? (
+          {!capturedImage ? (
             <View
               style={[
                 styles.selectImgContainer,
@@ -104,11 +105,27 @@ export const RegisterFlowTwo = ({
               </TouchableOpacity>
             </View>
           ) : (
-            <Image
-              source={require("@src/assets/images/get-started.png")}
-              resizeMode='contain'
-              style={styles.image}
-            />
+            <View
+              style={[
+                styles.selectImgContainer,
+                {
+                  borderWidth: DVW(0.3),
+                  borderColor: colors.gray,
+                },
+              ]}>
+              <TouchableOpacity
+                onPress={() => setIsModalVisible(!isModalVisible)}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}>
+                <Image
+                  source={{ uri: capturedImage }}
+                  resizeMode='cover'
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+            </View>
           )}
           <Controller
             control={control}
@@ -195,9 +212,8 @@ const styles = StyleSheet.create({
     borderRadius: layout.size50,
   },
   image: {
-    width: DVW(20),
-    height: DVH(10),
-    alignSelf: "center",
+    width: "100%",
+    height: "100%",
     borderRadius: layout.size50,
   },
 });

@@ -8,6 +8,7 @@ export const useCameraServices = () => {
   const [type, setType] = useState<any>(CameraType.back);
   const [flash, setFlash] = useState<any>(FlashMode.off);
   const cameraRef = useRef<any>(null);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const requestPermission = async () => {
     MediaLibrary.requestPermissionsAsync();
@@ -15,11 +16,14 @@ export const useCameraServices = () => {
     setHasCameraPermission(cameraStatus.status === "granted");
   };
 
+  const toggleModalVisibility = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
   const takeAPicture = async () => {
     if (cameraRef) {
       try {
         const data = await cameraRef.current.takePictureAsync();
-        console.log(data);
         setImage(data.uri);
       } catch (err: any) {
         console.log(err);
@@ -37,5 +41,8 @@ export const useCameraServices = () => {
     setImage,
     setType,
     setFlash,
+    hasCameraPermission,
+    isModalVisible,
+    toggleModalVisibility,
   };
 };

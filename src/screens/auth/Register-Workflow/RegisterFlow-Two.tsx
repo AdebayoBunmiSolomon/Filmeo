@@ -1,10 +1,10 @@
 import { Header } from "@src/components/auth";
 import { ModalMessage, ScrollContainer } from "@src/components/core";
-import { AppButton, AppInput } from "@src/components/shared";
+import { AppButton, AppInput, AppText } from "@src/components/shared";
 import { AuthScreenProps } from "@src/router/Types";
 import { Screen } from "@src/screens/Screen";
 import { FontAwesome6 } from "@expo/vector-icons";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ThemeContext } from "@src/resources/Theme";
 import { DVH, DVW, layout } from "@src/resources";
 import { colors } from "@src/resources/Colors";
@@ -19,6 +19,7 @@ import { Entypo } from "@expo/vector-icons";
 import { RegisterSheetModal } from "@src/components/auth/Register/Sheet-Modal";
 import { useSheetModalServices } from "@src/components/core/services";
 import { useImageStore } from "@src/components/core/store";
+import { CameraModal2 } from "@src/components/core";
 
 export const RegisterFlowTwo = ({
   navigation,
@@ -35,6 +36,7 @@ export const RegisterFlowTwo = ({
     handleSubmit,
     setError,
     formState: { errors },
+    setValue,
   } = useForm<registerFlowTwoFormLookUp>({
     mode: "onChange",
     resolver: yupResolver(registerFlowTwoFormSchema),
@@ -69,6 +71,12 @@ export const RegisterFlowTwo = ({
     }
   };
 
+  useEffect(() => {
+    if (capturedImage) {
+      setValue("image", capturedImage);
+    }
+  }, [capturedImage]);
+
   return (
     <>
       <Screen>
@@ -86,46 +94,55 @@ export const RegisterFlowTwo = ({
           }
         />
         <ScrollContainer style={{ flex: 1 }}>
-          {!capturedImage ? (
-            <View
-              style={[
-                styles.selectImgContainer,
-                {
-                  borderWidth: DVW(0.3),
-                  borderColor: colors.gray,
-                },
-              ]}>
-              <TouchableOpacity
-                onPress={() => setIsModalVisible(!isModalVisible)}>
-                <Entypo
-                  name='images'
-                  size={layout.size22}
-                  color={colors.gray}
-                />
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View
-              style={[
-                styles.selectImgContainer,
-                {
-                  borderWidth: DVW(0.3),
-                  borderColor: colors.gray,
-                },
-              ]}>
-              <TouchableOpacity
-                onPress={() => setIsModalVisible(!isModalVisible)}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}>
-                <Image
-                  source={{ uri: capturedImage }}
-                  resizeMode='cover'
-                  style={styles.image}
-                />
-              </TouchableOpacity>
-            </View>
+          <Controller
+            control={control}
+            render={({}) => {
+              return !capturedImage ? (
+                <View
+                  style={[
+                    styles.selectImgContainer,
+                    { borderWidth: DVW(0.3), borderColor: colors.gray },
+                  ]}>
+                  <TouchableOpacity
+                    onPress={() => setIsModalVisible(!isModalVisible)}>
+                    <Entypo
+                      name='images'
+                      size={layout.size22}
+                      color={colors.gray}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View
+                  style={[
+                    styles.selectImgContainer,
+                    { borderWidth: DVW(0.3), borderColor: colors.gray },
+                  ]}>
+                  <TouchableOpacity
+                    onPress={() => setIsModalVisible(!isModalVisible)}
+                    style={{ width: "100%", height: "100%" }}>
+                    <Image
+                      source={{ uri: capturedImage }}
+                      resizeMode='cover'
+                      style={styles.image}
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+            name='image'
+            defaultValue=''
+          />
+          {errors?.image && (
+            <AppText
+              fontRegular
+              sizeSmall
+              red
+              style={{
+                alignSelf: "center",
+              }}>
+              {errors?.image?.message}
+            </AppText>
           )}
           <Controller
             control={control}
@@ -198,6 +215,7 @@ export const RegisterFlowTwo = ({
         visible={isModalVisible}
         setVisible={setIsModalVisible}
       />
+      <CameraModal2 visible={false} onRequestCloseModal={setIsModalVisible} />
     </>
   );
 };

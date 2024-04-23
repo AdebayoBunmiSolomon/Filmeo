@@ -40,6 +40,7 @@ export const CameraModal: React.FC<cameraProps> = ({
     setImage,
     setType,
     setFlash,
+    imgLoading,
   } = useCameraServices();
   const { theme } = useContext(ThemeContext);
   const { setCapturedImage } = useImageStore();
@@ -107,6 +108,7 @@ export const CameraModal: React.FC<cameraProps> = ({
                       <AppButton
                         title='Take a picture'
                         onPress={() => takeAPicture()}
+                        isLoading={imgLoading}
                       />
                     </View>
                   </>

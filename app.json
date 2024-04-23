@@ -1,5 +1,15 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Filmeo to access your camera",
+          "microphonePermission": "Allow Filmeo to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ]
+    ],
     "name": "filmeo",
     "slug": "filmeo",
     "version": "1.0.0",

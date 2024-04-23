@@ -24,4 +24,5 @@ export const registerFlowTwoFormSchema = yup.object().shape({
   userName: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
   confirmPassword: yup.string().required("Confirm password is required"),
+  image: yup.string().required("image is required"),
 });

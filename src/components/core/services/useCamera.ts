@@ -9,6 +9,7 @@ export const useCameraServices = () => {
   const [flash, setFlash] = useState<any>(FlashMode.off);
   const cameraRef = useRef<any>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [imgLoading, setImgLoading] = useState<boolean>(false);
 
   const requestPermission = async () => {
     MediaLibrary.requestPermissionsAsync();
@@ -21,12 +22,16 @@ export const useCameraServices = () => {
   };
 
   const takeAPicture = async () => {
+    setImgLoading(true);
     if (cameraRef) {
+      setImgLoading(true);
       try {
         const data = await cameraRef.current.takePictureAsync();
         setImage(data.uri);
+        setImgLoading(false);
       } catch (err: any) {
         console.log(err);
+        setImgLoading(false);
       }
     }
   };
@@ -44,5 +49,6 @@ export const useCameraServices = () => {
     hasCameraPermission,
     isModalVisible,
     toggleModalVisibility,
+    imgLoading,
   };
 };

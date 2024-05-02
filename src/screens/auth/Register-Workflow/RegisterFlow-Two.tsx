@@ -19,7 +19,7 @@ import { Entypo } from "@expo/vector-icons";
 import { RegisterSheetModal } from "@src/components/auth/Register/Sheet-Modal";
 import { useSheetModalServices } from "@src/components/core/services";
 import { useImageStore } from "@src/components/core/store";
-import { CameraModal2 } from "@src/components/core";
+// import { CameraModal2 } from "@src/components/core";
 
 export const RegisterFlowTwo = ({
   navigation,
@@ -215,7 +215,7 @@ export const RegisterFlowTwo = ({
         visible={isModalVisible}
         setVisible={setIsModalVisible}
       />
-      <CameraModal2 visible={false} onRequestCloseModal={setIsModalVisible} />
+      {/* <CameraModal2 visible={false} onRequestCloseModal={setIsModalVisible} /> */}
     </>
   );
 };

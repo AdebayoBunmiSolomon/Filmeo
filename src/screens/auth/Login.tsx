@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { AuthScreenProps } from "@src/router/Types";
-import { View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { Header } from "@src/components/auth";
 import { Screen } from "../Screen";
-import { AppButton, AppInput } from "@src/components/shared";
-import { layout } from "@src/resources";
+import { AppButton, AppInput, AppText } from "@src/components/shared";
+import { DVH, DVW, layout, verticalScale } from "@src/resources";
 import { Entypo } from "@expo/vector-icons";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
@@ -84,11 +84,51 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
               style={{
                 alignSelf: "center",
                 marginTop: layout.size6,
+                backgroundColor: "red",
               }}
             />
+            <AppText style={styles.orText} fontSemibold sizeBody gray>
+              Or
+            </AppText>
+
+            <TouchableOpacity style={styles.googleBtn}>
+              <Image
+                source={require("@src/assets/icons/google.png")}
+                resizeMode='center'
+                style={{
+                  width: DVW(7),
+                  height: DVH(7),
+                }}
+              />
+              <AppText
+                fontRegular
+                sizeBody
+                style={{
+                  color: theme === "dark" ? colors.white : colors.white,
+                }}>
+                Sign in With Google
+              </AppText>
+            </TouchableOpacity>
           </View>
         </View>
       </KeyboardDismissal>
     </Screen>
   );
 };
+
+const styles = StyleSheet.create({
+  orText: {
+    marginTop: verticalScale(10),
+    marginBottom: verticalScale(10),
+    alignSelf: "center",
+  },
+  googleBtn: {
+    backgroundColor: "#4285F4",
+    height: DVH(7),
+    borderRadius: layout.size10,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: DVW(5),
+  },
+});

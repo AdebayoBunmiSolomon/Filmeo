@@ -4,9 +4,15 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Filmeo to access your camera",
-          "microphonePermission": "Allow Filmeo to access your microphone",
+          "cameraPermission": "Allow $(Filmeo) to access your camera",
+          "microphonePermission": "Allow $(Filmeo) to access your microphone",
           "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(Filmeo) to access your photos."
         }
       ]
     ],

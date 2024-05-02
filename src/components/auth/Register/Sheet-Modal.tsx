@@ -6,7 +6,10 @@ import { DVW, layout, screenWidth } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { AppText } from "@src/components/shared";
-import { useCameraServices } from "@src/components/core/services";
+import {
+  useCameraServices,
+  useGalleryService,
+} from "@src/components/core/services";
 
 type registerSheetModalTypes = {
   visible: boolean;
@@ -19,12 +22,14 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
 }) => {
   const { theme } = useContext(ThemeContext);
   const { isModalVisible, toggleModalVisibility } = useCameraServices();
+  const { pickImageFromGallery } = useGalleryService();
   return (
     <>
       <SheetModal visible={visible} setVisible={setVisible} snapHeight='22%'>
         <View style={styles.container}>
           <View>
             <TouchableOpacity
+              onPress={() => pickImageFromGallery()}
               style={[
                 styles.imgBtn,
                 {
@@ -48,7 +53,9 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
           </View>
           <View>
             <TouchableOpacity
-              onPress={() => toggleModalVisibility()}
+              onPress={() => {
+                toggleModalVisibility();
+              }}
               style={[
                 styles.imgBtn,
                 {

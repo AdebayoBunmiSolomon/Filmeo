@@ -17,7 +17,7 @@ export const registerFlowOneFormSchema = yup.object().shape({
   phoneNumber: yup
     .string()
     .required("Phone number is required")
-    .matches(/^[0-9]+$/, "Phone number must contain only numeric digits"),
+    .matches(/^[0-9]+$/, "Phone number must contain only numeric values"),
 });
 
 export const registerFlowTwoFormSchema = yup.object().shape({

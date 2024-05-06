@@ -1,4 +1,4 @@
-import { CameraModal, SheetModal } from "@src/components/core";
+import { SheetModal } from "@src/components/core";
 import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
@@ -21,7 +21,7 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
   setVisible,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const { isModalVisible, toggleModalVisibility } = useCameraServices();
+  const { openCamera } = useCameraServices();
   const { pickImageFromGallery } = useGalleryService();
   return (
     <>
@@ -54,7 +54,7 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
           <View>
             <TouchableOpacity
               onPress={() => {
-                toggleModalVisibility();
+                openCamera();
               }}
               style={[
                 styles.imgBtn,
@@ -79,10 +79,6 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
           </View>
         </View>
       </SheetModal>
-      <CameraModal
-        visible={isModalVisible}
-        onRequestCloseModal={toggleModalVisibility}
-      />
     </>
   );
 };

@@ -1,54 +1,33 @@
-import { useRef, useState } from "react";
-import { Camera, CameraType, FlashMode } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
+import { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+import { Alert } from "react-native";
+import { useImageStore } from "../store";
 
 export const useCameraServices = () => {
-  const [hasCameraPermission, setHasCameraPermission] = useState<any>(null);
   const [image, setImage] = useState<any>(null);
-  const [type, setType] = useState<any>(CameraType.back);
-  const [flash, setFlash] = useState<any>(FlashMode.off);
-  const cameraRef = useRef<any>(null);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [imgLoading, setImgLoading] = useState<boolean>(false);
+  const { setCapturedImage } = useImageStore();
 
-  const requestPermission = async () => {
-    MediaLibrary.requestPermissionsAsync();
-    const cameraStatus = await Camera.requestCameraPermissionsAsync();
-    setHasCameraPermission(cameraStatus.status === "granted");
-  };
-
-  const toggleModalVisibility = () => {
-    setIsModalVisible(!isModalVisible);
-  };
-
-  const takeAPicture = async () => {
-    setImgLoading(true);
-    if (cameraRef) {
-      setImgLoading(true);
-      try {
-        const data = await cameraRef.current.takePictureAsync();
-        setImage(data.uri);
-        setImgLoading(false);
-      } catch (err: any) {
-        console.log(err);
-        setImgLoading(false);
-      }
+  const openCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    let result;
+    if (status !== "granted") {
+      Alert.alert(
+        "Camera Permission Required",
+        "Please grant camera permissions."
+      );
+      return;
+    }
+    result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setCapturedImage(result.assets[0].uri);
     }
   };
-
   return {
-    requestPermission,
-    type,
-    flash,
-    cameraRef,
     image,
-    takeAPicture,
-    setImage,
-    setType,
-    setFlash,
-    hasCameraPermission,
-    isModalVisible,
-    toggleModalVisibility,
-    imgLoading,
+    openCamera,
   };
 };

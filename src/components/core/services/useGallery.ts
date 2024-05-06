@@ -1,5 +1,4 @@
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
 import { useImageStore } from "../store";
 export const useGalleryService = () => {
   const { setCapturedImage } = useImageStore();

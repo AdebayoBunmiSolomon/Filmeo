@@ -18,7 +18,7 @@ export const useCameraServices = () => {
       return;
     }
     result = await ImagePicker.launchCameraAsync({
-      allowsEditing: false,
+      allowsEditing: true,
       quality: 1,
     });
     if (!result.canceled) {

@@ -6,5 +6,6 @@ export const colors = {
   black: "#1A1110",
   danger: "crimson",
   gray: "#bab5b5",
+  lightGray: "#bab5b52b",
   modalBg: "rgba(0, 0, 0, 0.5)",
 };

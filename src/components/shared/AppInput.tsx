@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
     gap: layout.size10,
+    backgroundColor: colors.lightGray,
   },
   textInput: {
     fontFamily: fontFamily.source_sans_regular,

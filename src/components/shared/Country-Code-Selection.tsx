@@ -50,23 +50,25 @@ export const CountryCodeSelection: React.FC<countryCodeSelectionProps> = ({
   return (
     <>
       <View style={styles.header}>
-        <TouchableOpacity onPress={closeModal}>
-          <Ionicons
-            name='close-circle-outline'
-            color={theme === "dark" ? colors.white : colors.black}
-            size={moderateScale(25)}
-          />
-        </TouchableOpacity>
+        <View style={styles.headerTextContainer}>
+          <AppText fontSemibold sizeLarge>
+            Select Country
+          </AppText>
+          <TouchableOpacity onPress={closeModal}>
+            <Ionicons
+              name='close-circle-outline'
+              color={theme === "dark" ? colors.white : colors.black}
+              size={moderateScale(25)}
+            />
+          </TouchableOpacity>
+        </View>
         <AppInput
           searchInput
           placeholder='search country'
           label=''
           value={searchValue}
           onChangeText={(text) => setSearchValue(text)}
-          onSubmitEditing={() =>
-            // fetchData(searchValue);
-            console.log(searchValue)
-          }
+          onSubmitEditing={() => console.log(searchValue)}
         />
       </View>
       <FlatList
@@ -83,7 +85,7 @@ export const CountryCodeSelection: React.FC<countryCodeSelectionProps> = ({
               <AppText sizeBody fontRegular>
                 {item.dial_code}
               </AppText>
-              <AppText fontRegular sizeMedium black>
+              <AppText fontRegular sizeMedium>
                 {truncateText(String(item.name))}
               </AppText>
             </View>
@@ -114,7 +116,6 @@ export const CountryCodeSelection: React.FC<countryCodeSelectionProps> = ({
 const styles = StyleSheet.create({
   header: {
     flexDirection: "column",
-    alignItems: "flex-end",
     gap: layout.size10,
   },
   itemContainer: {
@@ -128,5 +129,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: layout.size6,
     alignItems: "center",
+  },
+  headerTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

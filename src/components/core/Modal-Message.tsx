@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { AppText, AppButton } from "../shared";
+import { AppText } from "../shared/AppText";
+import { AppButton } from "../shared/AppButton";
 import { DVH, DVW, layout, screenHeight, screenWidth } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";

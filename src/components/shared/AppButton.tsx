@@ -2,12 +2,11 @@ import React, { useContext } from "react";
 import {
   StyleProp,
   StyleSheet,
-  TextStyle,
   TouchableOpacity,
   ViewStyle,
 } from "react-native";
 import { AppText } from "./AppText";
-import { DVW, layout } from "@src/resources";
+import { layout } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { Loader } from "../core";

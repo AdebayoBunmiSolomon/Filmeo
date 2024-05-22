@@ -8,22 +8,33 @@ export const useCameraServices = () => {
   const { setCapturedImage } = useImageStore();
 
   const openCamera = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    let result;
-    if (status !== "granted") {
+    const status = await ImagePicker.requestCameraPermissionsAsync();
+    if (status.granted !== true) {
       Alert.alert(
         "Camera Permission Required",
         "Please grant camera permissions."
       );
       return;
     }
-    result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 1,
-    });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setCapturedImage(result.assets[0].uri);
+
+    try {
+      const result = await ImagePicker.launchCameraAsync({
+        aspect: [4, 3],
+        allowsEditing: true,
+        quality: 0.1, // Reduce the quality to manage memory usage
+      });
+
+      if (!result.canceled) {
+        console.log(result);
+        setImage(result.assets[0].uri);
+        setCapturedImage(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.error("Camera error:", error);
+      Alert.alert(
+        "Error",
+        "An error occurred while trying to take a photo. Please try again."
+      );
     }
   };
   return {

@@ -4,12 +4,12 @@ import { View } from "react-native";
 import { AppText } from "@src/components/shared";
 import { RootStackScreenProps } from "@src/router/Types";
 
-export const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
+export const About = ({ navigation }: RootStackScreenProps<"About">) => {
   return (
     <Screen>
       <View>
         <AppText fontBold sizeLarge>
-          Home Screen
+          About Screen
         </AppText>
       </View>
     </Screen>

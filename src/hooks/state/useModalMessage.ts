@@ -4,7 +4,7 @@ type useModalMessageType = {
   visible: boolean;
   title: string;
   btnTitle: string;
-  //   btnPress: () => void;
+  btnPress: () => void;
   type: "success" | "danger" | "warning" | "info" | undefined;
 };
 
@@ -13,7 +13,7 @@ export const useModalMessage = () => {
     visible: false,
     title: "",
     btnTitle: "",
-    // btnPress: () => {},
+    btnPress: () => {},
     type: undefined,
   });
 

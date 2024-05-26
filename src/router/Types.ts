@@ -19,6 +19,8 @@ export type AuthScreenProps<ScreenName extends keyof AuthStackParamList> =
 
 //Application screen stack
 export interface RootStackParamList extends ParamListBase {
+  Home: undefined;
+  About: undefined;
   Settings: undefined;
 }
 
@@ -28,6 +30,8 @@ export type RootStackScreenProps<ScreenName extends keyof RootStackParamList> =
 //Bottom-tabBar screen stack
 export interface BottomTabBarParamList extends ParamListBase {
   Home: undefined;
+  About: undefined;
+  Settings: undefined;
 }
 
 export type BottomTabBarScreenProps<
@@ -36,7 +40,9 @@ export type BottomTabBarScreenProps<
 
 //Drawer-navigator screen stack
 export interface DrawerStackScreenParamList extends ParamListBase {
-  Home: undefined;
+  Movies: undefined;
+  Music: undefined;
+  Ratings: undefined;
 }
 
 export type DrawerStackScreenProps<

@@ -116,6 +116,9 @@ export const AppText: React.FC<appTextProps> = ({
               ? font.size26
               : undefined,
             color: style?.color || textColor,
+            paddingHorizontal: style?.paddingHorizontal
+              ? style?.paddingHorizontal
+              : undefined,
           },
         ]}>
         {children}

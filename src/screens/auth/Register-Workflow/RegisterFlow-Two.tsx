@@ -206,7 +206,7 @@ export const RegisterFlowTwo = ({
         }
         title={modalMessage.title}
         btnTitle={modalMessage.btnTitle}
-        onPress={() => console.log("modal button pressed")}
+        onPress={() => navigation.navigate("Home")}
         type={modalMessage.type}
         enteringAnimation='SlideInDown'
         exitingAnimation='SlideOutDown'

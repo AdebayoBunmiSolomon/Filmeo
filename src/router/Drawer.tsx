@@ -2,7 +2,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { AppButton, AppText } from "@src/components/shared";
+import { AppButton } from "@src/components/shared";
 import { DVH, font, moderateScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";

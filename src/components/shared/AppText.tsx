@@ -20,6 +20,7 @@ type appTextProps = {
   white?: boolean;
   red?: boolean;
   gray?: boolean;
+  lightGray?: boolean;
   mainColor?: boolean;
   style?: StyleProp<TextStyle> | any;
 };
@@ -40,6 +41,7 @@ export const AppText: React.FC<appTextProps> = ({
   white,
   red,
   gray,
+  lightGray,
   mainColor,
   style,
 }) => {
@@ -56,7 +58,7 @@ export const AppText: React.FC<appTextProps> = ({
       if (white && theme === "light") {
         return colors.black;
       } else {
-        return colors.white;
+        return colors.gray;
       }
     } else if (red) {
       if (red && theme === "dark") {
@@ -75,6 +77,12 @@ export const AppText: React.FC<appTextProps> = ({
         return colors.gray;
       } else {
         return colors.gray;
+      }
+    } else if (lightGray) {
+      if (lightGray && theme === "dark") {
+        return colors.lightGray;
+      } else {
+        return colors.lightGray;
       }
     } else if (!white || !black) {
       if (theme === "dark") {

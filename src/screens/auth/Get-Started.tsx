@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Screen } from "../Screen";
 import { Image, StyleSheet, View } from "react-native";
 import { Header } from "@src/components/auth";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 import { DVW, layout } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
@@ -66,8 +66,8 @@ export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
               }}
               outline
               rightIcon={
-                <MaterialIcons
-                  name='app-registration'
+                <Entypo
+                  name='add-user'
                   color={
                     theme === "dark"
                       ? colors.primaryColor

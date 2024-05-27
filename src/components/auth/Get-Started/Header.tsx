@@ -40,7 +40,7 @@ export const Header: React.FC<headerProps> = ({
       </View>
       <View>
         {title && (
-          <AppText sizeLarge fontBold>
+          <AppText sizeMedium fontSemibold>
             {title}
           </AppText>
         )}

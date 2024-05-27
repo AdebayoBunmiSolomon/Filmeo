@@ -69,8 +69,6 @@ const DrawerScreens = () => {
                   />
                 ) : (
                   <AntDesign
-                    // @ts-ignore
-                    // TODO
                     name={screen.iconName}
                     size={font.size20}
                     color={color}

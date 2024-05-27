@@ -4,7 +4,7 @@ import { AppStack } from "./AppStack";
 import { NavigationContainer } from "@react-navigation/native";
 
 export const Router = () => {
-  const isAuthenticated: boolean = true;
+  const isAuthenticated: boolean = false;
   return (
     <>
       <NavigationContainer>

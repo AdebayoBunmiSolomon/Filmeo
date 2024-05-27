@@ -4,9 +4,7 @@ import { AntDesign, Feather, Octicons } from "@expo/vector-icons";
 import { DVH, font, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import { BlurView } from "expo-blur";
-import { View, StyleSheet } from "react-native";
-import { AppText } from "@src/components/shared";
+import { View, StyleSheet, Platform } from "react-native";
 import * as Screens from "@src/screens/app";
 import { BottomTabBarParamList } from "./Types";
 
@@ -42,13 +40,15 @@ const TabBarIcon: React.FC<bottomTabProps> = ({ focused, iconType, theme }) => {
       name={iconName}
       size={tabIconSize}
       color={
-        focused
-          ? theme === "dark"
-            ? colors.primaryColor2
-            : colors.primaryColor
-          : theme === "dark"
+        theme === "light" && focused
+          ? colors.white
+          : theme === "light" && !focused
           ? colors.gray
-          : colors.gray
+          : theme === "dark" && focused
+          ? colors.white
+          : theme === "dark" && !focused
+          ? colors.gray
+          : undefined
       }
     />
   );
@@ -63,50 +63,37 @@ export const BottomTabs: React.FC<{}> = () => {
       screenOptions={({ route }) => ({
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: theme === "dark" ? colors.black : colors.lightGray,
+          borderTopWidth: 0,
+          backgroundColor:
+            theme === "dark" ? colors.primaryColor : colors.primaryColor2,
           marginLeft: font.size30,
           marginRight: font.size30,
-          bottom: DVH(4),
+          bottom: Platform.OS === "ios" ? verticalScale(20) : verticalScale(10),
           borderRadius: font.size50,
+          height: Platform.OS === "ios" ? DVH(7) : DVH(7.5),
+          paddingVertical: verticalScale(5),
+          paddingBottom: verticalScale(10),
         },
-        tabBarBackground: () => (
-          <>
-            {theme === "dark" && (
-              <BlurView
-                tint='dark'
-                intensity={1}
-                style={{ backgroundColor: colors.black }}
-              />
-            )}
-          </>
-        ),
         headerShown: false,
-        tabBarLabelPosition: "below-icon",
         tabBarLabel: ({ focused }) =>
-          focused ? (
+          focused && (
             <View
               style={[
                 styles.focusedTab,
                 {
                   backgroundColor:
-                    theme === "dark"
-                      ? colors.primaryColor2
-                      : colors.primaryColor,
+                    theme === "light" && focused
+                      ? colors.white
+                      : theme === "light" && !focused
+                      ? colors.gray
+                      : theme === "dark" && focused
+                      ? colors.white
+                      : theme === "dark" && !focused
+                      ? colors.gray
+                      : undefined,
                 },
               ]}
             />
-          ) : (
-            <AppText
-              sizeSmall
-              mainColor
-              fontSemibold
-              style={[
-                {
-                  color: focused ? colors.primaryColor2 : colors.gray,
-                },
-              ]}>
-              {route.name}
-            </AppText>
           ),
         tabBarIcon: ({ focused }) => (
           <TabBarIcon
@@ -126,6 +113,7 @@ export const BottomTabs: React.FC<{}> = () => {
 const styles = StyleSheet.create({
   focusedTab: {
     padding: font.size4,
+    marginTop: 6,
     borderRadius: 50,
   },
 });

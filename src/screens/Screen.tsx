@@ -1,4 +1,5 @@
 import { layout } from "@src/resources";
+import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext } from "react";
 import { View, StyleSheet } from "react-native";
@@ -14,7 +15,7 @@ export const Screen: React.FC<screenProps> = ({ children }) => {
       style={[
         styles.mainContainer,
         {
-          backgroundColor: theme === "dark" ? "black" : "white",
+          backgroundColor: theme === "dark" ? colors.black : colors.white,
         },
       ]}>
       <View style={styles.container}>{children}</View>

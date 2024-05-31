@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const truncateText = (str: string) => {
   return str.length > 20 ? str.substring(0, 15) + "...." : str;
 };
@@ -32,5 +34,20 @@ export const getGreetings = () => {
     return {
       time: "Good Evening 🌗,",
     };
+  }
+};
+
+export const isUserLoggedInOnDevice = async () => {
+  try {
+    const isUserLoggedInOnDevice = await AsyncStorage.getItem("@userLoggedIn");
+    const parsedIsUserLoggedInOnDevice = JSON.parse(isUserLoggedInOnDevice!);
+    if (parsedIsUserLoggedInOnDevice !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    return false;
   }
 };

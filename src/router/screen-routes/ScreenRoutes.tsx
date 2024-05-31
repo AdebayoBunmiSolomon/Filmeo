@@ -19,7 +19,7 @@ type DrawerScreen = {
 
 export const drawerScreens: DrawerScreen[] = [
   {
-    name: "Drawer-Home",
+    name: "DrawerScreens-Home",
     component: BottomTabs,
     label: "Home",
     iconName: "home",

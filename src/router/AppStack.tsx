@@ -11,7 +11,7 @@ const DrawerScreens = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <Drawer.Navigator
-      initialRouteName='Homes'
+      initialRouteName='Drawer-Screens'
       screenOptions={{
         drawerStyle: { width: "80%" },
         drawerType: "front",
@@ -84,7 +84,7 @@ const StackScreens = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='Drawer'
+        name='DrawerScreens'
         component={DrawerScreens}
         options={{ headerShown: false }}
       />

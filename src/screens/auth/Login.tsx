@@ -13,8 +13,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@src/form/validation";
 import { loginFormType } from "@src/form/types";
 import { KeyboardDismissal } from "@src/components/core";
+import { useLogin } from "@src/functions/hooks";
 
 export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
+  const { Login } = useLogin();
   const { theme } = useContext(ThemeContext);
   const {
     control,
@@ -25,8 +27,10 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data: loginFormType) => {
-    console.log(data);
+  const onSubmit = async (data: loginFormType) => {
+    if (data) {
+      await Login();
+    }
   };
 
   return (

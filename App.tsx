@@ -1,4 +1,3 @@
-import { Loader } from "@src/components/core";
 import { useCachedResources } from "@src/hooks/state";
 import { ThemeProvider } from "@src/resources/Theme";
 import { Router } from "@src/router/Router";

@@ -19,7 +19,7 @@ import { Entypo } from "@expo/vector-icons";
 import { RegisterSheetModal } from "@src/components/auth/Register/Sheet-Modal";
 import { useSheetModalServices } from "@src/components/core/services";
 import { useImageStore } from "@src/components/core/store";
-// import { CameraModal2 } from "@src/components/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const RegisterFlowTwo = ({
   navigation,
@@ -60,7 +60,6 @@ export const RegisterFlowTwo = ({
         userName: formData.userName,
         password: formData.password,
       };
-      // console.log(createUserData);
       setModalMessage({
         ...modalMessage,
         visible: !modalMessage.visible,
@@ -206,7 +205,7 @@ export const RegisterFlowTwo = ({
         }
         title={modalMessage.title}
         btnTitle={modalMessage.btnTitle}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.navigate("Login")}
         type={modalMessage.type}
         enteringAnimation='SlideInDown'
         exitingAnimation='SlideOutDown'

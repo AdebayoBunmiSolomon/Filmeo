@@ -40,6 +40,7 @@ export type BottomTabBarScreenProps<
 
 //Drawer-navigator screen stack
 export interface DrawerStackScreenParamList extends ParamListBase {
+  Home: undefined;
   Movies: undefined;
   Music: undefined;
   Ratings: undefined;

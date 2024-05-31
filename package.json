@@ -27,6 +27,7 @@
     "react-hook-form": "^7.51.2",
     "react-native": "0.74.1",
     "react-native-bottomsheet-reanimated": "^0.3.1",
+    "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-interactable-reanimated": "^0.0.15",
     "react-native-modal": "^13.0.1",

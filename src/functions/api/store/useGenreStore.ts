@@ -3,7 +3,7 @@ import { create } from "zustand";
 type genreDataType = {
   id: string;
   name: string;
-};
+}[];
 
 interface IGenreDataProps {
   genreData: genreDataType;
@@ -11,9 +11,6 @@ interface IGenreDataProps {
 }
 
 export const useGenreStore = create<IGenreDataProps>()((set) => ({
-  genreData: {
-    id: "",
-    name: "",
-  },
+  genreData: [],
   setGenreData: (genreData) => set({ genreData: genreData }),
 }));

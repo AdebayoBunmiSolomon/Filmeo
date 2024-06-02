@@ -18,9 +18,11 @@ export const useGetGenre = () => {
         {}
       );
       if (status === 200) {
-        console.log(data);
+        setGenreData(data.genres);
+        setLoading(false);
       } else {
         console.log("error");
+        setLoading(false);
       }
     } catch (err: any) {
       console.log("Error", err);

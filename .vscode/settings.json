@@ -14,6 +14,7 @@
         "OVERDRAG",
         "Pressable",
         "springify",
-        "Xtra"
+        "Xtra",
+        "zustand"
     ]
 }

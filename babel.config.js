@@ -10,7 +10,7 @@ module.exports = function (api) {
           moduleName: "@env",
           path: ".env",
           blacklist: null,
-          whitelist: ["BASE_URL"],
+          whitelist: ["BASE_URL", "API_TOKEN"],
           safe: false,
           allowUndefined: true,
         },

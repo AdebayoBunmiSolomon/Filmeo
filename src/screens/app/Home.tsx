@@ -8,7 +8,7 @@ export const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
   return (
     <Screen>
       <Header backHeader={false} title='Welcome Back' />
-      <GenreList />
+      <GenreList setSelectedGenre={(value) => console.log(value)} />
     </Screen>
   );
 };

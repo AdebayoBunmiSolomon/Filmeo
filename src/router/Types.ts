@@ -44,6 +44,7 @@ export interface DrawerStackScreenParamList extends ParamListBase {
   Movies: undefined;
   Music: undefined;
   Ratings: undefined;
+  WatchList: undefined;
 }
 
 export type DrawerStackScreenProps<

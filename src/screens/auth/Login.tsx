@@ -13,7 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@src/form/validation";
 import { loginFormType } from "@src/form/types";
 import { KeyboardDismissal } from "@src/components/core";
-import { useLogin } from "@src/functions/hooks";
+import { useLogin } from "@src/functions/hooks/services/useLogin";
 
 export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
   const { Login } = useLogin();

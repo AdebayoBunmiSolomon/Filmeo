@@ -2,7 +2,7 @@ import { IMAGE_BASE_URL } from "@env";
 import { truncateText } from "@src/helper/helper";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   ActivityIndicator,
   View,
@@ -14,6 +14,7 @@ import { AppButton, AppText } from "../shared";
 import { useImageLoader } from "@src/hooks/state";
 import { DVH, DVW, layout, moderateScale } from "@src/resources";
 import { AntDesign } from "@expo/vector-icons";
+import { useLikedMovie } from "@src/functions/hooks/services";
 
 type movieCardProps = {
   items: any;
@@ -24,7 +25,19 @@ export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
   const { theme } = useContext(ThemeContext);
-  const [likedMovie, setLikedMovie] = useState<string>("");
+  const { likedMovie, likeAMovie } = useLikedMovie();
+
+  const likeButton = (id: number) => {
+    const isMovieLiked = likedMovie.some((movies) => movies.id === id);
+    return (
+      <AntDesign
+        name={`${isMovieLiked ? "heart" : "hearto"}`}
+        size={layout.size26}
+        color={colors.white}
+      />
+    );
+  };
+
   return (
     <>
       <View style={styles.container} key={index}>
@@ -49,13 +62,9 @@ export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
             <TouchableOpacity
               style={styles.likeButton}
               onPress={() => {
-                setLikedMovie(items.title);
+                likeAMovie(Number(items.id), items.title, items.poster_path);
               }}>
-              <AntDesign
-                name={`${likedMovie === items.title ? "heart" : "hearto"}`}
-                size={layout.size26}
-                color={colors.white}
-              />
+              {likeButton(Number(items.id))}
             </TouchableOpacity>
           </View>
         </View>

@@ -46,6 +46,13 @@ export const drawerScreens: DrawerScreen[] = [
     iconName: "star",
     nestedNavigation: false,
   },
+  {
+    name: "WatchList",
+    component: Screen.WatchList,
+    label: "Watch List",
+    iconName: "heart",
+    nestedNavigation: false,
+  },
 ];
 
 //Screen-Stack

@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     marginTop: layout.size10,
     flexDirection: "column",
     gap: layout.size10,
+    paddingBottom: layout.size10,
   },
   genreButton: {
     paddingHorizontal: layout.size10,

@@ -1,23 +1,23 @@
+import { NextButton, PrevButton } from "@src/common";
+import { MovieCard } from "@src/components/card";
 import { Loader } from "@src/components/core";
 import { AppText } from "@src/components/shared";
-import { useGetTrendingMovies } from "@src/functions/api/services";
+import { useGetUpcomingMovies } from "@src/functions/api/services";
+import { useNextPrev } from "@src/hooks/state";
 import { layout, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext, useEffect } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
-import { useNextPrev } from "@src/hooks/state";
-import { MovieCard } from "@src/components/card";
-import { NextButton, PrevButton } from "@src/common";
+import { View, StyleSheet, FlatList } from "react-native";
 
-export const TrendingMovies = () => {
+export const UpcomingMovies: React.FC<{}> = () => {
   const { theme } = useContext(ThemeContext);
-  const { getTrendingMovies, loading, trendingMoviesData } =
-    useGetTrendingMovies();
+  const { getUpcomingMovies, upcomingMoviesData, loading } =
+    useGetUpcomingMovies();
   const { prevBtn, nextBtn, pageNumber } = useNextPrev();
 
   useEffect(() => {
-    getTrendingMovies(pageNumber);
+    getUpcomingMovies(pageNumber);
   }, [pageNumber]);
   return (
     <View style={styles.container}>
@@ -28,7 +28,7 @@ export const TrendingMovies = () => {
         style={{
           marginBottom: layout.size10,
         }}>
-        Trending Movies🔥
+        Upcoming Movies🔥
       </AppText>
       <View>
         {loading ? (
@@ -48,7 +48,7 @@ export const TrendingMovies = () => {
           </View>
         ) : (
           <FlatList
-            data={trendingMoviesData}
+            data={upcomingMoviesData}
             keyExtractor={(items) => items.id.toString()}
             renderItem={({ item, index }) => (
               <View>

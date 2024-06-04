@@ -2,11 +2,18 @@ import { IMAGE_BASE_URL } from "@env";
 import { truncateText } from "@src/helper/helper";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { useContext } from "react";
-import { ActivityIndicator, View, Image, StyleSheet } from "react-native";
+import React, { useContext, useState } from "react";
+import {
+  ActivityIndicator,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { AppButton, AppText } from "../shared";
 import { useImageLoader } from "@src/hooks/state";
-import { DVH, DVW, layout } from "@src/resources";
+import { DVH, DVW, layout, moderateScale } from "@src/resources";
+import { AntDesign } from "@expo/vector-icons";
 
 type movieCardProps = {
   items: any;
@@ -17,6 +24,7 @@ export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
   const { theme } = useContext(ThemeContext);
+  const [likedMovie, setLikedMovie] = useState<string>("");
   return (
     <>
       <View style={styles.container} key={index}>
@@ -30,13 +38,26 @@ export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
               style={styles.loader}
             />
           )}
-          <Image
-            source={{ uri: `${IMAGE_BASE_URL}${items.poster_path}` }}
-            resizeMode='cover'
-            style={styles.img}
-            onLoadStart={() => handleImageLoadStart(index)}
-            onLoadEnd={() => handleImageLoadEnd(index)}
-          />
+          <View>
+            <Image
+              source={{ uri: `${IMAGE_BASE_URL}${items.poster_path}` }}
+              resizeMode='cover'
+              style={styles.img}
+              onLoadStart={() => handleImageLoadStart(index)}
+              onLoadEnd={() => handleImageLoadEnd(index)}
+            />
+            <TouchableOpacity
+              style={styles.likeButton}
+              onPress={() => {
+                setLikedMovie(items.title);
+              }}>
+              <AntDesign
+                name={`${likedMovie === items.title ? "heart" : "hearto"}`}
+                size={layout.size26}
+                color={colors.white}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
         <AppText
           fontRegular
@@ -78,5 +99,10 @@ const styles = StyleSheet.create({
   img: {
     width: DVW(50),
     height: DVH(30),
+  },
+  likeButton: {
+    position: "absolute",
+    alignSelf: "flex-end",
+    padding: moderateScale(10),
   },
 });

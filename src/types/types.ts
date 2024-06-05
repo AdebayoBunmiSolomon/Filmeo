@@ -15,3 +15,9 @@ export type onboardingScreenType = {
 export interface slideProps {
   data: onboardingScreenType;
 }
+
+export type likedMovieDataType = {
+  id: number;
+  title: string;
+  videoImgUrl: string;
+};

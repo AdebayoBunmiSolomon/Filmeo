@@ -15,6 +15,7 @@ import { useImageLoader } from "@src/hooks/state";
 import { DVH, DVW, layout, moderateScale } from "@src/resources";
 import { AntDesign } from "@expo/vector-icons";
 import { useLikedMovie } from "@src/functions/hooks/services";
+import { Loader } from "../core";
 
 type movieCardProps = {
   items: any;
@@ -25,7 +26,7 @@ export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
   const { theme } = useContext(ThemeContext);
-  const { likedMovie, likeAMovie } = useLikedMovie();
+  const { likedMovie, likeAMovieToWatchList, loading } = useLikedMovie();
 
   const likeButton = (id: number) => {
     const isMovieLiked = likedMovie.some((movies) => movies.id === id);
@@ -62,9 +63,24 @@ export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
             <TouchableOpacity
               style={styles.likeButton}
               onPress={() => {
-                likeAMovie(Number(items.id), items.title, items.poster_path);
+                likeAMovieToWatchList(
+                  Number(items.id),
+                  items.title,
+                  items.poster_path
+                );
               }}>
-              {likeButton(Number(items.id))}
+              {loading ? (
+                <Loader
+                  sizes='small'
+                  color={
+                    theme === "dark"
+                      ? colors.primaryColor2
+                      : colors.primaryColor
+                  }
+                />
+              ) : (
+                likeButton(Number(items.id))
+              )}
             </TouchableOpacity>
           </View>
         </View>

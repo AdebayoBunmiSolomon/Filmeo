@@ -37,6 +37,10 @@ export const getGreetings = () => {
   }
 };
 
+/**
+ *
+ * @returns boolean value from if user is logged in on the device
+ */
 export const isUserLoggedInOnDevice = async () => {
   try {
     const isUserLoggedInOnDevice = await AsyncStorage.getItem("@userLoggedIn");
@@ -49,5 +53,19 @@ export const isUserLoggedInOnDevice = async () => {
   } catch (err) {
     console.log(err);
     return false;
+  }
+};
+
+/**
+ *
+ * @returns an array list of watch list liked by the user
+ */
+export const getUserWatchList = async () => {
+  const watchList = await AsyncStorage.getItem("@watchList");
+  const parsedData = JSON.parse(watchList!);
+  if (parsedData !== null) {
+    return parsedData;
+  } else {
+    return [];
   }
 };

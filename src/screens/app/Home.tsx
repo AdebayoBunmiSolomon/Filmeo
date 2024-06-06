@@ -1,7 +1,7 @@
 import React from "react";
 import { Screen } from "../Screen";
 import { Header } from "@src/components/shared";
-import { RootStackScreenProps } from "@src/router/Types";
+import { BottomTabBarScreenProps } from "@src/router/Types";
 import {
   GenreList,
   TrendingMovies,
@@ -10,10 +10,10 @@ import {
 import { ScrollView, View } from "react-native";
 import { verticalScale } from "@src/resources";
 
-export const Home = ({ navigation }: RootStackScreenProps<"Home">) => {
+export const Home = ({ navigation }: BottomTabBarScreenProps<"Home">) => {
   return (
     <Screen>
-      <Header backHeader={false} title='Welcome Back' />
+      <Header backHeader={false} title='Hi,' showUsername />
       <GenreList setSelectedGenre={(value) => console.log(value)} />
       <ScrollView
         horizontal={false}

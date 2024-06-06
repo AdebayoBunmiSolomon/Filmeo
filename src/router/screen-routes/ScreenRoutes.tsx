@@ -61,17 +61,4 @@ type ScreenConfig = {
   component: React.ComponentType<any>;
 };
 
-export const otherScreen: ScreenConfig[] = [
-  {
-    screenName: "Screen-Home",
-    component: Screen.Home,
-  },
-  {
-    screenName: "About",
-    component: Screen.About,
-  },
-  {
-    screenName: "Settings",
-    component: Screen.Settings,
-  },
-];
+export const otherScreen: ScreenConfig[] = [];

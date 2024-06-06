@@ -13,13 +13,12 @@ import { useIsFocused } from "@react-navigation/native";
 
 export const WatchList = ({}: DrawerStackScreenProps<"WatchList">) => {
   const isFocused = useIsFocused();
-  const { loading, watchList, getWatchList } = useWatchList();
+  const { loading, watchList, getWatchList, removeFromWatchList } =
+    useWatchList();
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    if (isFocused) {
-      getWatchList();
-    }
+    getWatchList();
   }, [isFocused]);
   return (
     <Screen>
@@ -37,14 +36,19 @@ export const WatchList = ({}: DrawerStackScreenProps<"WatchList">) => {
             data={watchList}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item, index }) => (
-              <WatchListCard items={item} key={index} />
+              <WatchListCard
+                items={item}
+                key={index}
+                removeItem={() => removeFromWatchList(Number(item.id))}
+                loading={loading}
+              />
             )}
             showsVerticalScrollIndicator={false}
           />
         ) : (
           <View style={styles.emptyWatchListContainer}>
             <AppText fontRegular gray sizeBody>
-              You don't any watch list yet😓
+              You don't have any watch list yet 😓
             </AppText>
           </View>
         )}

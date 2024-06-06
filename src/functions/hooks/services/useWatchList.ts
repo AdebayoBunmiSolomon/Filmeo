@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { getUserWatchList } from "@src/helper/helper";
+import { filterWatchList, getUserWatchList } from "@src/helper/helper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { likedMovieDataType } from "@src/types/types";
 
 export const useWatchList = () => {
   const [watchList, setWatchList] = useState<any[]>();
@@ -27,19 +28,22 @@ export const useWatchList = () => {
 
   const removeFromWatchList = async (id: number) => {
     setLoading(true);
+
     try {
-      setLoading(true);
-      const likedMovieInWatchList = await getUserWatchList();
-      const filteredData =
-        likedMovieInWatchList &&
-        likedMovieInWatchList.filter((movies: any) => movies.id !== id);
-      setLoading(true);
-      if (filteredData && filteredData.length > 0) {
-        await AsyncStorage.setItem("@watchList", JSON.stringify(filteredData));
+      const likedMovieInWatchList: likedMovieDataType[] =
         await getUserWatchList();
+      if (!likedMovieInWatchList) {
+        console.log("No movies found in watch list.");
+        setLoading(false);
+        return;
       }
-    } catch (err: any) {
-      console.log(err);
+
+      const filteredData = filterWatchList(likedMovieInWatchList, id);
+
+      await AsyncStorage.setItem("@watchList", JSON.stringify(filteredData));
+      setWatchList(filteredData);
+    } catch (error) {
+      console.error("Error removing movie from watch list:", error);
     } finally {
       setLoading(false);
     }

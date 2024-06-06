@@ -1,9 +1,11 @@
 import React from "react";
 import { Screen } from "../Screen";
 import { Header } from "@src/components/shared";
-import { RootStackScreenProps } from "@src/router/Types";
+import { BottomTabBarScreenProps } from "@src/router/Types";
 
-export const Settings = ({ navigation }: RootStackScreenProps<"Settings">) => {
+export const Settings = ({
+  navigation,
+}: BottomTabBarScreenProps<"Settings">) => {
   return (
     <Screen>
       <Header backHeader={true} title='Settings' />

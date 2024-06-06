@@ -2,9 +2,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLikedMovieStore } from "../store";
 import { useState } from "react";
 import { Alert } from "react-native";
+import { likedMovieDataType } from "@src/types/types";
+import { getUserWatchList } from "@src/helper/helper";
 
 export const useLikedMovie = () => {
-  const { likedMovie, setLikedMovie } = useLikedMovieStore();
   const [loading, setLoading] = useState<boolean>(false);
 
   const likeAMovieToWatchList = async (
@@ -14,8 +15,9 @@ export const useLikedMovie = () => {
   ) => {
     setLoading(true);
     try {
-      setLoading(true);
-      if (likedMovie.length === 5) {
+      const likedMovieInWatchList: likedMovieDataType[] =
+        await getUserWatchList();
+      if (likedMovieInWatchList.length === 5) {
         Alert.alert(
           "Information ⚠️",
           "Watch-list limit reached. You can only have 5 watch list 🚨",
@@ -28,33 +30,30 @@ export const useLikedMovie = () => {
             },
           ]
         );
+        return;
+      }
+      const isMovieExist = likedMovieInWatchList.some(
+        (items) => items.id === id
+      );
+      if (isMovieExist) {
+        setLoading(true);
+        // If the movie is already liked, remove it from the likedMovie array
+        const updatedMovies = likedMovieInWatchList.filter(
+          (movie) => movie.id !== id
+        );
+        await AsyncStorage.setItem("@watchList", JSON.stringify(updatedMovies));
       } else {
         setLoading(true);
-        const isMovieExist = likedMovie.some((items) => items.id === id);
-        setLoading(true);
-        if (isMovieExist) {
-          setLoading(true);
-          // If the movie is already liked, remove it from the likedMovie array
-          const updatedMovies = likedMovie.filter((movie) => movie.id !== id);
-          setLikedMovie(updatedMovies);
-          await AsyncStorage.setItem(
-            "@watchList",
-            JSON.stringify(updatedMovies)
-          );
-        } else {
-          setLoading(true);
-          // If the movie is not liked, add it to the likedMovie array
-          const newMovie = {
-            id: id,
-            title: title,
-            videoImgUrl: videoImgUrl,
-          };
-          setLikedMovie([...likedMovie, newMovie]);
-          await AsyncStorage.setItem(
-            "@watchList",
-            JSON.stringify([...likedMovie, newMovie])
-          );
-        }
+        // If the movie is not liked, add it to the likedMovie array
+        const newMovie = {
+          id: id,
+          title: title,
+          videoImgUrl: videoImgUrl,
+        };
+        await AsyncStorage.setItem(
+          "@watchList",
+          JSON.stringify([...likedMovieInWatchList, newMovie])
+        );
       }
     } catch (err: any) {
       console.log(err);
@@ -65,7 +64,6 @@ export const useLikedMovie = () => {
 
   return {
     likeAMovieToWatchList,
-    likedMovie,
     loading,
   };
 };

@@ -5,14 +5,20 @@ import React from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AppText } from "../shared";
 import { colors } from "@src/resources/Colors";
-import { useWatchList } from "@src/functions/hooks/services";
+// import { useWatchList } from "@src/functions/hooks/services";
 
 type watchListProps = {
   items: likedMovieDataType;
+  removeItem: () => void;
+  loading: boolean;
 };
 
-export const WatchListCard: React.FC<watchListProps> = ({ items }) => {
-  const { removeFromWatchList, loading } = useWatchList();
+export const WatchListCard: React.FC<watchListProps> = ({
+  items,
+  removeItem,
+  loading,
+}) => {
+  // const { removeFromWatchList, loading } = useWatchList();
   return (
     <View
       style={[
@@ -26,29 +32,27 @@ export const WatchListCard: React.FC<watchListProps> = ({ items }) => {
         resizeMode='center'
         style={styles.img}
       />
-      <AppText
-        fontRegular
-        sizeBody
-        black
+      <View
         style={{
-          maxWidth: DVW(80),
+          maxWidth: DVW(70),
         }}>
-        {items.title}
-      </AppText>
-      <TouchableOpacity
-        onPress={async () => await removeFromWatchList(Number(items.id))}>
-        <AppText fontBold sizeBody mainColor>
-          {loading ? (
-            <AppText fontBold sizeBody mainColor>
-              Loading....
-            </AppText>
-          ) : (
-            <AppText fontBold sizeBody mainColor>
-              Delete
-            </AppText>
-          )}
+        <AppText fontRegular sizeBody black>
+          {items.title}
         </AppText>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => removeItem()}>
+          <AppText fontBold sizeBody mainColor>
+            {loading ? (
+              <AppText fontBold sizeBody mainColor>
+                Loading....
+              </AppText>
+            ) : (
+              <AppText fontBold sizeBody mainColor>
+                Delete
+              </AppText>
+            )}
+          </AppText>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

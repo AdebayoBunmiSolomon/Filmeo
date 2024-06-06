@@ -17,7 +17,7 @@
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "axios": "^1.7.2",
-    "expo": "^51.0.9",
+    "expo": "^51.0.10",
     "expo-blur": "^13.0.2",
     "expo-image-picker": "~15.0.5",
     "expo-media-library": "~16.0.3",

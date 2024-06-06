@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { likedMovieDataType } from "@src/types/types";
 
 export const truncateText = (str: string) => {
   return str.length > 20 ? str.substring(0, 15) + "...." : str;
@@ -24,15 +25,15 @@ export const getGreetings = () => {
 
   if (hours >= 0 && hours < 12) {
     return {
-      time: "Good Morning 🌤️,",
+      time: "Good Morning 🌤️",
     };
   } else if (hours >= 12 && hours < 14) {
     return {
-      time: "Good Afternoon 🌅,",
+      time: "Good Afternoon 🌅",
     };
   } else {
     return {
-      time: "Good Evening 🌗,",
+      time: "Good Evening 🌗",
     };
   }
 };
@@ -68,4 +69,14 @@ export const getUserWatchList = async () => {
   } else {
     return [];
   }
+};
+
+/**
+ * returns the filtered list of watch-list
+ */
+export const filterWatchList = (
+  watchList: likedMovieDataType[],
+  movieId: number
+): likedMovieDataType[] => {
+  return watchList.filter((movie) => movie.id !== movieId);
 };

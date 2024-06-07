@@ -1,11 +1,13 @@
 import { IMAGE_BASE_URL } from "@env";
 import { DVH, DVW, moderateScale } from "@src/resources";
 import { likedMovieDataType } from "@src/types/types";
-import React from "react";
+import React, { useContext } from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AppText } from "../shared";
 import { colors } from "@src/resources/Colors";
-// import { useWatchList } from "@src/functions/hooks/services";
+import { AntDesign } from "@expo/vector-icons";
+import { ThemeContext } from "@src/resources/Theme";
+import { Loader } from "../core";
 
 type watchListProps = {
   items: likedMovieDataType;
@@ -18,7 +20,7 @@ export const WatchListCard: React.FC<watchListProps> = ({
   removeItem,
   loading,
 }) => {
-  // const { removeFromWatchList, loading } = useWatchList();
+  const { theme } = useContext(ThemeContext);
   return (
     <View
       style={[
@@ -32,23 +34,30 @@ export const WatchListCard: React.FC<watchListProps> = ({
         resizeMode='center'
         style={styles.img}
       />
-      <View
-        style={{
-          maxWidth: DVW(70),
-        }}>
-        <AppText fontRegular sizeBody black>
-          {items.title}
-        </AppText>
+      <View style={styles.movieContentContainer}>
+        <View
+          style={{
+            maxWidth: DVW(50),
+          }}>
+          <AppText fontRegular sizeBody black>
+            {items.title}
+          </AppText>
+        </View>
         <TouchableOpacity onPress={() => removeItem()}>
           <AppText fontBold sizeBody mainColor>
             {loading ? (
-              <AppText fontBold sizeBody mainColor>
-                Loading....
-              </AppText>
+              <Loader
+                sizes='small'
+                color={
+                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor
+                }
+              />
             ) : (
-              <AppText fontBold sizeBody mainColor>
-                Delete
-              </AppText>
+              <AntDesign
+                name='delete'
+                size={moderateScale(25)}
+                color={"crimson"}
+              />
             )}
           </AppText>
         </TouchableOpacity>
@@ -58,10 +67,16 @@ export const WatchListCard: React.FC<watchListProps> = ({
 };
 
 const styles = StyleSheet.create({
+  movieContentContainer: {
+    marginLeft: moderateScale(10),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "70%",
+  },
   container: {
     flexDirection: "row",
     alignItems: "center",
-    gap: moderateScale(10),
     borderRadius: moderateScale(10),
     marginBottom: moderateScale(20),
     height: DVH(15),

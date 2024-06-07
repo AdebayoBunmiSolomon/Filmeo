@@ -20,3 +20,14 @@ export const onboardingScreenSlides: onboardingScreenType[] = [
     subTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
   },
 ];
+
+export const trendingMovieTimeWindow = [
+  {
+    id: 1,
+    name: "day",
+  },
+  {
+    id: 2,
+    name: "week",
+  },
+];

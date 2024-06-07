@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type genreDataType = {
+export type genreDataType = {
   id: string;
   name: string;
 }[];

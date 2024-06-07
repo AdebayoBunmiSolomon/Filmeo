@@ -4,32 +4,41 @@ import { useGetTrendingMovies } from "@src/functions/api/services";
 import { layout, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { useNextPrev } from "@src/hooks/state";
 import { MovieCard } from "@src/components/card";
-import { NextButton, PrevButton } from "@src/common";
+import { ListButton } from "@src/common";
+import { trendingMovieTimeWindow } from "@src/constant/data";
 
 export const TrendingMovies = () => {
   const { theme } = useContext(ThemeContext);
   const { getTrendingMovies, loading, trendingMoviesData } =
     useGetTrendingMovies();
-  const { prevBtn, nextBtn, pageNumber } = useNextPrev();
+  const [timeWindow, setTimeWindow] = useState<string>(
+    trendingMovieTimeWindow[0].name
+  );
 
   useEffect(() => {
-    getTrendingMovies(pageNumber);
-  }, [pageNumber]);
+    getTrendingMovies(timeWindow);
+  }, [timeWindow]);
   return (
     <View style={styles.container}>
-      <AppText
-        fontSemibold
-        sizeMedium
-        gray
-        style={{
-          marginBottom: layout.size10,
-        }}>
-        Trending Movies🔥
-      </AppText>
+      <View style={styles.timeWindowContainer}>
+        <AppText
+          fontSemibold
+          sizeMedium
+          gray
+          style={{
+            marginBottom: layout.size10,
+          }}>
+          Trending Movies🔥
+        </AppText>
+        <ListButton
+          data={trendingMovieTimeWindow}
+          setSelectedItem={(value) => setTimeWindow(value)}
+        />
+      </View>
+
       <View>
         {loading ? (
           <View
@@ -60,10 +69,6 @@ export const TrendingMovies = () => {
           />
         )}
       </View>
-      <View style={styles.slideControlContainer}>
-        <PrevButton prevFunc={() => prevBtn()} />
-        <NextButton nextFunc={() => nextBtn()} />
-      </View>
     </View>
   );
 };
@@ -78,5 +83,9 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(10),
     justifyContent: "center",
     alignItems: "center",
+  },
+  timeWindowContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });

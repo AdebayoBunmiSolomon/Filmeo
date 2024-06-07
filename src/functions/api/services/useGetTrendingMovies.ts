@@ -9,12 +9,12 @@ export const useGetTrendingMovies = () => {
   const { trendingMoviesData, setTrendingMoviesData } =
     useTrendingMoviesStore();
 
-  const getTrendingMovies = async (pageNumber: number) => {
+  const getTrendingMovies = async (timeWindow: string) => {
     setLoading(true);
     try {
       setLoading(true);
       const { status, data } = await GetRequest(
-        `${endpoint.GET_TRENDING_MOVIES}${pageNumber}`,
+        `${endpoint.GET_TRENDING_MOVIES}${timeWindow}`,
         header,
         {}
       );

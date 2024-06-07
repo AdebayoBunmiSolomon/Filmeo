@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Screen } from "../Screen";
 import { Header } from "@src/components/shared";
 import { BottomTabBarScreenProps } from "@src/router/Types";
-import {
-  GenreList,
-  TrendingMovies,
-  UpcomingMovies,
-} from "@src/components/app/home";
+import { TrendingMovies, UpcomingMovies } from "@src/components/app/home";
 import { ScrollView, View } from "react-native";
 import { verticalScale } from "@src/resources";
+import { useGetGenre } from "@src/functions/api/services";
+import { ListButton } from "@src/common";
 
 export const Home = ({ navigation }: BottomTabBarScreenProps<"Home">) => {
+  const { genreData, loading, getMovieGenres } = useGetGenre();
+
+  useEffect(() => {
+    getMovieGenres();
+  }, []);
   return (
     <Screen>
       <Header backHeader={false} title='Hi,' showUsername />
-      <GenreList setSelectedGenre={(value) => console.log(value)} />
+      <ListButton
+        setSelectedItem={(value) => {}}
+        loading={loading}
+        data={genreData}
+        showHeaderTitle
+        headerTitle='Genres'
+      />
       <ScrollView
         horizontal={false}
         showsVerticalScrollIndicator={false}

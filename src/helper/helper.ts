@@ -12,16 +12,6 @@ export const truncateText = (str: string) => {
 export const getGreetings = () => {
   const date = new Date();
   let hours = date.getHours();
-  // const minutes = date.getMinutes();
-  // const amPm = hours >= 12 ? "PM" : "AM";
-
-  // Convert hours from 24-hour to 12-hour format
-  // hours = hours % 12;
-  // hours = hours ? hours : 12; // the hour '0' should be '12'
-
-  // Format hours and minutes with leading zeros if necessary
-  // const formattedHours = hours.toString().padStart(2, "0");
-  // const formattedMinutes = minutes.toString().padStart(2, "0");
 
   if (hours >= 0 && hours < 12) {
     return {

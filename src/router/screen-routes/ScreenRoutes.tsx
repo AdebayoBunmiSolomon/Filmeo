@@ -1,7 +1,8 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import React from "react";
 import { DrawerStackScreenParamList, RootStackParamList } from "../Types";
-import * as Screen from "@src/screens/app";
+import * as DrawerScreen from "@src/screens/app/Drawer-Screens";
+import * as RootStackScreen from "@src/screens/app";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BottomTabs } from "../Bottom-Tab";
 
@@ -27,28 +28,28 @@ export const drawerScreens: DrawerScreen[] = [
   },
   {
     name: "Music",
-    component: Screen.Music,
+    component: DrawerScreen.Music,
     label: "Music",
     iconName: "music",
     nestedNavigation: false,
   },
   {
     name: "Movies",
-    component: Screen.Movies,
+    component: DrawerScreen.Movies,
     label: "Movies",
     iconName: "local-movies",
     nestedNavigation: false,
   },
   {
     name: "Ratings",
-    component: Screen.Ratings,
+    component: DrawerScreen.Ratings,
     label: "Ratings",
     iconName: "star",
     nestedNavigation: false,
   },
   {
     name: "WatchList",
-    component: Screen.WatchList,
+    component: DrawerScreen.WatchList,
     label: "Watch List",
     iconName: "heart",
     nestedNavigation: false,
@@ -61,4 +62,9 @@ type ScreenConfig = {
   component: React.ComponentType<any>;
 };
 
-export const otherScreen: ScreenConfig[] = [];
+export const otherScreen: ScreenConfig[] = [
+  {
+    screenName: "ViewMore",
+    component: RootStackScreen.ViewMore,
+  },
+];

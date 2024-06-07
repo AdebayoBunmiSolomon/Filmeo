@@ -22,6 +22,9 @@ export interface RootStackParamList extends ParamListBase {
   Home: undefined;
   About: undefined;
   Settings: undefined;
+  ViewMore: {
+    movieId: number;
+  };
 }
 
 export type RootStackScreenProps<ScreenName extends keyof RootStackParamList> =

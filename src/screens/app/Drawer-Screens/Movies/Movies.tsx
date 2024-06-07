@@ -1,15 +1,15 @@
 import React from "react";
-import { Screen } from "../../Screen";
+import { Screen } from "../../../Screen";
 import { View } from "react-native";
 import { AppText } from "@src/components/shared";
 import { DrawerStackScreenProps } from "@src/router/Types";
 
-export const Music = ({ navigation }: DrawerStackScreenProps<"Music">) => {
+export const Movies = ({ navigation }: DrawerStackScreenProps<"Movies">) => {
   return (
     <Screen>
       <View>
         <AppText fontBold sizeLarge>
-          Music Screen
+          Movies Screen
         </AppText>
       </View>
     </Screen>

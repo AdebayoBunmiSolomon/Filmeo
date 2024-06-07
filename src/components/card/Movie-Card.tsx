@@ -20,9 +20,14 @@ import { LikeButton } from "@src/common";
 type movieCardProps = {
   items: any;
   index: number;
+  viewMore: () => void;
 };
 
-export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
+export const MovieCard: React.FC<movieCardProps> = ({
+  items,
+  index,
+  viewMore,
+}) => {
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
   const { theme } = useContext(ThemeContext);
@@ -82,7 +87,13 @@ export const MovieCard: React.FC<movieCardProps> = ({ items, index }) => {
           }}>
           {truncateText(String(items.title))}
         </AppText>
-        <AppButton title='View More' onPress={() => {}} outline />
+        <AppButton
+          title='View More'
+          onPress={() => {
+            viewMore();
+          }}
+          outline
+        />
       </View>
     </>
   );

@@ -1,5 +1,10 @@
 import React, { useContext } from "react";
-import { Drawer, drawerScreens, Stack } from "./screen-routes/ScreenRoutes";
+import {
+  Drawer,
+  drawerScreens,
+  otherScreen,
+  Stack,
+} from "./screen-routes/ScreenRoutes";
 import { ThemeContext } from "@src/resources/Theme";
 import { font, fontFamily } from "@src/resources";
 import { colors } from "@src/resources/Colors";
@@ -88,6 +93,15 @@ const StackScreens = () => {
         component={DrawerScreens}
         options={{ headerShown: false }}
       />
+      {otherScreen &&
+        otherScreen.map((screen, index) => (
+          <Stack.Screen
+            name={screen.screenName}
+            component={screen.component}
+            key={index}
+            options={{ headerShown: false }}
+          />
+        ))}
     </Stack.Navigator>
   );
 };

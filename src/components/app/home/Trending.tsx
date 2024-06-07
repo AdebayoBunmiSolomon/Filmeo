@@ -9,8 +9,10 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { MovieCard } from "@src/components/card";
 import { ListButton } from "@src/common";
 import { trendingMovieTimeWindow } from "@src/constant/data";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-export const TrendingMovies = () => {
+export const TrendingMovies: React.FC<{}> = () => {
+  const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
   const { getTrendingMovies, loading, trendingMoviesData } =
     useGetTrendingMovies();
@@ -61,7 +63,15 @@ export const TrendingMovies = () => {
             keyExtractor={(items) => items.id.toString()}
             renderItem={({ item, index }) => (
               <View>
-                <MovieCard items={item} index={index} />
+                <MovieCard
+                  items={item}
+                  index={index}
+                  viewMore={() =>
+                    navigation.navigate("ViewMore", {
+                      movieId: Number(item.id),
+                    })
+                  }
+                />
               </View>
             )}
             horizontal={true}

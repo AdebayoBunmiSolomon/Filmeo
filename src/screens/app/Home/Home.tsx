@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Screen } from "../Screen";
+import { Screen } from "../../Screen";
 import { Header } from "@src/components/shared";
 import { BottomTabBarScreenProps } from "@src/router/Types";
 import { TrendingMovies, UpcomingMovies } from "@src/components/app/home";

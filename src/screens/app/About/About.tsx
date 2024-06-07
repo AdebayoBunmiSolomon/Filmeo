@@ -1,5 +1,5 @@
 import React from "react";
-import { Screen } from "../Screen";
+import { Screen } from "../../Screen";
 import { BottomTabBarScreenProps } from "@src/router/Types";
 import { Header } from "@src/components/shared";
 

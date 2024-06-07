@@ -1,3 +1,4 @@
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { NextButton, PrevButton } from "@src/common";
 import { MovieCard } from "@src/components/card";
 import { Loader } from "@src/components/core";
@@ -11,6 +12,7 @@ import React, { useContext, useEffect } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 export const UpcomingMovies: React.FC<{}> = () => {
+  const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
   const { getUpcomingMovies, upcomingMoviesData, loading } =
     useGetUpcomingMovies();
@@ -52,7 +54,15 @@ export const UpcomingMovies: React.FC<{}> = () => {
             keyExtractor={(items) => items.id.toString()}
             renderItem={({ item, index }) => (
               <View>
-                <MovieCard items={item} index={index} />
+                <MovieCard
+                  items={item}
+                  index={index}
+                  viewMore={() => {
+                    navigation.navigate("ViewMore", {
+                      movieId: Number(item.id),
+                    });
+                  }}
+                />
               </View>
             )}
             horizontal={true}

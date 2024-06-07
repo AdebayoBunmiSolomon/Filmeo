@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Screen } from "../../Screen";
+import { Screen } from "../../../Screen";
 import { FlatList, StyleSheet, View } from "react-native";
 import { AppText, Header } from "@src/components/shared";
 import { DrawerStackScreenProps } from "@src/router/Types";

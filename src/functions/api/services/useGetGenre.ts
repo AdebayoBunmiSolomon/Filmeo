@@ -6,10 +6,12 @@ import { header } from "@src/api/configuration/header";
 
 export const useGetGenre = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const { genreData, setGenreData } = useGenreStore();
 
   const getMovieGenres = async () => {
     setLoading(true);
+    setIsError(false);
     try {
       setLoading(true);
       const { status, data } = await GetRequest(
@@ -19,13 +21,14 @@ export const useGetGenre = () => {
       );
       if (status === 200) {
         setGenreData(data.genres);
-        setLoading(false);
+        setIsError(false);
       } else {
         console.log("error");
-        setLoading(false);
+        setIsError(true);
       }
     } catch (err: any) {
       console.log("Error", err);
+      setIsError(true);
     } finally {
       setLoading(false);
     }
@@ -35,5 +38,6 @@ export const useGetGenre = () => {
     getMovieGenres,
     loading,
     genreData,
+    isError,
   };
 };

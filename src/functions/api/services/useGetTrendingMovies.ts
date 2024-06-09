@@ -6,11 +6,13 @@ import { useTrendingMoviesStore } from "../store";
 
 export const useGetTrendingMovies = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const { trendingMoviesData, setTrendingMoviesData } =
     useTrendingMoviesStore();
 
   const getTrendingMovies = async (timeWindow: string) => {
     setLoading(true);
+    setIsError(false);
     try {
       setLoading(true);
       const { status, data } = await GetRequest(
@@ -21,13 +23,14 @@ export const useGetTrendingMovies = () => {
       setLoading(true);
       if (status === 200) {
         setTrendingMoviesData(data.results);
-        setLoading(false);
+        setIsError(false);
       } else {
         console.log("Error loading data");
-        setLoading(true);
+        setIsError(true);
       }
     } catch (err: any) {
       console.log("Error", err);
+      setIsError(true);
     } finally {
       setLoading(false);
     }

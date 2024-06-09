@@ -6,11 +6,13 @@ import { GetRequest } from "@src/api/request";
 
 export const useGetUpcomingMovies = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const { upcomingMoviesData, setUpcomingMoviesData } =
     useUpcomingMoviesStore();
 
   const getUpcomingMovies = async (pageNumber: number) => {
     setLoading(true);
+    setIsError(false);
     try {
       setLoading(true);
       const { status, data } = await GetRequest(
@@ -21,13 +23,14 @@ export const useGetUpcomingMovies = () => {
       setLoading(true);
       if (status === 200) {
         setUpcomingMoviesData(data.results);
-        setLoading(false);
+        setIsError(false);
       } else {
         console.log("Error loading data");
-        setLoading(true);
+        setIsError(true);
       }
     } catch (err: any) {
       console.log("Error", err);
+      setIsError(true);
     } finally {
       setLoading(false);
     }
@@ -37,5 +40,6 @@ export const useGetUpcomingMovies = () => {
     getUpcomingMovies,
     loading,
     upcomingMoviesData,
+    isError,
   };
 };

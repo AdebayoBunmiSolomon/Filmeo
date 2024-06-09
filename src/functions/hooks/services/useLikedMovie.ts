@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useLikedMovieStore } from "../store";
 import { useState } from "react";
 import { Alert } from "react-native";
 import { likedMovieDataType } from "@src/types/types";

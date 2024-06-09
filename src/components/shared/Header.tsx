@@ -13,12 +13,14 @@ type headerProps = {
   backHeader: boolean;
   title: string;
   showUsername?: boolean;
+  showRightIcon?: boolean;
 };
 
 export const Header: React.FC<headerProps> = ({
   backHeader,
   title,
   showUsername,
+  showRightIcon,
 }) => {
   const { theme } = useContext(ThemeContext);
   const navigation: NavigationProp<any> = useNavigation();
@@ -78,13 +80,15 @@ export const Header: React.FC<headerProps> = ({
             </AppText>
           )}
         </View>
-        <TouchableOpacity>
-          <Ionicons
-            name='notifications'
-            size={layout.size20}
-            color={theme === "dark" ? colors.gray : colors.gray}
-          />
-        </TouchableOpacity>
+        {showRightIcon && (
+          <TouchableOpacity>
+            <Ionicons
+              name='notifications'
+              size={layout.size20}
+              color={theme === "dark" ? colors.gray : colors.gray}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.headerTitle}>
         {backHeader ? null : (

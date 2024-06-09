@@ -70,3 +70,19 @@ export const filterWatchList = (
 ): likedMovieDataType[] => {
   return watchList.filter((movie) => movie.id !== movieId);
 };
+
+export const getYearFromDateValue = (dateVal: string) => {
+  const date = new Date(dateVal);
+  const year = date.getFullYear();
+  return year;
+};
+
+export const appendBaseUrlToMovieImagesList = (
+  dataArr: any,
+  baseURL: string
+) => {
+  return dataArr.map((movieImgList: any) => ({
+    ...movieImgList, //spread the existing properties(e.g., aspect_ration & the likes)
+    uri: `${baseURL}${movieImgList.file_path}`,
+  }));
+};

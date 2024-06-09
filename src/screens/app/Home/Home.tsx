@@ -16,7 +16,7 @@ export const Home = ({ navigation }: BottomTabBarScreenProps<"Home">) => {
   }, []);
   return (
     <Screen>
-      <Header backHeader={false} title='Hi,' showUsername />
+      <Header backHeader={false} title='Hi,' showUsername showRightIcon />
       {isError ? (
         <Error
           onRefresh={() => {

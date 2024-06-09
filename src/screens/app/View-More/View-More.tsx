@@ -1,7 +1,7 @@
 import { RootStackScreenProps } from "@src/router/Types";
 import React, { useContext, useEffect } from "react";
 import { Screen } from "@src/screens/Screen";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { AppText, Header } from "@src/components/shared";
 import { useGetMovieDetails } from "@src/functions/api/services";
 import { Loader } from "@src/components/core";
@@ -9,7 +9,13 @@ import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { Error } from "@src/common";
 import { IMAGE_BASE_URL } from "@env";
-import { moderateScale } from "@src/resources";
+import { verticalScale } from "@src/resources";
+import { useLikedMovie } from "@src/functions/hooks/services";
+import {
+  MovieImage,
+  MovieImageList,
+  MovieTopDetails,
+} from "@src/components/app/view-more";
 
 export const ViewMore = ({
   navigation,
@@ -19,14 +25,16 @@ export const ViewMore = ({
   const { movieId } = route.params;
   const { movieDetails, getMovieDetails, loading, isError } =
     useGetMovieDetails();
-  console.log(movieId);
+  const { likeAMovieToWatchList, likeMovieLoading } = useLikedMovie();
   useEffect(() => {
     getMovieDetails(movieId);
   }, [movieId]);
   return (
     <Screen>
-      <View>
-        <Header title='View More' backHeader />
+      <>
+        <View style={styles.headerContainer}>
+          <Header title='View More' backHeader />
+        </View>
         {loading ? (
           <View style={styles.container}>
             <Loader
@@ -47,34 +55,51 @@ export const ViewMore = ({
               width: "100%",
               height: "100%",
             }}>
-            <View
-              style={{
-                borderRadius: moderateScale(20),
-                height: "90%",
-                overflow: "hidden",
-                backgroundColor: "red",
-              }}>
-              <Image
-                source={{ uri: `${IMAGE_BASE_URL}${movieDetails.poster_path}` }}
-                resizeMode='cover'
-                style={{
-                  width: "100%",
-                  height: "40%",
+            <ScrollView
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingBottom: verticalScale(50),
+              }}
+              showsVerticalScrollIndicator={false}>
+              <MovieImage
+                movieImageUri={`${IMAGE_BASE_URL}${movieDetails.poster_path}`}
+                movieId={movieId}
+                likeMovieLoading={likeMovieLoading}
+                likeAMovieToWatchList={() => {
+                  likeAMovieToWatchList(
+                    Number(movieId),
+                    movieDetails.title,
+                    movieDetails.poster_path
+                  );
                 }}
               />
-            </View>
+              <MovieTopDetails movieDetails={movieDetails} />
+              <View style={styles.overViewContainer}>
+                <AppText fontRegular sizeBody gray style={styles.overViewText}>
+                  {movieDetails.overview}
+                </AppText>
+              </View>
+              <MovieImageList movieId={movieId} />
+            </ScrollView>
           </View>
         )}
-      </View>
+      </>
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    paddingBottom: verticalScale(10),
+  },
   container: {
     width: "100%",
     height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+  },
+  overViewContainer: {
+    paddingVertical: verticalScale(20),
+  },
+  overViewText: {
+    textAlign: "justify",
   },
 });

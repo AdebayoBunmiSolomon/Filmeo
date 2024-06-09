@@ -31,3 +31,12 @@ export const trendingMovieTimeWindow = [
     name: "week",
   },
 ];
+
+export const imagesArr = [
+  {
+    uri: "https://images.unsplash.com/photo-1571501679680-de32f1e7aad4",
+  },
+  {
+    uri: "https://images.unsplash.com/photo-1573273787173-0eb81a833b34",
+  },
+];

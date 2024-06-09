@@ -5,14 +5,14 @@ import { likedMovieDataType } from "@src/types/types";
 import { getUserWatchList } from "@src/helper/helper";
 
 export const useLikedMovie = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [likeMovieLoading, setLikeMovieLoading] = useState<boolean>(false);
 
   const likeAMovieToWatchList = async (
     id: number,
     title: string,
     videoImgUrl: string
   ) => {
-    setLoading(true);
+    setLikeMovieLoading(true);
     try {
       const likedMovieInWatchList: likedMovieDataType[] =
         await getUserWatchList();
@@ -35,14 +35,14 @@ export const useLikedMovie = () => {
         (items) => items.id === id
       );
       if (isMovieExist) {
-        setLoading(true);
+        setLikeMovieLoading(true);
         // If the movie is already liked, remove it from the likedMovie array
         const updatedMovies = likedMovieInWatchList.filter(
           (movie) => movie.id !== id
         );
         await AsyncStorage.setItem("@watchList", JSON.stringify(updatedMovies));
       } else {
-        setLoading(true);
+        setLikeMovieLoading(true);
         // If the movie is not liked, add it to the likedMovie array
         const newMovie = {
           id: id,
@@ -57,12 +57,12 @@ export const useLikedMovie = () => {
     } catch (err: any) {
       console.log(err);
     } finally {
-      setLoading(false);
+      setLikeMovieLoading(false);
     }
   };
 
   return {
     likeAMovieToWatchList,
-    loading,
+    likeMovieLoading,
   };
 };

@@ -3,13 +3,7 @@ import { truncateText } from "@src/helper/helper";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext } from "react";
-import {
-  ActivityIndicator,
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { ActivityIndicator, View, Image, StyleSheet } from "react-native";
 import { AppButton, AppText } from "../shared";
 import { useImageLoader } from "@src/hooks/state";
 import { DVH, DVW, layout, moderateScale } from "@src/resources";
@@ -31,7 +25,7 @@ export const MovieCard: React.FC<movieCardProps> = ({
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
   const { theme } = useContext(ThemeContext);
-  const { likeAMovieToWatchList, loading } = useLikedMovie();
+  const { likeAMovieToWatchList, likeMovieLoading } = useLikedMovie();
 
   return (
     <>
@@ -54,28 +48,25 @@ export const MovieCard: React.FC<movieCardProps> = ({
               onLoadStart={() => handleImageLoadStart(index)}
               onLoadEnd={() => handleImageLoadEnd(index)}
             />
-            <TouchableOpacity
-              style={styles.likeButton}
-              onPress={() => {
-                likeAMovieToWatchList(
-                  Number(items.id),
-                  items.title,
-                  items.poster_path
-                );
-              }}>
-              {loading ? (
-                <Loader
-                  sizes='small'
-                  color={
-                    theme === "dark"
-                      ? colors.primaryColor2
-                      : colors.primaryColor
-                  }
-                />
-              ) : (
-                <LikeButton id={Number(items.id)} />
-              )}
-            </TouchableOpacity>
+            {likeMovieLoading ? (
+              <Loader
+                sizes='small'
+                color={
+                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor
+                }
+              />
+            ) : (
+              <LikeButton
+                id={Number(items.id)}
+                onPressLike={() => {
+                  likeAMovieToWatchList(
+                    Number(items.id),
+                    items.title,
+                    items.poster_path
+                  );
+                }}
+              />
+            )}
           </View>
         </View>
         <AppText

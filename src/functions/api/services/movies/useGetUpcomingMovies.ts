@@ -1,29 +1,31 @@
 import { useState } from "react";
-import { useGenreStore } from "../store";
-import { GetRequest } from "@src/api/request";
+import { useUpcomingMoviesStore } from "../../store";
 import { endpoint } from "@src/api/endpoints/endpoints";
 import { header } from "@src/api/configuration/header";
+import { GetRequest } from "@src/api/request";
 
-export const useGetGenre = () => {
+export const useGetUpcomingMovies = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const { genreData, setGenreData } = useGenreStore();
+  const { upcomingMoviesData, setUpcomingMoviesData } =
+    useUpcomingMoviesStore();
 
-  const getMovieGenres = async () => {
+  const getUpcomingMovies = async (pageNumber: number) => {
     setLoading(true);
     setIsError(false);
     try {
       setLoading(true);
       const { status, data } = await GetRequest(
-        `${endpoint.GET_MOVIE_GENRE}`,
+        `${endpoint.GET_UPCOMING_MOVIES}${pageNumber}`,
         header,
         {}
       );
+      setLoading(true);
       if (status === 200) {
-        setGenreData(data.genres);
+        setUpcomingMoviesData(data.results);
         setIsError(false);
       } else {
-        console.log("error");
+        console.log("Error loading data");
         setIsError(true);
       }
     } catch (err: any) {
@@ -35,9 +37,9 @@ export const useGetGenre = () => {
   };
 
   return {
-    getMovieGenres,
+    getUpcomingMovies,
     loading,
-    genreData,
+    upcomingMoviesData,
     isError,
   };
 };

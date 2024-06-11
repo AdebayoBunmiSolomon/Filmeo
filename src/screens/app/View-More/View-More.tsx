@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { Screen } from "@src/screens/Screen";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { AppText, Header } from "@src/components/shared";
-import { useGetMovieDetails } from "@src/functions/api/services";
+import { useGetMovieDetails } from "@src/functions/api/services/movies";
 import { Loader } from "@src/components/core";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
@@ -12,18 +12,17 @@ import { IMAGE_BASE_URL } from "@env";
 import { verticalScale } from "@src/resources";
 import { useLikedMovie } from "@src/functions/hooks/services";
 import {
+  MovieCast,
   MovieImage,
   MovieImageList,
   MovieTopDetails,
+  VideoThriller,
 } from "@src/components/app/view-more";
 
-export const ViewMore = ({
-  navigation,
-  route,
-}: RootStackScreenProps<"ViewMore">) => {
+export const ViewMore = ({ route }: RootStackScreenProps<"ViewMore">) => {
   const { theme } = useContext(ThemeContext);
   const { movieId } = route.params;
-  const { movieDetails, getMovieDetails, loading, isError } =
+  const { movieDetails, getMovieDetails, loading, isError, movieVideoKey } =
     useGetMovieDetails();
   const { likeAMovieToWatchList, likeMovieLoading } = useLikedMovie();
   useEffect(() => {
@@ -79,8 +78,12 @@ export const ViewMore = ({
                   {movieDetails.overview}
                 </AppText>
               </View>
-              <MovieImageList movieId={movieId} />
+              <View style={styles.movieCastAndImageContainer}>
+                <MovieImageList movieId={movieId} />
+                <MovieCast movieId={movieId} />
+              </View>
             </ScrollView>
+            <VideoThriller videoKey={movieVideoKey} />
           </View>
         )}
       </>
@@ -101,5 +104,8 @@ const styles = StyleSheet.create({
   },
   overViewText: {
     textAlign: "justify",
+  },
+  movieCastAndImageContainer: {
+    gap: verticalScale(10),
   },
 });

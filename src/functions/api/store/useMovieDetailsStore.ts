@@ -42,6 +42,7 @@ type movieDetailsDataType = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  video_id: string;
 };
 
 interface IMovieDetailsProps {
@@ -77,6 +78,7 @@ export const useMovieDetailsStore = create<IMovieDetailsProps>((set) => ({
     video: false,
     vote_average: 0,
     vote_count: 0,
+    video_id: "",
   },
   setMovieDetails: (movieDetails) => set({ movieDetails: movieDetails }),
 }));

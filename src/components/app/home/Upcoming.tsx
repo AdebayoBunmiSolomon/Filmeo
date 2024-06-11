@@ -3,7 +3,7 @@ import { NextButton, PrevButton } from "@src/common";
 import { MovieCard } from "@src/components/card";
 import { Loader } from "@src/components/core";
 import { AppText } from "@src/components/shared";
-import { useGetUpcomingMovies } from "@src/functions/api/services";
+import { useGetUpcomingMovies } from "@src/functions/api/services/movies";
 import { useNextPrev } from "@src/hooks/state";
 import { layout, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
@@ -17,6 +17,12 @@ export const UpcomingMovies: React.FC<{}> = () => {
   const { getUpcomingMovies, upcomingMoviesData, loading } =
     useGetUpcomingMovies();
   const { prevBtn, nextBtn, pageNumber } = useNextPrev();
+
+  const movieCardClick = (id: number) => {
+    navigation.navigate("ViewMore", {
+      movieId: id,
+    });
+  };
 
   useEffect(() => {
     getUpcomingMovies(pageNumber);
@@ -57,16 +63,13 @@ export const UpcomingMovies: React.FC<{}> = () => {
                 <MovieCard
                   items={item}
                   index={index}
-                  viewMore={() => {
-                    navigation.navigate("ViewMore", {
-                      movieId: Number(item.id),
-                    });
-                  }}
+                  viewMore={() => movieCardClick(item.id)}
                 />
               </View>
             )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
+            initialNumToRender={5}
           />
         )}
       </View>

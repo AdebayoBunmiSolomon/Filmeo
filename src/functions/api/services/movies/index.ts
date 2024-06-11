@@ -3,3 +3,4 @@ export * from "./useGetTrendingMovies";
 export * from "./useGetUpcomingMovies";
 export * from "./useGetMovieDetails";
 export * from "./useGetMovieImages";
+export * from "./useGetMovieCast";

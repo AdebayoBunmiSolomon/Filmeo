@@ -2,7 +2,7 @@ import { header } from "@src/api/configuration/header";
 import { endpoint } from "@src/api/endpoints/endpoints";
 import { GetRequest } from "@src/api/request";
 import { useState } from "react";
-import { useTrendingMoviesStore } from "../store";
+import { useTrendingMoviesStore } from "../../store";
 
 export const useGetTrendingMovies = () => {
   const [loading, setLoading] = useState<boolean>(false);

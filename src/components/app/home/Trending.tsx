@@ -1,6 +1,6 @@
 import { Loader } from "@src/components/core";
 import { AppText } from "@src/components/shared";
-import { useGetTrendingMovies } from "@src/functions/api/services";
+import { useGetTrendingMovies } from "@src/functions/api/services/movies";
 import { layout, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
@@ -19,6 +19,12 @@ export const TrendingMovies: React.FC<{}> = () => {
   const [timeWindow, setTimeWindow] = useState<string>(
     trendingMovieTimeWindow[0].name
   );
+
+  const movieCardClick = (id: number) => {
+    navigation.navigate("ViewMore", {
+      movieId: id,
+    });
+  };
 
   useEffect(() => {
     getTrendingMovies(timeWindow);
@@ -66,16 +72,13 @@ export const TrendingMovies: React.FC<{}> = () => {
                 <MovieCard
                   items={item}
                   index={index}
-                  viewMore={() =>
-                    navigation.navigate("ViewMore", {
-                      movieId: Number(item.id),
-                    })
-                  }
+                  viewMore={() => movieCardClick(item.id)}
                 />
               </View>
             )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
+            initialNumToRender={5}
           />
         )}
       </View>

@@ -2,7 +2,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { likedMovieDataType } from "@src/types/types";
 
 export const truncateText = (str: string) => {
-  return str.length > 20 ? str.substring(0, 15) + "...." : str;
+  if (str.length > 20) {
+    return str.substring(0, 15) + "....";
+  } else if (str.length > 12) {
+    return str.substring(0, 7) + "....";
+  } else {
+    return str;
+  }
 };
 
 /**
@@ -77,6 +83,10 @@ export const getYearFromDateValue = (dateVal: string) => {
   return year;
 };
 
+/**
+ * This appends the IMAGE_BASE_URL to the file_path and changes the key
+ * to uri so as the Image viewer to recognize the remote url for image viewing
+ */
 export const appendBaseUrlToMovieImagesList = (
   dataArr: any,
   baseURL: string
@@ -84,5 +94,16 @@ export const appendBaseUrlToMovieImagesList = (
   return dataArr.map((movieImgList: any) => ({
     ...movieImgList, //spread the existing properties(e.g., aspect_ration & the likes)
     uri: `${baseURL}${movieImgList.file_path}`,
+  }));
+};
+
+/**
+ * This appends the IMAGE_BASE_URL to the profile_path and changes the key
+ * to uri so as the Image viewer to recognize the remote url for image viewing
+ */
+export const appendBaseUrlToMovieCastList = (dataArr: any, baseURL: string) => {
+  return dataArr.map((movieCastList: any) => ({
+    ...movieCastList, //spread the existing properties(e.g., aspect_ration & the likes)
+    uri: `${baseURL}${movieCastList.profile_path}`,
   }));
 };

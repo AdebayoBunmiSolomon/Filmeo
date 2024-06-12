@@ -16,7 +16,7 @@ import { KeyboardDismissal } from "@src/components/core";
 import { useLogin } from "@src/functions/hooks/services/useLogin";
 
 export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
-  const { Login } = useLogin();
+  const { Login, loading } = useLogin();
   const { theme } = useContext(ThemeContext);
   const {
     control,
@@ -90,6 +90,7 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
                 marginTop: layout.size6,
                 backgroundColor: "red",
               }}
+              isLoading={loading}
             />
             <AppText style={styles.orText} fontSemibold sizeBody gray>
               Or

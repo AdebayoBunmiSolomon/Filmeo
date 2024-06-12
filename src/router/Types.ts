@@ -19,12 +19,10 @@ export type AuthScreenProps<ScreenName extends keyof AuthStackParamList> =
 
 //Application screen stack
 export interface RootStackParamList extends ParamListBase {
-  Home: undefined;
-  About: undefined;
-  Settings: undefined;
   ViewMore: {
     movieId: number;
   };
+  Test: undefined;
 }
 
 export type RootStackScreenProps<ScreenName extends keyof RootStackParamList> =

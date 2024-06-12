@@ -67,4 +67,8 @@ export const otherScreen: ScreenConfig[] = [
     screenName: "ViewMore",
     component: RootStackScreen.ViewMore,
   },
+  {
+    screenName: "Test",
+    component: RootStackScreen.Test,
+  },
 ];

@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AuthStack } from "./AuthStack";
 import { AppStack } from "./AppStack";
 import { NavigationContainer } from "@react-navigation/native";
 import { isUserLoggedInOnDevice } from "@src/helper/helper";
+import { useAuthStore } from "@src/functions/hooks/store";
 
 export const Router = () => {
-  const [isLoggedInOnDevice, setIsLoggedInOnDevice] = useState<boolean>(false);
+  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   const checkIsLoggedInOnDevice = async () => {
     const isLoggedIn = await isUserLoggedInOnDevice();
-    console.log("From router.tsx", isLoggedIn);
-    setIsLoggedInOnDevice(isLoggedIn);
+    setIsAuthenticated(isLoggedIn);
   };
 
   useEffect(() => {
     checkIsLoggedInOnDevice();
-  }, [isLoggedInOnDevice]);
+  }, [isAuthenticated]);
   return (
     <>
       <NavigationContainer>
-        {isLoggedInOnDevice ? <AppStack /> : <AuthStack />}
+        {isAuthenticated ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
     </>
   );

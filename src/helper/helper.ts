@@ -36,7 +36,8 @@ export const getGreetings = () => {
 
 /**
  *
- * @returns boolean value from if user is logged in on the device
+ * @returns true if user is logged in on device.
+ * false if user is not logged in on device
  */
 export const isUserLoggedInOnDevice = async () => {
   try {
@@ -76,7 +77,9 @@ export const filterWatchList = (
 ): likedMovieDataType[] => {
   return watchList.filter((movie) => movie.id !== movieId);
 };
-
+/**
+ * @returns the Year from a date value
+ */
 export const getYearFromDateValue = (dateVal: string) => {
   const date = new Date(dateVal);
   const year = date.getFullYear();

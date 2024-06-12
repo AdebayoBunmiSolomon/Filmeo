@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { useColorScheme } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storageKey } from "@src/cache";
 
 export const ThemeContext = createContext<any>(null);
 
@@ -13,7 +14,7 @@ export const ThemeProvider = ({ children }: any) => {
     // Load saved theme from storage
     const getTheme = async () => {
       try {
-        const savedTheme = await AsyncStorage.getItem("theme");
+        const savedTheme = await AsyncStorage.getItem(storageKey.THEME);
         const parsedTheme = JSON.parse(savedTheme!);
         if (parsedTheme) {
           setTheme(parsedTheme);

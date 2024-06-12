@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { likedMovieDataType } from "@src/types/types";
 import { getUserWatchList } from "@src/helper/helper";
+import { storageKey } from "@src/cache";
 
 export const useLikedMovie = () => {
   const [likeMovieLoading, setLikeMovieLoading] = useState<boolean>(false);
@@ -40,7 +41,10 @@ export const useLikedMovie = () => {
         const updatedMovies = likedMovieInWatchList.filter(
           (movie) => movie.id !== id
         );
-        await AsyncStorage.setItem("@watchList", JSON.stringify(updatedMovies));
+        await AsyncStorage.setItem(
+          storageKey.WATCH_LIST,
+          JSON.stringify(updatedMovies)
+        );
       } else {
         setLikeMovieLoading(true);
         // If the movie is not liked, add it to the likedMovie array
@@ -50,7 +54,7 @@ export const useLikedMovie = () => {
           videoImgUrl: videoImgUrl,
         };
         await AsyncStorage.setItem(
-          "@watchList",
+          storageKey.WATCH_LIST,
           JSON.stringify([...likedMovieInWatchList, newMovie])
         );
       }

@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storageKey } from "@src/cache";
 import { likedMovieDataType } from "@src/types/types";
 
 export const truncateText = (str: string) => {
@@ -41,7 +42,9 @@ export const getGreetings = () => {
  */
 export const isUserLoggedInOnDevice = async () => {
   try {
-    const isUserLoggedInOnDevice = await AsyncStorage.getItem("@userLoggedIn");
+    const isUserLoggedInOnDevice = await AsyncStorage.getItem(
+      storageKey.AUTHENTICATED
+    );
     const parsedIsUserLoggedInOnDevice = JSON.parse(isUserLoggedInOnDevice!);
     if (parsedIsUserLoggedInOnDevice !== null) {
       return true;
@@ -59,7 +62,7 @@ export const isUserLoggedInOnDevice = async () => {
  * @returns an array list of watch list liked by the user
  */
 export const getUserWatchList = async () => {
-  const watchList = await AsyncStorage.getItem("@watchList");
+  const watchList = await AsyncStorage.getItem(storageKey.WATCH_LIST);
   const parsedData = JSON.parse(watchList!);
   if (parsedData !== null) {
     return parsedData;

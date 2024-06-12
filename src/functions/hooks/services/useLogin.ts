@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuthStore } from "../store";
+import { storageKey } from "@src/cache";
 
 export const useLogin = () => {
   const { setIsAuthenticated } = useAuthStore();
@@ -7,11 +8,14 @@ export const useLogin = () => {
   const Login = async () => {
     try {
       const userIsLoggedInToDevice = await AsyncStorage.getItem(
-        "@userLoggedIn"
+        storageKey.AUTHENTICATED
       );
       const parsedUserIsLoggedInToDevice = JSON.parse(userIsLoggedInToDevice!);
       if (parsedUserIsLoggedInToDevice === null) {
-        await AsyncStorage.setItem("@userLoggedIn", JSON.stringify(true));
+        await AsyncStorage.setItem(
+          storageKey.AUTHENTICATED,
+          JSON.stringify(true)
+        );
         setIsAuthenticated(true);
       }
     } catch (err) {

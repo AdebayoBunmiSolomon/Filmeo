@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
-import { likedMovieDataType } from "@src/types/types";
+import { certificationType, likedMovieDataType } from "@src/types/types";
 
 export const truncateText = (str: string) => {
   if (str.length > 20) {
@@ -112,4 +112,21 @@ export const appendBaseUrlToMovieCastList = (dataArr: any, baseURL: string) => {
     ...movieCastList, //spread the existing properties(e.g., aspect_ration & the likes)
     uri: `${baseURL}${movieCastList.profile_path}`,
   }));
+};
+
+type DataStructure = {
+  certifications: {
+    [key: string]: certificationType;
+  };
+};
+
+export const extractCertification = (
+  data: DataStructure
+): { countryCode: string; certifications: certificationType }[] => {
+  return Object.entries(data.certifications).map(
+    ([countryCode, certArray]) => ({
+      countryCode,
+      certifications: certArray,
+    })
+  );
 };

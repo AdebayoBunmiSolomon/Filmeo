@@ -41,9 +41,9 @@ export const drawerScreens: DrawerScreen[] = [
     nestedNavigation: false,
   },
   {
-    name: "Ratings",
-    component: DrawerScreen.Ratings,
-    label: "Ratings",
+    name: "Certifications",
+    component: DrawerScreen.MovieCertification,
+    label: "Certifications",
     iconName: "star",
     nestedNavigation: false,
   },

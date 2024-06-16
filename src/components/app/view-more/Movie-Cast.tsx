@@ -1,33 +1,30 @@
-import { useIsFocused } from "@react-navigation/native";
 import { Loader } from "@src/components/core";
 import { AppText } from "@src/components/shared";
-import { useGetMovieCast } from "@src/functions/api/services/movies";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import MovieCastSubComp from "./sub-components/Movie-Cast";
 
 type movieCastProps = {
-  movieId: number;
+  movieCastData: any[];
+  isError: boolean;
+  loading: boolean;
 };
 
-export const MovieCast: React.FC<movieCastProps> = ({ movieId }) => {
-  const { isError, movieCastLoading, getMovieCast, movieCastData } =
-    useGetMovieCast();
-  const isFocused = useIsFocused();
+export const MovieCast: React.FC<movieCastProps> = ({
+  movieCastData,
+  isError,
+  loading,
+}) => {
   const { theme } = useContext(ThemeContext);
-
-  useEffect(() => {
-    getMovieCast(movieId);
-  }, [isFocused]);
 
   return (
     <>
       <AppText fontSemibold sizeMedium black>
         Top Cast
       </AppText>
-      {movieCastLoading ? (
+      {loading ? (
         <Loader
           sizes='small'
           color={theme === "dark" ? colors.primaryColor2 : colors.primaryColor}

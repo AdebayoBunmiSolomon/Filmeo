@@ -29,6 +29,8 @@ export const useGetMovieDetails = () => {
   };
 
   const getMovieDetails = async (movieId: number) => {
+    setLoading(true);
+    setIsError(false);
     try {
       setLoading(true);
       const { status, data } = await GetRequest(
@@ -37,6 +39,7 @@ export const useGetMovieDetails = () => {
         {}
       );
       const videoKey = await getYouTubeVideoId(movieId);
+      setLoading(true);
       if (status === 200) {
         setMovieDetails(data);
         setMovieVideoKey(videoKey);

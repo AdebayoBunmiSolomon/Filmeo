@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { DVH, DVW, moderateScale, verticalScale } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
@@ -20,15 +20,14 @@ export const VideoThriller: React.FC<videoThrillerProps> = ({ videoKey }) => {
         style={[
           styles.youtubeBtn,
           {
-            backgroundColor:
-              theme === "dark" ? colors.primaryColor2 : colors.primaryColor,
+            backgroundColor: colors.danger,
             borderColor: theme === "dark" ? colors.white : colors.gray,
           },
         ]}
         onPress={() => setVisible(!visible)}>
-        <FontAwesome
-          name='youtube'
-          size={moderateScale(35)}
+        <FontAwesome6
+          name='play-circle'
+          size={moderateScale(30)}
           color={theme === "dark" ? colors.gray : colors.white}
         />
       </TouchableOpacity>

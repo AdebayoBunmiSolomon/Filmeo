@@ -78,7 +78,7 @@ export const TrendingMovies: React.FC<{}> = () => {
             )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            initialNumToRender={5}
+            // initialNumToRender={5}
           />
         )}
       </View>

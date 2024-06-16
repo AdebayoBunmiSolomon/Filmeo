@@ -27,7 +27,9 @@ export const Home = ({ navigation }: BottomTabBarScreenProps<"Home">) => {
         />
       ) : (
         <ListButton
-          setSelectedItem={(value) => {}}
+          setSelectedItem={(value) => {
+            console.log(value);
+          }}
           loading={loading}
           data={genreData}
           showHeaderTitle

@@ -8,13 +8,13 @@ import { appendBaseUrlToMovieImagesList } from "@src/helper/helper";
 
 export const useGetMovieImages = () => {
   const [movieImageLoading, setMovieImageLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [isMovieError, setIsMovieError] = useState<boolean>(false);
   const { movieImageData, setMovieImageData } = useMovieImagesStore();
   const baseUrl = IMAGE_BASE_URL;
 
   const getMovieImages = async (movieId: number) => {
     setMovieImageLoading(true);
-    setIsError(false);
+    setIsMovieError(false);
 
     try {
       setMovieImageLoading(true);
@@ -29,21 +29,21 @@ export const useGetMovieImages = () => {
           baseUrl
         );
         setMovieImageData(movieImgList);
-        setIsError(false);
+        setIsMovieError(false);
       } else {
         console.log("Error getting movie images");
         setMovieImageData([]);
-        setIsError(true);
+        setIsMovieError(true);
       }
     } catch (err: any) {
       console.log(err);
-      setIsError(true);
+      setIsMovieError(true);
     } finally {
       setMovieImageLoading(false);
     }
   };
   return {
-    isError,
+    isMovieError,
     movieImageLoading,
     getMovieImages,
     movieImageData,

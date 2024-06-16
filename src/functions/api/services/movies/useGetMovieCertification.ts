@@ -40,7 +40,6 @@ export const useGetMovieCertification = () => {
       const data = await getMovieCertifications();
       if (data) {
         const certifications = extractCertification(data);
-        console.log(certifications);
         setMovieCertificationsData(certifications);
         setIsError(false);
       } else {

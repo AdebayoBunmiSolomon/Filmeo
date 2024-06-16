@@ -3,7 +3,7 @@ import { useAuthStore } from "../store";
 import { storageKey } from "@src/cache";
 import { useState } from "react";
 
-export const useLogin = () => {
+export const useAuthentication = () => {
   const { setIsAuthenticated } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -37,8 +37,23 @@ export const useLogin = () => {
     }
   };
 
+  const logOut = async () => {
+    setLoading(true);
+    setIsError(false);
+    try {
+      await AsyncStorage.removeItem(storageKey.AUTHENTICATED);
+      setIsAuthenticated(false);
+    } catch (err: any) {
+      console.log("Error logging out", err);
+      setIsError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     Login,
+    logOut,
     isError,
     loading,
   };

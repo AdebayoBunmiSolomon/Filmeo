@@ -3,6 +3,7 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { AppButton, AppText } from "@src/components/shared";
+import { useAuthentication } from "@src/functions/hooks/services";
 import { DVH, DVW, font, moderateScale, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
@@ -15,6 +16,7 @@ type drawerProps = {
 
 export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
   const { theme } = useContext(ThemeContext);
+  const { logOut, loading } = useAuthentication();
   return (
     <View
       style={[
@@ -70,8 +72,9 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
           <AppButton
             title='Log out'
             onPress={() => {
-              console.log("bottom button");
+              logOut();
             }}
+            isLoading={loading}
           />
         </View>
       </View>

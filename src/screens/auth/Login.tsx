@@ -13,10 +13,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@src/form/validation";
 import { loginFormType } from "@src/form/types";
 import { KeyboardDismissal } from "@src/components/core";
-import { useLogin } from "@src/functions/hooks/services/useLogin";
+import { useAuthentication } from "@src/functions/hooks/services/useAuthentication";
 
 export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
-  const { Login, loading } = useLogin();
+  const { Login, loading } = useAuthentication();
   const { theme } = useContext(ThemeContext);
   const {
     control,

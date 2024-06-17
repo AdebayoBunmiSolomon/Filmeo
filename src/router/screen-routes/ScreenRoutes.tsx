@@ -15,7 +15,12 @@ type DrawerScreen = {
   component: React.ComponentType<any>;
   label: string;
   iconName: string; // Specify iconName type as string
-  nestedNavigation: boolean;
+  nestedNavigation:
+    | {
+        name: string;
+        label: string;
+      }[]
+    | null;
 };
 
 export const drawerScreens: DrawerScreen[] = [
@@ -24,35 +29,44 @@ export const drawerScreens: DrawerScreen[] = [
     component: BottomTabs,
     label: "Home",
     iconName: "home",
-    nestedNavigation: false,
+    nestedNavigation: null,
   },
   {
     name: "Music",
     component: DrawerScreen.Music,
     label: "Music",
     iconName: "music",
-    nestedNavigation: false,
+    nestedNavigation: null,
   },
   {
     name: "Movies",
-    component: DrawerScreen.Movies,
-    label: "Movies",
-    iconName: "local-movies",
-    nestedNavigation: false,
+    component: DrawerScreen.SearchMovies,
+    label: "Search",
+    iconName: "search",
+    nestedNavigation: [
+      {
+        name: "SearchMovies",
+        label: "Movies",
+      },
+      {
+        name: "SearchPeople",
+        label: "People",
+      },
+    ],
   },
   {
     name: "Certifications",
     component: DrawerScreen.MovieCertification,
     label: "Certifications",
     iconName: "star",
-    nestedNavigation: false,
+    nestedNavigation: null,
   },
   {
     name: "WatchList",
     component: DrawerScreen.WatchList,
     label: "Watch List",
     iconName: "heart",
-    nestedNavigation: false,
+    nestedNavigation: null,
   },
 ];
 

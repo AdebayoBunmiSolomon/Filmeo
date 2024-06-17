@@ -20,6 +20,7 @@ import {
   useVisibility,
 } from "@src/hooks/state";
 import { CountryCodeSelection } from "./Country-Code-Selection";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 type appInputProps = {
   placeholder: string;
@@ -181,9 +182,11 @@ export const AppInput: React.FC<appInputProps> = ({
           ) : undefined}
         </View>
         {error && (
-          <AppText fontRegular sizeSmall red>
-            {error}
-          </AppText>
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
+            <AppText fontRegular sizeSmall red>
+              {error}
+            </AppText>
+          </Animated.View>
         )}
       </View>
       <Modal

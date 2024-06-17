@@ -21,3 +21,7 @@ export interface createUser {
   email: string;
   password: string;
 }
+
+export interface searchKeywordType {
+  keyword: string;
+}

@@ -26,3 +26,7 @@ export const registerFlowTwoFormSchema = yup.object().shape({
   confirmPassword: yup.string().required("Confirm password is required"),
   image: yup.string().required("image is required"),
 });
+
+export const searchKeywordSchema = yup.object().shape({
+  keyword: yup.string().required("Keyword is empty"),
+});

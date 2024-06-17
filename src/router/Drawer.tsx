@@ -1,14 +1,26 @@
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from "@react-navigation/drawer";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { AppButton, AppText } from "@src/components/shared";
 import { useAuthentication } from "@src/functions/hooks/services";
 import { DVH, DVW, font, moderateScale, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { useContext } from "react";
-import { Image, Platform, StyleSheet, View } from "react-native";
+import React, { useContext, useState } from "react";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { drawerScreens } from "./screen-routes/ScreenRoutes";
+import {
+  AntDesign,
+  FontAwesome,
+  Entypo,
+  MaterialIcons,
+  Ionicons,
+} from "@expo/vector-icons";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 type drawerProps = {
   props: any;
@@ -17,6 +29,7 @@ type drawerProps = {
 export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
   const { theme } = useContext(ThemeContext);
   const { logOut, loading } = useAuthentication();
+  const [expanded, setExpanded] = useState<boolean>(false);
   return (
     <View
       style={[
@@ -63,7 +76,108 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
             </View>
           </View>
           <View style={styles.list}>
-            <DrawerItemList {...props} />
+            {drawerScreens.map((screen, index) => (
+              <View key={index}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (screen.nestedNavigation !== null) {
+                      setExpanded(true);
+                    } else {
+                      setExpanded(false);
+                      props.navigation.navigate(screen.name);
+                    }
+                  }}>
+                  <View style={styles.drawerItem}>
+                    {screen.iconName === "music" ? (
+                      <Entypo
+                        name={screen.iconName}
+                        size={font.size20}
+                        color={theme === "dark" ? colors.gray : colors.black}
+                      />
+                    ) : screen.iconName === "local-movies" ? (
+                      <MaterialIcons
+                        name={screen.iconName}
+                        size={font.size20}
+                        color={theme === "dark" ? colors.gray : colors.black}
+                      />
+                    ) : screen.iconName === "search" ? (
+                      <FontAwesome
+                        name={screen.iconName}
+                        size={font.size20}
+                        color={theme === "dark" ? colors.gray : colors.black}
+                      />
+                    ) : (
+                      <AntDesign
+                        name={screen.iconName}
+                        size={font.size20}
+                        color={theme === "dark" ? colors.gray : colors.black}
+                      />
+                    )}
+                    <AppText
+                      sizeMedium
+                      fontRegular
+                      style={[
+                        styles.dropDownText,
+                        {
+                          color: theme === "dark" ? colors.gray : colors.black,
+                        },
+                      ]}>
+                      {screen.label}
+                    </AppText>
+                    {screen.nestedNavigation && (
+                      <MaterialIcons
+                        name={"keyboard-arrow-down"}
+                        size={moderateScale(30)}
+                        color={theme === "dark" ? colors.gray : colors.black}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                {expanded === true && screen.nestedNavigation && (
+                  <Animated.View
+                    style={styles.subMenu}
+                    entering={FadeIn}
+                    exiting={FadeOut}>
+                    {screen.nestedNavigation.map((item, subIndex) => (
+                      <TouchableOpacity
+                        key={subIndex}
+                        onPress={() => {
+                          props.navigation.navigate(item.name);
+                        }}>
+                        <View style={styles.subMenuItem}>
+                          {item.name === "SearchMovies" ? (
+                            <MaterialIcons
+                              name={"local-movies"}
+                              size={font.size20}
+                              color={
+                                theme === "dark" ? colors.gray : colors.black
+                              }
+                            />
+                          ) : (
+                            <Ionicons
+                              name={"people"}
+                              size={font.size20}
+                              color={
+                                theme === "dark" ? colors.gray : colors.black
+                              }
+                            />
+                          )}
+                          <AppText
+                            sizeMedium
+                            fontRegular
+                            style={{
+                              color:
+                                theme === "dark" ? colors.gray : colors.black,
+                            }}>
+                            {item.label}
+                          </AppText>
+                        </View>
+                      </TouchableOpacity>
+                    ))}
+                  </Animated.View>
+                )}
+              </View>
+            ))}
           </View>
         </>
       </DrawerContentScrollView>
@@ -114,5 +228,25 @@ const styles = StyleSheet.create({
     marginTop: DVH(-7),
     flexDirection: "row",
     alignItems: "center",
+  },
+  drawerItem: {
+    padding: moderateScale(16),
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: moderateScale(25),
+  },
+  subMenu: {
+    backgroundColor: "transparent",
+  },
+  subMenuItem: {
+    padding: moderateScale(15),
+    backgroundColor: colors.lightGray,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: moderateScale(25),
+  },
+  dropDownText: {
+    width: DVW(45),
   },
 });

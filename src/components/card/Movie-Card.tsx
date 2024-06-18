@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: layout.size10,
     marginRight: layout.size10,
-    width: DVW(50),
+    width: DVW(42),
   },
   loader: {
     position: "absolute",
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     borderRadius: layout.size16,
-    width: DVW(50),
+    width: DVW(42),
     height: DVH(30),
     overflow: "hidden",
     marginRight: layout.size10,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray,
   },
   img: {
-    width: DVW(50),
+    width: DVW(42),
     height: DVH(30),
   },
   likeButton: {

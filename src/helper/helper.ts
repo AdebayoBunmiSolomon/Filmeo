@@ -130,3 +130,13 @@ export const extractCertification = (
     })
   );
 };
+
+export const returnBooleanConstraintsForYesOrNoSelection = (
+  selection: string
+) => {
+  if (selection.toLowerCase() === "yes") {
+    return true;
+  } else {
+    return false;
+  }
+};

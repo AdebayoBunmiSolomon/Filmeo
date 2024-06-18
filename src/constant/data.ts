@@ -40,3 +40,12 @@ export const imagesArr = [
     uri: "https://images.unsplash.com/photo-1573273787173-0eb81a833b34",
   },
 ];
+
+export const includeAdult = [
+  {
+    name: "Yes",
+  },
+  {
+    name: "No",
+  },
+];

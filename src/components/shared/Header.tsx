@@ -40,7 +40,8 @@ export const Header: React.FC<headerProps> = ({
             gap: moderateScale(5),
           }}>
           <TouchableOpacity
-            onPress={() => (backHeader ? goBack() : openDrawer())}>
+            onPress={() => (backHeader ? goBack() : openDrawer())}
+            style={styles.btn}>
             {backHeader ? (
               <Ionicons
                 name='chevron-back'
@@ -70,10 +71,10 @@ export const Header: React.FC<headerProps> = ({
                 />
               </View>
             )}
+            <AppText fontBold sizeMedium mainColor>
+              {title}
+            </AppText>
           </TouchableOpacity>
-          <AppText fontBold sizeMedium mainColor>
-            {title}
-          </AppText>
           {showUsername && (
             <AppText sizeMedium fontBold black>
               {truncateText(`Adebayo Bunmi Solomon`)}
@@ -123,5 +124,10 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
+  },
+  btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: moderateScale(5),
   },
 });

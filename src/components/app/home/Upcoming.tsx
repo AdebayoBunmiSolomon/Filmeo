@@ -4,19 +4,17 @@ import { MovieCard } from "@src/components/card";
 import { Loader } from "@src/components/core";
 import { AppText } from "@src/components/shared";
 import { useGetUpcomingMovies } from "@src/functions/api/services/movies";
-import { useNextPrev } from "@src/hooks/state";
 import { layout, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { useContext, useEffect } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import React, { useContext } from "react";
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 
 export const UpcomingMovies: React.FC<{}> = () => {
   const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
-  const { getUpcomingMovies, upcomingMoviesData, loading } =
+  const { upcomingMoviesData, loading, prevBtn, nextBtn } =
     useGetUpcomingMovies();
-  const { prevBtn, nextBtn, pageNumber } = useNextPrev();
 
   const movieCardClick = (id: number) => {
     navigation.navigate("ViewMore", {
@@ -24,9 +22,6 @@ export const UpcomingMovies: React.FC<{}> = () => {
     });
   };
 
-  useEffect(() => {
-    getUpcomingMovies(pageNumber);
-  }, [pageNumber]);
   return (
     <View style={styles.container}>
       <AppText
@@ -59,17 +54,20 @@ export const UpcomingMovies: React.FC<{}> = () => {
             data={upcomingMoviesData}
             keyExtractor={(items) => items.id.toString()}
             renderItem={({ item, index }) => (
-              <View>
-                <MovieCard
-                  items={item}
-                  index={index}
-                  viewMore={() => movieCardClick(item.id)}
-                />
-              </View>
+              <MovieCard
+                items={item}
+                index={index}
+                viewMore={() => movieCardClick(item.id)}
+              />
             )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            // initialNumToRender={5}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={() =>
+              loading ? (
+                <ActivityIndicator size='large' color='#0000ff' />
+              ) : null
+            }
           />
         )}
       </View>

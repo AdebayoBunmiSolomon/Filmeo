@@ -4,7 +4,7 @@ import { useGetTrendingMovies } from "@src/functions/api/services/movies";
 import { layout, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { MovieCard } from "@src/components/card";
 import { ListButton } from "@src/common";
@@ -14,11 +14,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 export const TrendingMovies: React.FC<{}> = () => {
   const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
-  const { getTrendingMovies, loading, trendingMoviesData } =
-    useGetTrendingMovies();
-  const [timeWindow, setTimeWindow] = useState<string>(
-    trendingMovieTimeWindow[0].name
-  );
+  const { loading, trendingMoviesData, setTimeWindow } = useGetTrendingMovies();
 
   const movieCardClick = (id: number) => {
     navigation.navigate("ViewMore", {
@@ -26,9 +22,6 @@ export const TrendingMovies: React.FC<{}> = () => {
     });
   };
 
-  useEffect(() => {
-    getTrendingMovies(timeWindow);
-  }, [timeWindow]);
   return (
     <View style={styles.container}>
       <View style={styles.timeWindowContainer}>
@@ -68,17 +61,14 @@ export const TrendingMovies: React.FC<{}> = () => {
             data={trendingMoviesData}
             keyExtractor={(items) => items.id.toString()}
             renderItem={({ item, index }) => (
-              <View>
-                <MovieCard
-                  items={item}
-                  index={index}
-                  viewMore={() => movieCardClick(item.id)}
-                />
-              </View>
+              <MovieCard
+                items={item}
+                index={index}
+                viewMore={() => movieCardClick(item.id)}
+              />
             )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            // initialNumToRender={5}
           />
         )}
       </View>

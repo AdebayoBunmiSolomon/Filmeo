@@ -8,7 +8,7 @@ import { verticalScale } from "@src/resources";
 import { useGetGenre } from "@src/functions/api/services/movies";
 import { Error, ListButton } from "@src/common";
 
-export const Home = ({ navigation }: BottomTabBarScreenProps<"Home">) => {
+export const Home = ({}: BottomTabBarScreenProps<"Home">) => {
   const { genreData, loading, getMovieGenres, isError } = useGetGenre();
 
   useEffect(() => {
@@ -36,20 +36,22 @@ export const Home = ({ navigation }: BottomTabBarScreenProps<"Home">) => {
           headerTitle='Genres'
         />
       )}
-      <ScrollView
-        horizontal={false}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}>
-        <View
-          style={{
-            paddingBottom: verticalScale(75),
+      {!loading && (
+        <ScrollView
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            flexGrow: 1,
           }}>
-          <TrendingMovies />
-          <UpcomingMovies />
-        </View>
-      </ScrollView>
+          <View
+            style={{
+              paddingBottom: verticalScale(75),
+            }}>
+            <TrendingMovies />
+            <UpcomingMovies />
+          </View>
+        </ScrollView>
+      )}
     </Screen>
   );
 };

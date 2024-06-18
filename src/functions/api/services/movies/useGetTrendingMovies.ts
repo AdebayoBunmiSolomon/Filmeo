@@ -1,14 +1,18 @@
 import { header } from "@src/api/configuration/header";
 import { endpoint } from "@src/api/endpoints/endpoints";
 import { GetRequest } from "@src/api/request";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTrendingMoviesStore } from "../../store";
+import { trendingMovieTimeWindow } from "@src/constant/data";
 
 export const useGetTrendingMovies = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const { trendingMoviesData, setTrendingMoviesData } =
     useTrendingMoviesStore();
+  const [timeWindow, setTimeWindow] = useState<string>(
+    trendingMovieTimeWindow[0].name
+  );
 
   const getTrendingMovies = async (timeWindow: string) => {
     setLoading(true);
@@ -36,9 +40,15 @@ export const useGetTrendingMovies = () => {
     }
   };
 
+  useEffect(() => {
+    getTrendingMovies(timeWindow);
+  }, [timeWindow]);
+
   return {
     getTrendingMovies,
     loading,
     trendingMoviesData,
+    setTimeWindow,
+    isError,
   };
 };

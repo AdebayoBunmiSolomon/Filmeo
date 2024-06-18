@@ -19,5 +19,6 @@ export const useNextPrev = () => {
     nextBtn,
     prevBtn,
     pageNumber,
+    setPageNumber,
   };
 };

@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUpcomingMoviesStore } from "../../store";
 import { endpoint } from "@src/api/endpoints/endpoints";
 import { header } from "@src/api/configuration/header";
 import { GetRequest } from "@src/api/request";
+import { useNextPrev } from "@src/hooks/state";
 
 export const useGetUpcomingMovies = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const { upcomingMoviesData, setUpcomingMoviesData } =
     useUpcomingMoviesStore();
+  const { prevBtn, nextBtn, pageNumber } = useNextPrev();
 
   const getUpcomingMovies = async (pageNumber: number) => {
     setLoading(true);
@@ -36,10 +38,16 @@ export const useGetUpcomingMovies = () => {
     }
   };
 
+  useEffect(() => {
+    getUpcomingMovies(pageNumber);
+  }, [pageNumber]);
+
   return {
-    getUpcomingMovies,
     loading,
     upcomingMoviesData,
     isError,
+    prevBtn,
+    nextBtn,
+    pageNumber,
   };
 };

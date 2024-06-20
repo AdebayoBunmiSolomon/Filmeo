@@ -10,7 +10,7 @@ export const useGetUpcomingMovies = () => {
   const [isError, setIsError] = useState<boolean>(false);
   const { upcomingMoviesData, setUpcomingMoviesData } =
     useUpcomingMoviesStore();
-  const { prevBtn, nextBtn, pageNumber } = useNextPrev();
+  const { pageNumber, setPageNumber, nextBtn, prevBtn } = useNextPrev();
 
   const getUpcomingMovies = async (pageNumber: number) => {
     setLoading(true);
@@ -43,11 +43,13 @@ export const useGetUpcomingMovies = () => {
   }, [pageNumber]);
 
   return {
+    getUpcomingMovies,
     loading,
     upcomingMoviesData,
     isError,
-    prevBtn,
-    nextBtn,
     pageNumber,
+    setPageNumber,
+    nextBtn,
+    prevBtn,
   };
 };

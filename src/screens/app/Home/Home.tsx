@@ -26,31 +26,35 @@ export const Home = ({}: BottomTabBarScreenProps<"Home">) => {
           refreshBtnTitle='Click to refresh'
         />
       ) : (
-        <ListButton
-          setSelectedItem={(value) => {
-            console.log(value);
-          }}
-          loading={loading}
-          data={genreData}
-          showHeaderTitle
-          headerTitle='Genres'
-        />
+        <>
+          <ListButton
+            setSelectedItem={(value) => {
+              console.log(value);
+            }}
+            loading={loading}
+            data={genreData}
+            showHeaderTitle
+            headerTitle='Genres'
+          />
+        </>
       )}
       {!loading && (
-        <ScrollView
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}>
-          <View
-            style={{
-              paddingBottom: verticalScale(75),
+        <>
+          <ScrollView
+            horizontal={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              flexGrow: 1,
             }}>
-            <TrendingMovies />
-            <UpcomingMovies />
-          </View>
-        </ScrollView>
+            <View
+              style={{
+                paddingBottom: verticalScale(75),
+              }}>
+              <TrendingMovies />
+              <UpcomingMovies />
+            </View>
+          </ScrollView>
+        </>
       )}
     </Screen>
   );

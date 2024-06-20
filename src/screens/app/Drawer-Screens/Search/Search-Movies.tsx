@@ -132,6 +132,10 @@ export const SearchMovies = ({
           numColumns={2}
           horizontal={false}
           showsVerticalScrollIndicator={false}
+          maxToRenderPerBatch={2}
+          initialNumToRender={2}
+          windowSize={2}
+          updateCellsBatchingPeriod={100}
         />
       )}
       <View style={styles.slideControlContainer}>

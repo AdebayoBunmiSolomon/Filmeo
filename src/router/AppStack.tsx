@@ -1,17 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Drawer,
   drawerScreens,
   otherScreen,
   Stack,
 } from "./screen-routes/ScreenRoutes";
-import { ThemeContext } from "@src/resources/Theme";
 import { CustomDrawer } from "./Drawer";
 import * as SubItemDrawerScreens from "@src/screens/app/Drawer-Screens";
 
 const DrawerScreens = () => {
-  const { theme } = useContext(ThemeContext);
-  // const isDrawerOpen = useDrawerStatus() === "open";
   return (
     <Drawer.Navigator
       initialRouteName='Drawer-Screens'

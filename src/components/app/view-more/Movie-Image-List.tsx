@@ -52,7 +52,10 @@ export const MovieImageList: React.FC<movieImageList> = ({
           )}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          initialNumToRender={10}
+          maxToRenderPerBatch={2}
+          initialNumToRender={2}
+          windowSize={2}
+          updateCellsBatchingPeriod={100}
         />
       )}
       <ImageView

@@ -31,11 +31,11 @@ export const useCountryCodeSelection = () => {
     setIsLoading(true);
     try {
       const response = await fetchCountries(page, queryValue);
-      setData(response);
+      // setData(response);
       // // Simulating API call with delay // Implement fetchCountries function to fetch data from API
-      // const newData = response.slice((page - 1) * 10, page * 10);
-      // setData((prevData: any) => [...prevData, ...newData]); // Update data with filtered response
-      // setTotalPages(Math.ceil(response.length / 10));
+      const newData = response.slice((page - 1) * 10, page * 10);
+      setData((prevData: any) => [...prevData, ...newData]); // Update data with filtered response
+      setTotalPages(Math.ceil(response.length / 10));
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type searchMovieDataType = {
+export type searchMovieDataType = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];

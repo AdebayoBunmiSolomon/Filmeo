@@ -48,7 +48,7 @@ export const useGetTrendingMovies = () => {
     getTrendingMovies,
     loading,
     trendingMoviesData,
+    timeWindow,
     setTimeWindow,
-    isError,
   };
 };

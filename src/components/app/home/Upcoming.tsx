@@ -8,12 +8,12 @@ import { layout, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext } from "react";
-import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import { View, StyleSheet, FlatList, VirtualizedList } from "react-native";
 
 export const UpcomingMovies: React.FC<{}> = () => {
   const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
-  const { upcomingMoviesData, loading, prevBtn, nextBtn } =
+  const { upcomingMoviesData, loading, nextBtn, prevBtn } =
     useGetUpcomingMovies();
 
   const movieCardClick = (id: number) => {
@@ -21,7 +21,6 @@ export const UpcomingMovies: React.FC<{}> = () => {
       movieId: id,
     });
   };
-
   return (
     <View style={styles.container}>
       <AppText
@@ -54,20 +53,20 @@ export const UpcomingMovies: React.FC<{}> = () => {
             data={upcomingMoviesData}
             keyExtractor={(items) => items.id.toString()}
             renderItem={({ item, index }) => (
-              <MovieCard
-                items={item}
-                index={index}
-                viewMore={() => movieCardClick(item.id)}
-              />
+              <View>
+                <MovieCard
+                  items={item}
+                  index={index}
+                  viewMore={() => movieCardClick(item.id)}
+                />
+              </View>
             )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={() =>
-              loading ? (
-                <ActivityIndicator size='large' color='#0000ff' />
-              ) : null
-            }
+            maxToRenderPerBatch={2}
+            initialNumToRender={2}
+            windowSize={2}
+            updateCellsBatchingPeriod={100}
           />
         )}
       </View>

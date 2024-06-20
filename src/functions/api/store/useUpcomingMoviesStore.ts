@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type upcomingMoviesDataType = {
+export type upcomingMoviesDataType = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];

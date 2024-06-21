@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     gap: layout.size4,
   },
   textContainer: {
-    // width: DVW(92),
+    // width: DVW(82),
     paddingVertical: Platform.OS === "android" ? layout.size6 : layout.size14,
     paddingHorizontal: layout.size10,
     borderWidth: DVW(0.3),
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.source_sans_regular,
     fontSize: font.size16,
     // borderWidth: DVW(0.4),
-    // width: "92%",
+    // width: "50%",
     paddingVertical: layout.size2,
   },
   label: {

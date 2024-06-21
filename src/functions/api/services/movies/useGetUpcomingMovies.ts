@@ -39,7 +39,13 @@ export const useGetUpcomingMovies = () => {
   };
 
   useEffect(() => {
-    getUpcomingMovies(pageNumber);
+    const handler = setTimeout(() => {
+      getUpcomingMovies(pageNumber);
+    }, 200);
+
+    return () => {
+      clearTimeout(handler);
+    };
   }, [pageNumber]);
 
   return {

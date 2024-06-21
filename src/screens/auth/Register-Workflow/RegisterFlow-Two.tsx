@@ -19,7 +19,6 @@ import { Entypo } from "@expo/vector-icons";
 import { RegisterSheetModal } from "@src/components/auth/Register/Sheet-Modal";
 import { useSheetModalServices } from "@src/components/core/services";
 import { useImageStore } from "@src/components/core/store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const RegisterFlowTwo = ({
   navigation,

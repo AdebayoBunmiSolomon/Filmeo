@@ -49,3 +49,18 @@ export const includeAdult = [
     name: "No",
   },
 ];
+
+export const searchFilterButton = [
+  {
+    name: "Search Query",
+  },
+  {
+    name: "Include Adult",
+  },
+  {
+    name: "Release Year",
+  },
+  {
+    name: "Region",
+  },
+];

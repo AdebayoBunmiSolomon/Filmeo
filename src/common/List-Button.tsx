@@ -7,7 +7,7 @@ import React, { SetStateAction, useContext, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 interface IListButtonProps {
-  setSelectedItem: React.Dispatch<SetStateAction<string>>;
+  setSelectedItem: (value: string) => void;
   data: any;
   loading?: boolean;
   showHeaderTitle?: boolean;

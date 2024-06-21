@@ -41,7 +41,13 @@ export const useGetTrendingMovies = () => {
   };
 
   useEffect(() => {
-    getTrendingMovies(timeWindow);
+    const handler = setTimeout(() => {
+      getTrendingMovies(timeWindow);
+    }, 200);
+
+    return () => {
+      clearTimeout(handler);
+    };
   }, [timeWindow]);
 
   return {
@@ -50,5 +56,6 @@ export const useGetTrendingMovies = () => {
     trendingMoviesData,
     timeWindow,
     setTimeWindow,
+    isError,
   };
 };

@@ -14,8 +14,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 export const TrendingMovies: React.FC<{}> = () => {
   const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
-  const { loading, trendingMoviesData, setTimeWindow, timeWindow } =
-    useGetTrendingMovies();
+  const { loading, trendingMoviesData, setTimeWindow } = useGetTrendingMovies();
 
   const movieCardClick = (id: number) => {
     navigation.navigate("ViewMore", {

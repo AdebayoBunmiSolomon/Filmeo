@@ -30,3 +30,10 @@ export const registerFlowTwoFormSchema = yup.object().shape({
 export const searchKeywordSchema = yup.object().shape({
   keyword: yup.string().required("Keyword is empty"),
 });
+
+export const searchMovieCompFormSchema = yup.object().shape({
+  movieTitle: yup.string().required("movie title is required"),
+  includeAdult: yup.string().required("please include adult"),
+  releaseYear: yup.string().required("please select a release year"),
+  region: yup.string().required("region is not selected"),
+});

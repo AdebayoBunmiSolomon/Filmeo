@@ -34,7 +34,6 @@ export const useSearchMovies = () => {
       setLoading(true);
       if (status === 200) {
         setSearchMovieData(data.results);
-        console.log(data.results);
         setIsError(false);
       } else {
         setIsError(true);

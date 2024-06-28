@@ -25,3 +25,10 @@ export interface createUser {
 export interface searchKeywordType {
   keyword: string;
 }
+
+export interface searchMovieCompFormType {
+  movieTitle: string;
+  includeAdult: string;
+  releaseYear: string;
+  region: string;
+}

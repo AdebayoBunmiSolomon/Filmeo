@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Screen } from "../../../Screen";
 import { DrawerStackScreenProps } from "@src/router/Types";
 import { AppButton, AppInput, Header } from "@src/components/shared";
-import { Alert, FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { layout, moderateScale, verticalScale } from "@src/resources";
 import { FontAwesome } from "@expo/vector-icons";
 import { ThemeContext } from "@src/resources/Theme";

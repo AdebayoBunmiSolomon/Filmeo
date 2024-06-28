@@ -8,4 +8,5 @@ export enum endpoint {
   GET_YOUTUBE_KEY = "/3/movie/",
   GET_MOVIE_CERTIFICATIONS = "/3/certification/movie/list",
   GET_MOVIE_BY_SEARCH_QUERY = "/3/search/movie?",
+  GET_AVAILABLE_REGIONS = "/3/watch/providers/regions",
 }

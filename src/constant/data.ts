@@ -64,3 +64,12 @@ export const searchFilterButton = [
     name: "Region",
   },
 ];
+
+export const adultSelection = [
+  {
+    title: "Yes",
+  },
+  {
+    title: "No",
+  },
+];

@@ -29,6 +29,8 @@ type appInputProps = {
   dropDown?: boolean;
   onPressDropDown?: () => void;
   onSubmitEditing?: () => void;
+  editable?: boolean;
+  selectTextOnFocus?: boolean;
   passwordInput?: boolean;
   phoneNumberInput?: boolean;
   numberInput?: boolean;
@@ -45,6 +47,8 @@ export const AppInput: React.FC<appInputProps> = ({
   dropDown,
   onPressDropDown,
   onSubmitEditing,
+  editable,
+  selectTextOnFocus,
   passwordInput,
   phoneNumberInput,
   numberInput,
@@ -141,6 +145,8 @@ export const AppInput: React.FC<appInputProps> = ({
                 onFocus={() => onTextInputFocus()}
                 onBlur={() => onBlurInputFocus()}
                 secureTextEntry={passWordVisible}
+                editable={dropDown ? false : editable}
+                selectTextOnFocus={dropDown ? false : selectTextOnFocus}
               />
             </>
           ) : (
@@ -160,6 +166,8 @@ export const AppInput: React.FC<appInputProps> = ({
               {...props}
               onFocus={() => onTextInputFocus()}
               onBlur={() => onBlurInputFocus()}
+              editable={dropDown ? false : editable}
+              selectTextOnFocus={dropDown ? false : selectTextOnFocus}
             />
           )}
           {/* determine which icon button to be rendered on the right side */}
@@ -232,7 +240,7 @@ const styles = StyleSheet.create({
     borderWidth: DVW(0.3),
     borderRadius: layout.size10,
     flexDirection: "row",
-    // justifyContent: "space-between",
+    justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",
     gap: layout.size10,

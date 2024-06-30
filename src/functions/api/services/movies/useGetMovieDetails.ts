@@ -8,7 +8,7 @@ export const useGetMovieDetails = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const { movieDetails, setMovieDetails } = useMovieDetailsStore();
-  const [movieVideoKey, setMovieVideoKey] = useState<string>("");
+  const [movieVideoKey, setMovieVideoKey] = useState<any[]>([]);
 
   const getYouTubeVideoId = async (movieId: number) => {
     try {
@@ -18,7 +18,7 @@ export const useGetMovieDetails = () => {
         {}
       );
       if (status === 200) {
-        return data.results[0].key;
+        return data.results;
       } else {
         console.log("Error getting video id");
         return null;

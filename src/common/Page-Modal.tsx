@@ -68,6 +68,8 @@ const styles = StyleSheet.create({
     height: "100%",
     paddingTop: verticalScale(30),
     paddingHorizontal: moderateScale(10),
+    position: "absolute",
+    zIndex: 10,
   },
   closeBtn: {
     width: DVW(10),

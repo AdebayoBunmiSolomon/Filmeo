@@ -6,7 +6,12 @@ import { searchMovieCompFormSchema } from "@src/form/validation";
 import { DVW } from "@src/resources";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
+import {
+  Keyboard,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { AdultSelection } from "./Adult-Selection";
 import { RegionSelection } from "./Region-Selection";
 
@@ -66,104 +71,108 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
   return (
     <>
       <PageModal visible={visible} setVisible={() => setVisible(!visible)}>
-        <View style={styles.container}>
-          <Form title='Filter Form'>
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <AppInput
-                  placeholder='movie title'
-                  value={field.value}
-                  label=''
-                  onChangeText={(value) => {
-                    field.onChange(value);
-                  }}
-                  error={errors?.movieTitle?.message}
-                  editable={false}
-                  selectTextOnFocus={false}
-                />
-              )}
-              name='movieTitle'
-              defaultValue=''
-            />
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.container}>
+            <Form title='Filter Form'>
+              <Controller
+                control={control}
+                render={({ field }) => (
                   <AppInput
-                    placeholder='include adult'
+                    placeholder='movie title'
                     value={field.value}
                     label=''
                     onChangeText={(value) => {
                       field.onChange(value);
                     }}
-                    error={errors?.includeAdult?.message}
-                    dropDown
-                    onPressDropDown={() => setShowAdultSel(!showAdultSel)}
-                    inputStyle={{
-                      width: DVW(81),
-                    }}
+                    error={errors?.movieTitle?.message}
+                    editable={false}
+                    selectTextOnFocus={false}
                   />
-                  <AdultSelection
-                    showSelection={showAdultSel}
-                    setSelectedItem={(value) => setSelectedItem(value)}
-                    setShowSelection={(value) => setShowAdultSel(value)}
-                  />
-                </>
-              )}
-              name='includeAdult'
-              defaultValue=''
-            />
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <AppInput
-                  placeholder='release year'
-                  value={field.value}
-                  label=''
-                  numberInput
-                  onChangeText={(value) => field.onChange(value)}
-                  error={errors?.releaseYear?.message}
-                />
-              )}
-              name='releaseYear'
-              defaultValue=''
-            />
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <>
+                )}
+                name='movieTitle'
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <AppInput
+                      placeholder='include adult'
+                      value={field.value}
+                      label=''
+                      onChangeText={(value) => {
+                        field.onChange(value);
+                      }}
+                      error={errors?.includeAdult?.message}
+                      dropDown
+                      onPressDropDown={() => setShowAdultSel(!showAdultSel)}
+                      inputStyle={{
+                        width: DVW(81),
+                      }}
+                    />
+                    <AdultSelection
+                      showSelection={showAdultSel}
+                      setSelectedItem={(value) => setSelectedItem(value)}
+                      setShowSelection={(value) => setShowAdultSel(value)}
+                    />
+                  </>
+                )}
+                name='includeAdult'
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({ field }) => (
                   <AppInput
-                    placeholder='region'
+                    placeholder='release year'
                     value={field.value}
                     label=''
+                    numberInput
                     onChangeText={(value) => field.onChange(value)}
-                    error={errors?.region?.message}
-                    dropDown
-                    onPressDropDown={() => setShowRegionSel(!showRegionSel)}
-                    inputStyle={{
-                      width: DVW(81),
-                    }}
+                    error={errors?.releaseYear?.message}
                   />
-                  <RegionSelection
-                    showSelection={showRegionSel}
-                    setShowSelection={(value) => setShowRegionSel(value)}
-                    setSelectedItem={(values) => setSelectedRegionItem(values)}
-                  />
-                </>
-              )}
-              name='region'
-              defaultValue=''
-            />
-            <AppButton
-              title='Continue'
-              onPress={handleSubmit(onSubmit)}
-              style={{
-                width: DVW(80),
-              }}
-            />
-          </Form>
-        </View>
+                )}
+                name='releaseYear'
+                defaultValue=''
+              />
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <AppInput
+                      placeholder='region'
+                      value={field.value}
+                      label=''
+                      onChangeText={(value) => field.onChange(value)}
+                      error={errors?.region?.message}
+                      dropDown
+                      onPressDropDown={() => setShowRegionSel(!showRegionSel)}
+                      inputStyle={{
+                        width: DVW(81),
+                      }}
+                    />
+                    <RegionSelection
+                      showSelection={showRegionSel}
+                      setShowSelection={(value) => setShowRegionSel(value)}
+                      setSelectedItem={(values) =>
+                        setSelectedRegionItem(values)
+                      }
+                    />
+                  </>
+                )}
+                name='region'
+                defaultValue=''
+              />
+              <AppButton
+                title='Continue'
+                onPress={handleSubmit(onSubmit)}
+                style={{
+                  width: DVW(80),
+                }}
+              />
+            </Form>
+          </View>
+        </TouchableWithoutFeedback>
       </PageModal>
     </>
   );

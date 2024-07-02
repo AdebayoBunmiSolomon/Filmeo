@@ -75,7 +75,7 @@ export const ViewMore = ({
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,
-              paddingBottom: verticalScale(50),
+              paddingBottom: verticalScale(20),
             }}
             showsVerticalScrollIndicator={false}>
             <MovieImage
@@ -96,7 +96,6 @@ export const ViewMore = ({
                 {movieDetails.overview}
               </AppText>
             </View>
-            <MovieReview movieId={movieId} />
             <View style={styles.movieCastAndImageContainer}>
               <MovieImageList
                 movieImageData={movieImageData}
@@ -110,6 +109,7 @@ export const ViewMore = ({
               />
             </View>
           </ScrollView>
+          <MovieReview movieId={movieId} />
           <VideoThriller videoKey={movieVideoKey} />
         </View>
       )}

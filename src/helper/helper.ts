@@ -154,15 +154,32 @@ export const calculateAge = (yearOfBirth: number) => {
  * converts selected date values from ISo type i.e. 2024-04-19T00:00:00.000Z to HTML date value i.e. 2024-04-19
  */
 export const convertDateTimeISOtoHTMLDate = (value: string) => {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   const dateString = value;
   const dateObject = new Date(dateString);
 
   // Extract year, month, and day components
   const year = dateObject.getFullYear();
-  const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so add 1
+  //const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so add 1
+  const monthIndex = dateObject.getMonth();
+  const monthName = monthNames[monthIndex];
   const day = String(dateObject.getDate()).padStart(2, "0");
 
   // Format as YYYY-MM-DD
-  const formattedDate = `${year}-${month}-${day}`;
+  const formattedDate = `${year}-${monthName}-${day}`;
   return formattedDate;
 };

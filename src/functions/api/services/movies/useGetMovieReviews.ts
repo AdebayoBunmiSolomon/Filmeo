@@ -20,7 +20,6 @@ export const useGetMovieReviews = () => {
       );
       if (status === 200) {
         setMovieReviewData(data.results);
-        console.log(data.results);
         setIsError(false);
       } else {
         console.log("Error getting movie reviews");

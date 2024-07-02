@@ -85,4 +85,8 @@ export const otherScreen: ScreenConfig[] = [
     screenName: "Test",
     component: RootStackScreen.Test,
   },
+  {
+    screenName: "CastInformation",
+    component: RootStackScreen.CastInfo,
+  },
 ];

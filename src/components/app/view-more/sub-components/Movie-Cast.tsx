@@ -16,9 +16,14 @@ import {
 type movieCastSubCompProps = {
   index: number;
   item: any;
+  onPress: () => void;
 };
 
-const MovieCastSubComp: React.FC<movieCastSubCompProps> = ({ index, item }) => {
+const MovieCastSubComp: React.FC<movieCastSubCompProps> = ({
+  index,
+  item,
+  onPress,
+}) => {
   const { theme } = useContext(ThemeContext);
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
@@ -50,7 +55,9 @@ const MovieCastSubComp: React.FC<movieCastSubCompProps> = ({ index, item }) => {
             onLoadEnd={() => handleImageLoadEnd(index)}
           />
         </View>
-        <TouchableOpacity style={styles.nameTextContainer}>
+        <TouchableOpacity
+          style={styles.nameTextContainer}
+          onPress={() => onPress()}>
           <AppText fontSemibold sizeSmall mainColor>
             {truncateText(item.name)}
           </AppText>

@@ -9,4 +9,6 @@ export enum endpoint {
   GET_MOVIE_CERTIFICATIONS = "/3/certification/movie/list",
   GET_MOVIE_BY_SEARCH_QUERY = "/3/search/movie?",
   GET_AVAILABLE_REGIONS = "/3/watch/providers/regions",
+  GET_CAST_INFO = "/3/person/",
+  GET_MOVIE_REVIEW = "/3/movie/",
 }

@@ -140,3 +140,29 @@ export const returnBooleanConstraintsForYesOrNoSelection = (
     return false;
   }
 };
+
+export const calculateAge = (yearOfBirth: number) => {
+  const date = new Date();
+  const castYOB = yearOfBirth;
+  const currYear = date.getFullYear();
+  const DOB = currYear - castYOB;
+  return DOB.toString();
+};
+
+/**
+ *
+ * converts selected date values from ISo type i.e. 2024-04-19T00:00:00.000Z to HTML date value i.e. 2024-04-19
+ */
+export const convertDateTimeISOtoHTMLDate = (value: string) => {
+  const dateString = value;
+  const dateObject = new Date(dateString);
+
+  // Extract year, month, and day components
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so add 1
+  const day = String(dateObject.getDate()).padStart(2, "0");
+
+  // Format as YYYY-MM-DD
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+};

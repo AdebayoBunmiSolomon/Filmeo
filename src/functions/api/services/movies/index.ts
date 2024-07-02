@@ -6,3 +6,4 @@ export * from "./useGetMovieImages";
 export * from "./useGetMovieCast";
 export * from "./useGetMovieCertification";
 export * from "./useFetchMovieThriller";
+export * from "./useGetMovieReviews";

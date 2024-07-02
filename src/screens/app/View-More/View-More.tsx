@@ -19,12 +19,16 @@ import {
   MovieCast,
   MovieImage,
   MovieImageList,
+  MovieReview,
   MovieTopDetails,
   VideoThriller,
 } from "@src/components/app/view-more";
 import { useIsFocused } from "@react-navigation/native";
 
-export const ViewMore = ({ route }: RootStackScreenProps<"ViewMore">) => {
+export const ViewMore = ({
+  route,
+  navigation,
+}: RootStackScreenProps<"ViewMore">) => {
   const { theme } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const { movieId } = route.params;
@@ -42,6 +46,7 @@ export const ViewMore = ({ route }: RootStackScreenProps<"ViewMore">) => {
       getMovieCast(movieId);
     }
   }, [isFocused, movieId]);
+
   return (
     <Screen>
       <View style={styles.headerContainer}>
@@ -91,6 +96,7 @@ export const ViewMore = ({ route }: RootStackScreenProps<"ViewMore">) => {
                 {movieDetails.overview}
               </AppText>
             </View>
+            <MovieReview movieId={movieId} />
             <View style={styles.movieCastAndImageContainer}>
               <MovieImageList
                 movieImageData={movieImageData}

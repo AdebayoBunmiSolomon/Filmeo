@@ -1,4 +1,4 @@
-import { DVW, layout, moderateScale } from "@src/resources";
+import { DVW, layout, moderateScale, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,7 +31,10 @@ export const Header: React.FC<headerProps> = ({
     navigation.goBack();
   };
   return (
-    <>
+    <View
+      style={{
+        paddingBottom: verticalScale(10),
+      }}>
       <View style={styles.headerContainer}>
         <View
           style={{
@@ -100,7 +103,7 @@ export const Header: React.FC<headerProps> = ({
           </React.Fragment>
         )}
       </View>
-    </>
+    </View>
   );
 };
 

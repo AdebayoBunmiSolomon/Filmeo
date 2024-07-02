@@ -2,7 +2,7 @@ import { layout } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, StatusBar, Platform } from "react-native";
 
 type screenProps = {
   children: React.ReactNode;
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     width: "92%",
     height: "100%",
     alignSelf: "center",
-    paddingTop: layout.size50,
+    paddingTop:
+      Platform.OS === "android" ? StatusBar.currentHeight : layout.size50,
   },
 });

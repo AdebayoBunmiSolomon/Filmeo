@@ -23,6 +23,9 @@ export interface RootStackParamList extends ParamListBase {
     movieId: number;
   };
   Test: undefined;
+  CastInformation: {
+    castId: number;
+  };
 }
 
 export type RootStackScreenProps<ScreenName extends keyof RootStackParamList> =

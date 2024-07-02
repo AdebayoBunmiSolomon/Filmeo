@@ -6,3 +6,5 @@ export * from "./useMovieImageStore";
 export * from "./useMovieCertificationStore";
 export * from "./useSearchMovieStore";
 export * from "./useAvailableRegionStore";
+export * from "./useCastInfoStore";
+export * from "./useMovieReviewStore";

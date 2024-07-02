@@ -5,6 +5,7 @@ import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import MovieCastSubComp from "./sub-components/Movie-Cast";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 type movieCastProps = {
   movieCastData: any[];
@@ -18,6 +19,13 @@ export const MovieCast: React.FC<movieCastProps> = ({
   loading,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const navigation: NavigationProp<any> = useNavigation();
+
+  const navigateToCastInformation = (id: number) => {
+    navigation.navigate("CastInformation", {
+      castId: id,
+    });
+  };
 
   return (
     <>
@@ -41,7 +49,11 @@ export const MovieCast: React.FC<movieCastProps> = ({
           keyExtractor={(items, index) => items.id + index.toString()}
           renderItem={({ item, index }) => (
             <>
-              <MovieCastSubComp item={item} index={index} />
+              <MovieCastSubComp
+                item={item}
+                index={index}
+                onPress={() => navigateToCastInformation(item.id)}
+              />
             </>
           )}
           horizontal={true}

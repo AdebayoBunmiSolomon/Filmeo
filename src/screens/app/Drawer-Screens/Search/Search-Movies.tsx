@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Screen } from "../../../Screen";
 import { DrawerStackScreenProps } from "@src/router/Types";
-import { AppButton, AppInput, Header } from "@src/components/shared";
-import { FlatList, StyleSheet, View } from "react-native";
-import { layout, moderateScale, verticalScale } from "@src/resources";
+import { AppButton, AppInput, AppText, Header } from "@src/components/shared";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { DVW, layout, moderateScale, verticalScale } from "@src/resources";
 import { FontAwesome } from "@expo/vector-icons";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
@@ -11,9 +11,9 @@ import { Controller, useForm } from "react-hook-form";
 import { searchKeywordType } from "@src/form/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { searchKeywordSchema } from "@src/form/validation";
-import { Error, ListButton, NextButton, PrevButton } from "@src/common";
-import { searchFilterButton } from "@src/constant/data";
+import { Error, NextButton, PrevButton } from "@src/common";
 import { useSearchMovies } from "@src/functions/api/services/search";
+import { Ionicons } from "@expo/vector-icons";
 import { Loader } from "@src/components/core";
 import { MovieCard } from "@src/components/card";
 import { SearchMoviesComp } from "@src/components/app/search";
@@ -91,13 +91,26 @@ export const SearchMovies = ({
           }
           isLoading={loading}
         />
-        <ListButton
-          data={searchFilterButton}
-          setSelectedItem={() => setShowSearchMovies(!showSearchMovie)}
-          showHeaderTitle
-          headerTitle='Search Filter'
-          loading={false}
-        />
+        <View style={styles.filterContainer}>
+          <AppText fontRegular sizeMedium gray>
+            Filter
+          </AppText>
+          <TouchableOpacity
+            onPress={() => setShowSearchMovies(!showSearchMovie)}
+            style={[
+              styles.filterBtn,
+              {
+                backgroundColor:
+                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor,
+              },
+            ]}>
+            <Ionicons
+              name='filter-circle'
+              size={moderateScale(20)}
+              color={colors.white}
+            />
+          </TouchableOpacity>
+        </View>
         {loading ? (
           <Loader
             sizes='large'
@@ -162,5 +175,17 @@ const styles = StyleSheet.create({
     width: "100%",
     zIndex: 10,
     bottom: verticalScale(20),
+  },
+  filterContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  filterBtn: {
+    width: DVW(8),
+    paddingVertical: moderateScale(5),
+    borderRadius: layout.size50,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

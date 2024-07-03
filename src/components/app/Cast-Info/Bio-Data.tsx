@@ -12,14 +12,18 @@ type bioDataProps = {
 
 export const BioData: React.FC<bioDataProps> = ({ castData }) => {
   return (
-    <>
+    <View
+      style={{
+        gap: moderateScale(10),
+        paddingBottom: verticalScale(20),
+      }}>
       <View style={styles.castDetailsTopContainer}>
-        <AppText fontBold sizeLarge style={styles.castName}>
+        <AppText fontBold sizeLarge style={styles.castName} mainColor>
           {castData.name}
         </AppText>
       </View>
       <View style={styles.bioData}>
-        <AppText fontSemibold sizeBody gray>
+        <AppText fontSemibold sizeBody>
           Gender:
         </AppText>
         <AppText fontLight sizeMedium>
@@ -27,7 +31,7 @@ export const BioData: React.FC<bioDataProps> = ({ castData }) => {
         </AppText>
       </View>
       <View style={styles.bioData}>
-        <AppText fontSemibold sizeBody gray>
+        <AppText fontSemibold sizeBody>
           Birthday:
         </AppText>
         <AppText fontLight sizeBody>
@@ -35,7 +39,7 @@ export const BioData: React.FC<bioDataProps> = ({ castData }) => {
         </AppText>
       </View>
       <View style={styles.bioData}>
-        <AppText fontSemibold sizeBody gray>
+        <AppText fontSemibold sizeBody>
           Birth Place:
         </AppText>
         <AppText fontLight sizeBody>
@@ -43,7 +47,7 @@ export const BioData: React.FC<bioDataProps> = ({ castData }) => {
         </AppText>
       </View>
       <View style={styles.bioData}>
-        <AppText fontSemibold sizeBody gray>
+        <AppText fontSemibold sizeBody>
           Dead:
         </AppText>
         <AppText
@@ -56,7 +60,7 @@ export const BioData: React.FC<bioDataProps> = ({ castData }) => {
         </AppText>
       </View>
       <View style={styles.bioData}>
-        <AppText fontSemibold sizeBody gray>
+        <AppText fontSemibold sizeBody>
           Age:
         </AppText>
         <AppText fontLight sizeBody>
@@ -64,22 +68,14 @@ export const BioData: React.FC<bioDataProps> = ({ castData }) => {
         </AppText>
       </View>
       <View style={styles.bioData}>
-        <AppText fontSemibold sizeBody gray>
+        <AppText fontSemibold sizeBody>
           Known For:
         </AppText>
         <AppText fontLight sizeBody>
           {castData.known_for_department}
         </AppText>
       </View>
-      <View style={styles.biographyContainer}>
-        <AppText fontSemibold sizeBody gray>
-          Biography:
-        </AppText>
-        <AppText fontLight sizeBody style={styles.biographyText}>
-          {castData.biography}
-        </AppText>
-      </View>
-    </>
+    </View>
   );
 };
 
@@ -96,12 +92,7 @@ const styles = StyleSheet.create({
   },
   bioData: {
     flexDirection: "row",
+    justifyContent: "space-between",
     gap: moderateScale(10),
-  },
-  biographyContainer: {
-    flexDirection: "column",
-  },
-  biographyText: {
-    textAlign: "justify",
   },
 });

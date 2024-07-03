@@ -1,10 +1,14 @@
 import { IMAGE_BASE_URL } from "@env";
 import { Error } from "@src/common";
-import { BioData } from "@src/components/app/Cast-Info";
+import {
+  BioData,
+  BioGraphy,
+  CombinedCredits,
+} from "@src/components/app/Cast-Info";
 import { Loader } from "@src/components/core";
 import { Header } from "@src/components/shared";
 import { useGetCastInformation } from "@src/functions/api/services/movies/useGetCastInfo";
-import { DVH, DVW, moderateScale, verticalScale } from "@src/resources";
+import { DVH, DVW, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import { RootStackScreenProps } from "@src/router/Types";
@@ -19,6 +23,7 @@ export const CastInfo = ({
   const { getCastInfoData, castInfoData, loading, isError } =
     useGetCastInformation();
   const { theme } = useContext(ThemeContext);
+  console.log(castId);
 
   useEffect(() => {
     getCastInfoData(castId);
@@ -38,38 +43,41 @@ export const CastInfo = ({
           onRefresh={() => getCastInfoData(castId)}
         />
       ) : (
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            paddingBottom: verticalScale(40),
-          }}>
-          <ScrollView
+        <>
+          <View
             style={{
-              flexGrow: 1,
-            }}
-            showsVerticalScrollIndicator={false}>
-            <View
-              style={[
-                styles.imgContainer,
-                {
-                  borderColor:
-                    theme === "dark"
-                      ? colors.primaryColor2
-                      : colors.primaryColor,
-                },
-              ]}>
-              <Image
-                source={{
-                  uri: `${IMAGE_BASE_URL}${castInfoData.profile_path}`,
-                }}
-                style={styles.image}
-                resizeMode='cover'
-              />
-            </View>
-            <BioData castData={castInfoData} />
-          </ScrollView>
-        </View>
+              height: "70%",
+              paddingBottom: verticalScale(90),
+            }}>
+            <ScrollView
+              style={{
+                flexGrow: 1,
+              }}
+              showsVerticalScrollIndicator={false}>
+              <View
+                style={[
+                  styles.imgContainer,
+                  {
+                    borderColor:
+                      theme === "dark"
+                        ? colors.primaryColor2
+                        : colors.primaryColor,
+                  },
+                ]}>
+                <Image
+                  source={{
+                    uri: `${IMAGE_BASE_URL}${castInfoData.profile_path}`,
+                  }}
+                  style={styles.image}
+                  resizeMode='cover'
+                />
+              </View>
+              <BioData castData={castInfoData} />
+              <CombinedCredits castId={castId} />
+            </ScrollView>
+          </View>
+          <BioGraphy castData={castInfoData} />
+        </>
       )}
     </Screen>
   );
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     width: DVW(75),
-    height: Platform.OS === "ios" ? DVH(40) : DVH(45),
+    height: Platform.OS === "ios" ? DVH(35) : DVH(35),
     marginTop: verticalScale(15),
     borderWidth: DVW(0.3),
     alignSelf: "center",

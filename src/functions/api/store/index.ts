@@ -8,3 +8,4 @@ export * from "./useSearchMovieStore";
 export * from "./useAvailableRegionStore";
 export * from "./useCastInfoStore";
 export * from "./useMovieReviewStore";
+export * from "./useCombinedMovieCreditsStore";

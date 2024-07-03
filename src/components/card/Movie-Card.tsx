@@ -1,5 +1,5 @@
 import { IMAGE_BASE_URL } from "@env";
-import { truncateText } from "@src/helper/helper";
+import { getMovieTitle, truncateText } from "@src/helper/helper";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext } from "react";
@@ -10,6 +10,7 @@ import { DVH, DVW, layout, moderateScale } from "@src/resources";
 import { useLikedMovie } from "@src/functions/hooks/services";
 import { Loader } from "../core";
 import { LikeButton } from "@src/common";
+// import { Title } from "@src/functions/api/store";
 
 type movieCardProps = {
   items: any;
@@ -26,6 +27,7 @@ export const MovieCard: React.FC<movieCardProps> = ({
     useImageLoader();
   const { theme } = useContext(ThemeContext);
   const { likeAMovieToWatchList, likeMovieLoading } = useLikedMovie();
+  // const title: Title = items.title;
 
   return (
     <>

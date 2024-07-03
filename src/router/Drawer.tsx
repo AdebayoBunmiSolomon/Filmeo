@@ -19,6 +19,7 @@ import {
   Entypo,
   MaterialIcons,
   Ionicons,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
@@ -153,9 +154,17 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
                                 theme === "dark" ? colors.gray : colors.black
                               }
                             />
-                          ) : (
+                          ) : item.name === "SearchPeople" ? (
                             <Ionicons
                               name={"people"}
+                              size={font.size20}
+                              color={
+                                theme === "dark" ? colors.gray : colors.black
+                              }
+                            />
+                          ) : (
+                            <MaterialCommunityIcons
+                              name='google-circles-extended'
                               size={font.size20}
                               color={
                                 theme === "dark" ? colors.gray : colors.black

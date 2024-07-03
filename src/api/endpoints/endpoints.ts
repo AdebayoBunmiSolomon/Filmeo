@@ -12,4 +12,5 @@ export enum endpoint {
   GET_CAST_INFO = "/3/person/",
   GET_MOVIE_REVIEW = "/3/movie/",
   GET_COMBINED_MOVIE_CREDITS_OF_CAST = "/3/person/",
+  GET_MOVIE_BY_MULTI_SEARCH = "/3/search/movie?",
 }

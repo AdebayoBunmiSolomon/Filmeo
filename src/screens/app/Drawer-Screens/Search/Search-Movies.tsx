@@ -32,7 +32,6 @@ export const SearchMovies = ({
     nextBtn,
     pageNumber,
     setQueryString,
-    queryString,
     include_adult,
   } = useSearchMovies();
 
@@ -157,7 +156,6 @@ export const SearchMovies = ({
       <SearchMoviesComp
         visible={showSearchMovie}
         setVisible={() => setShowSearchMovies(!showSearchMovie)}
-        searchQueryValue={queryString}
       />
     </>
   );

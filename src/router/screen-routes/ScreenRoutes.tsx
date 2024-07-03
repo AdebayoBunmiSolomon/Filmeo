@@ -52,6 +52,10 @@ export const drawerScreens: DrawerScreen[] = [
         name: "SearchPeople",
         label: "People",
       },
+      {
+        name: "ExtensiveSearch",
+        label: "Extensive Search",
+      },
     ],
   },
   {

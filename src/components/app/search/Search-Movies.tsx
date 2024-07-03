@@ -14,22 +14,22 @@ import {
 } from "react-native";
 import { AdultSelection } from "./Adult-Selection";
 import { RegionSelection } from "./Region-Selection";
+import { useMultiSearchMovie } from "@src/functions/api/services/movies";
 
 type searchMoviesCompProps = {
   visible: boolean;
   setVisible: (value: React.SetStateAction<boolean>) => void;
-  searchQueryValue: string;
 };
 
 export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
   visible,
   setVisible,
-  searchQueryValue,
 }) => {
   const [showAdultSel, setShowAdultSel] = useState<boolean>(false);
   const [showRegionSel, setShowRegionSel] = useState<boolean>(false);
   const [selectedRegionItem, setSelectedRegionItem] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<string>("");
+  const { multiSearchMovie, loading, isError } = useMultiSearchMovie();
   const {
     control,
     handleSubmit,
@@ -44,15 +44,9 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
   const onSubmit = (data: searchMovieCompFormType) => {
     if (data) {
       console.log(data);
+      multiSearchMovie(data.movieTitle, data.includeAdult, 1);
     }
   };
-
-  useEffect(() => {
-    if (searchQueryValue) {
-      setValue("movieTitle", searchQueryValue);
-      clearErrors("movieTitle");
-    }
-  }, [searchQueryValue]);
 
   useEffect(() => {
     if (selectedItem) {
@@ -85,8 +79,6 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
                       field.onChange(value);
                     }}
                     error={errors?.movieTitle?.message}
-                    editable={false}
-                    selectTextOnFocus={false}
                   />
                 )}
                 name='movieTitle'
@@ -169,6 +161,7 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
                 style={{
                   width: DVW(80),
                 }}
+                isLoading={loading}
               />
             </Form>
           </View>

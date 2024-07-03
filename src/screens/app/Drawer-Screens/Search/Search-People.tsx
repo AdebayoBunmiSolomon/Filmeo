@@ -13,8 +13,6 @@ import { searchKeywordSchema } from "@src/form/validation";
 import { GetRequest } from "@src/api/request";
 import { endpoint } from "@src/api/endpoints/endpoints";
 import { header } from "@src/api/configuration/header";
-import { MovieCard } from "@src/components/card";
-import { Loader } from "@src/components/core";
 import { upcomingMoviesDataType } from "@src/functions/api/store";
 import { useNextPrev } from "@src/hooks/state";
 

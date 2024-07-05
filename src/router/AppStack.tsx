@@ -34,6 +34,10 @@ const DrawerScreens = () => {
         name={"SearchPeople"}
         component={SubItemDrawerScreens.SearchPeople}
       />
+      <Drawer.Screen
+        name={"ExtensiveSearch"}
+        component={SubItemDrawerScreens.ExtensiveSearch}
+      />
     </Drawer.Navigator>
   );
 };

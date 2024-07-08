@@ -32,3 +32,8 @@ export interface searchMovieCompFormType {
   releaseYear: string;
   region: string;
 }
+
+export interface xtensiveSearchMovieCompFormType {
+  movieTitle: string;
+  includeAdult: string;
+}

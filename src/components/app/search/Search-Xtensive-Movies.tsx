@@ -1,8 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, PageModal } from "@src/common";
 import { AppButton, AppInput } from "@src/components/shared";
-import { searchMovieCompFormType } from "@src/form/types";
-import { searchMovieCompFormSchema } from "@src/form/validation";
+import { xtensiveSearchMovieCompFormType } from "@src/form/types";
+import { xTensiveSearchMovieCompFormSchema } from "@src/form/validation";
 import { DVW } from "@src/resources";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -13,38 +13,34 @@ import {
   View,
 } from "react-native";
 import { AdultSelection } from "./Adult-Selection";
-import { RegionSelection } from "./Region-Selection";
 import { useMultiSearchMovie } from "@src/functions/api/services/movies";
 
-type searchMoviesCompProps = {
+type searchXtensiveMoviesCompProps = {
   visible: boolean;
   setVisible: (value: React.SetStateAction<boolean>) => void;
 };
 
-export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
-  visible,
-  setVisible,
-}) => {
+export const SearchXtensiveMoviesComp: React.FC<
+  searchXtensiveMoviesCompProps
+> = ({ visible, setVisible }) => {
   const [showAdultSel, setShowAdultSel] = useState<boolean>(false);
-  const [showRegionSel, setShowRegionSel] = useState<boolean>(false);
-  const [selectedRegionItem, setSelectedRegionItem] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<string>("");
-  const { multiSearchMovie, loading } = useMultiSearchMovie();
+  const { xTensiveSearchMovie, loading } = useMultiSearchMovie();
   const {
     control,
     handleSubmit,
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm<searchMovieCompFormType>({
+  } = useForm<xtensiveSearchMovieCompFormType>({
     mode: "onChange",
-    resolver: yupResolver(searchMovieCompFormSchema),
+    resolver: yupResolver(xTensiveSearchMovieCompFormSchema),
   });
 
-  const onSubmit = (data: searchMovieCompFormType) => {
+  const onSubmit = (data: xtensiveSearchMovieCompFormType) => {
     if (data) {
       console.log(data);
-      multiSearchMovie(data.movieTitle, data.includeAdult, 1);
+      xTensiveSearchMovie();
     }
   };
 
@@ -54,13 +50,6 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
       clearErrors("includeAdult");
     }
   }, [selectedItem]);
-
-  useEffect(() => {
-    if (selectedRegionItem) {
-      setValue("region", selectedRegionItem);
-      clearErrors("region");
-    }
-  }, [selectedRegionItem]);
 
   return (
     <>
@@ -110,49 +99,6 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
                   </>
                 )}
                 name='includeAdult'
-                defaultValue=''
-              />
-              <Controller
-                control={control}
-                render={({ field }) => (
-                  <AppInput
-                    placeholder='release year'
-                    value={field.value}
-                    label=''
-                    numberInput
-                    onChangeText={(value) => field.onChange(value)}
-                    error={errors?.releaseYear?.message}
-                  />
-                )}
-                name='releaseYear'
-                defaultValue=''
-              />
-              <Controller
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <AppInput
-                      placeholder='region'
-                      value={field.value}
-                      label=''
-                      onChangeText={(value) => field.onChange(value)}
-                      error={errors?.region?.message}
-                      dropDown
-                      onPressDropDown={() => setShowRegionSel(!showRegionSel)}
-                      inputStyle={{
-                        width: DVW(81),
-                      }}
-                    />
-                    <RegionSelection
-                      showSelection={showRegionSel}
-                      setShowSelection={(value) => setShowRegionSel(value)}
-                      setSelectedItem={(values) =>
-                        setSelectedRegionItem(values)
-                      }
-                    />
-                  </>
-                )}
-                name='region'
                 defaultValue=''
               />
               <AppButton

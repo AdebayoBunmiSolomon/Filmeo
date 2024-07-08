@@ -70,9 +70,7 @@ export const SearchPeople = ({
   };
   return (
     <Screen>
-      <View style={styles.header}>
-        <Header title='Search People' backHeader />
-      </View>
+      <Header title='Search People' backHeader />
       <Controller
         control={control}
         render={({ field }) => (

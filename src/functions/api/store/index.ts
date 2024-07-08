@@ -9,3 +9,4 @@ export * from "./useAvailableRegionStore";
 export * from "./useCastInfoStore";
 export * from "./useMovieReviewStore";
 export * from "./useCombinedMovieCreditsStore";
+export * from "./useXtensiveSearchStore";

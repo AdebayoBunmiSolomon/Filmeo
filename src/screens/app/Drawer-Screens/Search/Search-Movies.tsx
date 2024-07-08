@@ -57,9 +57,7 @@ export const SearchMovies = ({
   return (
     <>
       <Screen>
-        <View style={styles.header}>
-          <Header title='Search Movies' backHeader />
-        </View>
+        <Header title='Search Movies' backHeader />
         <Controller
           control={control}
           render={({ field }) => (

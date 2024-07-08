@@ -44,10 +44,15 @@ export const useMultiSearchMovie = () => {
     }
   };
 
+  const xTensiveSearchMovie = async () => {
+    console.log("Error");
+  };
+
   return {
     loading,
     isError,
     multiSearchMovie,
     searchMovieData,
+    xTensiveSearchMovie,
   };
 };

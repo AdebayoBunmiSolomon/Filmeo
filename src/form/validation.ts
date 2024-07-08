@@ -37,3 +37,8 @@ export const searchMovieCompFormSchema = yup.object().shape({
   releaseYear: yup.string().required("please select a release year"),
   region: yup.string().required("region is not selected"),
 });
+
+export const xTensiveSearchMovieCompFormSchema = yup.object().shape({
+  movieTitle: yup.string().required("movie title is required"),
+  includeAdult: yup.string().required("please include adult"),
+});

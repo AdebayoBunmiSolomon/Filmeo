@@ -82,9 +82,9 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
                 <TouchableOpacity
                   onPress={() => {
                     if (screen.nestedNavigation !== null) {
-                      setExpanded(true);
+                      setExpanded(!expanded);
                     } else {
-                      setExpanded(false);
+                      setExpanded(!expanded);
                       props.navigation.navigate(screen.name);
                     }
                   }}>
@@ -125,13 +125,20 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
                       ]}>
                       {screen.label}
                     </AppText>
-                    {screen.nestedNavigation && (
-                      <MaterialIcons
-                        name={"keyboard-arrow-down"}
-                        size={moderateScale(30)}
-                        color={theme === "dark" ? colors.gray : colors.black}
-                      />
-                    )}
+                    {screen.nestedNavigation &&
+                      (expanded === true ? (
+                        <MaterialIcons
+                          name={"keyboard-arrow-up"}
+                          size={moderateScale(30)}
+                          color={theme === "dark" ? colors.gray : colors.black}
+                        />
+                      ) : (
+                        <MaterialIcons
+                          name={"keyboard-arrow-down"}
+                          size={moderateScale(30)}
+                          color={theme === "dark" ? colors.gray : colors.black}
+                        />
+                      ))}
                   </View>
                 </TouchableOpacity>
                 {expanded === true && screen.nestedNavigation && (

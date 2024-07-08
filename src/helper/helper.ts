@@ -1,5 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
+import {
+  xtensiveMovieMediaTypeData,
+  xtensiveMovieOtherTypeData,
+} from "@src/functions/api/store";
 import { certificationType, likedMovieDataType } from "@src/types/types";
 
 export const truncateText = (str: string) => {
@@ -182,4 +186,16 @@ export const convertDateTimeISOtoHTMLDate = (value: string) => {
   // Format as YYYY-MM-DD
   const formattedDate = `${year}-${monthName}-${day}`;
   return formattedDate;
+};
+
+export const isMediaTypeMovie = (
+  item: xtensiveMovieMediaTypeData | xtensiveMovieOtherTypeData
+): item is xtensiveMovieMediaTypeData => {
+  return (item as xtensiveMovieMediaTypeData).media_type === "movie";
+};
+
+export const isMediaTypeOther = (
+  item: xtensiveMovieMediaTypeData | xtensiveMovieOtherTypeData
+): item is xtensiveMovieOtherTypeData => {
+  return (item as xtensiveMovieMediaTypeData).media_type === "tv";
 };

@@ -25,7 +25,7 @@ export const SearchXtensiveMoviesComp: React.FC<
 > = ({ visible, setVisible }) => {
   const [showAdultSel, setShowAdultSel] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<string>("");
-  const { xTensiveSearchMovie, loading } = useMultiSearchMovie();
+  const { multiSearchMovie, loading } = useMultiSearchMovie();
   const {
     control,
     handleSubmit,
@@ -40,7 +40,7 @@ export const SearchXtensiveMoviesComp: React.FC<
   const onSubmit = (data: xtensiveSearchMovieCompFormType) => {
     if (data) {
       console.log(data);
-      xTensiveSearchMovie();
+      multiSearchMovie(data.movieTitle, data.includeAdult, 1);
     }
   };
 

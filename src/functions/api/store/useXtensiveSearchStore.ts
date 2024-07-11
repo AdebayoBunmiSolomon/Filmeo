@@ -38,14 +38,14 @@ export type xtensiveMovieOtherTypeData = {
   origin_country: string[];
 };
 
-type xtensiveSearchData = (
+export type xtensiveSearchDataType = (
   | xtensiveMovieMediaTypeData
   | xtensiveMovieOtherTypeData
 )[];
 
 interface IXtensiveMovieSearchProps {
-  xtensiveSearchData: xtensiveSearchData;
-  setXtensiveSearchData: (values: xtensiveSearchData) => void;
+  xtensiveSearchData: xtensiveSearchDataType;
+  setXtensiveSearchData: (values: xtensiveSearchDataType) => void;
 }
 
 export const useXtensiveMovieSearchStore = create<IXtensiveMovieSearchProps>(

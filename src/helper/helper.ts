@@ -3,8 +3,10 @@ import { storageKey } from "@src/cache";
 import {
   xtensiveMovieMediaTypeData,
   xtensiveMovieOtherTypeData,
+  xtensiveSearchDataType,
 } from "@src/functions/api/store";
 import { certificationType, likedMovieDataType } from "@src/types/types";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 export const truncateText = (str: string) => {
   if (str.length > 20) {
@@ -198,4 +200,18 @@ export const isMediaTypeOther = (
   item: xtensiveMovieMediaTypeData | xtensiveMovieOtherTypeData
 ): item is xtensiveMovieOtherTypeData => {
   return (item as xtensiveMovieMediaTypeData).media_type === "tv";
+};
+
+/**
+ *
+ * @param data
+ * @returns data of movies that their media_type are 'movie' & 'tv'
+ */
+export const filterNonMediaTypes = (data: xtensiveSearchDataType) => {
+  if (data) {
+    const movieResults = data.filter(
+      (movies) => movies.media_type === "movie" || movies.media_type === "tv"
+    );
+    return movieResults;
+  }
 };

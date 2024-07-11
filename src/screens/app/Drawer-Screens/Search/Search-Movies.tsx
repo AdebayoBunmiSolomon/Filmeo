@@ -17,12 +17,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { Loader } from "@src/components/core";
 import { MovieCard } from "@src/components/card";
 import { SearchMoviesComp } from "@src/components/app/search";
+import { useMovieCardClick } from "@src/components/core/services";
 
 export const SearchMovies = ({
   navigation,
 }: DrawerStackScreenProps<"SearchMovies">) => {
   const { theme } = useContext(ThemeContext);
   const [showSearchMovie, setShowSearchMovies] = useState<boolean>(false);
+  const { movieCardClick } = useMovieCardClick();
   const {
     searchMovieData,
     loading,
@@ -43,12 +45,6 @@ export const SearchMovies = ({
     mode: "onChange",
     resolver: yupResolver(searchKeywordSchema),
   });
-
-  const movieCardClick = (id: number) => {
-    navigation.navigate("ViewMore", {
-      movieId: id,
-    });
-  };
 
   const onSubmit = async (data: searchKeywordType) => {
     getSearchMovie(data.keyword, include_adult, pageNumber);
@@ -133,7 +129,7 @@ export const SearchMovies = ({
                 <MovieCard
                   items={item}
                   index={index}
-                  viewMore={() => movieCardClick(item.id)}
+                  viewMore={() => movieCardClick(item.id, item.media_type)}
                 />
               </View>
             )}

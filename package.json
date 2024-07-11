@@ -18,7 +18,7 @@
     "@react-navigation/native-stack": "^6.9.26",
     "@tanstack/react-query": "^5.45.1",
     "axios": "^1.7.2",
-    "expo": "~51.0.17",
+    "expo": "~51.0.19",
     "expo-image-picker": "~15.0.7",
     "expo-media-library": "~16.0.4",
     "expo-status-bar": "~1.12.1",

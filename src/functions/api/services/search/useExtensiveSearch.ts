@@ -2,7 +2,10 @@ import { header } from "@src/api/configuration/header";
 import { endpoint } from "@src/api/endpoints/endpoints";
 import { GetRequest } from "@src/api/request";
 import { includeAdult } from "@src/constant/data";
-import { returnBooleanConstraintsForYesOrNoSelection } from "@src/helper/helper";
+import {
+  filterNonMediaTypes,
+  returnBooleanConstraintsForYesOrNoSelection,
+} from "@src/helper/helper";
 import { useNextPrev } from "@src/hooks/state";
 import { useEffect, useState } from "react";
 import { useXtensiveMovieSearchStore } from "../../store";
@@ -26,6 +29,7 @@ export const useExtensiveSearch = () => {
     includeAdult: boolean,
     pageNumber: number
   ) => {
+    let filteredMovie;
     setLoading(true);
     setIsError(false);
 
@@ -35,9 +39,10 @@ export const useExtensiveSearch = () => {
         header,
         {}
       );
-      if (status === 200) {
-        console.log(data.results);
-        setXtensiveSearchData(data.results);
+      filteredMovie = filterNonMediaTypes(data.results);
+      if (status === 200 && filteredMovie) {
+        console.log(filteredMovie);
+        setXtensiveSearchData(filteredMovie);
         setIsError(false);
       } else {
         setIsError(true);

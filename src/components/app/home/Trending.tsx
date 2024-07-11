@@ -10,17 +10,13 @@ import { MovieCard } from "@src/components/card";
 import { ListButton } from "@src/common";
 import { trendingMovieTimeWindow } from "@src/constant/data";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useMovieCardClick } from "@src/components/core/services";
 
 export const TrendingMovies: React.FC<{}> = () => {
   const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
   const { loading, trendingMoviesData, setTimeWindow } = useGetTrendingMovies();
-
-  const movieCardClick = (id: number) => {
-    navigation.navigate("ViewMore", {
-      movieId: id,
-    });
-  };
+  const { movieCardClick } = useMovieCardClick();
 
   return (
     <View style={styles.container}>
@@ -64,7 +60,7 @@ export const TrendingMovies: React.FC<{}> = () => {
               <MovieCard
                 items={item}
                 index={index}
-                viewMore={() => movieCardClick(item.id)}
+                viewMore={() => movieCardClick(item.id, item.media_type)}
               />
             )}
             horizontal={true}

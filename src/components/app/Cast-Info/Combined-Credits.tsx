@@ -8,6 +8,7 @@ import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext, useEffect } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useMovieCardClick } from "@src/components/core/services";
 
 type combinedCreditsProps = {
   castId: number;
@@ -16,18 +17,13 @@ type combinedCreditsProps = {
 export const CombinedCredits: React.FC<combinedCreditsProps> = ({ castId }) => {
   const { theme } = useContext(ThemeContext);
   const navigation: NavigationProp<any> = useNavigation();
+  const { movieCardClick } = useMovieCardClick();
   const {
     getCombinedMovieCredits,
     loading,
     isError,
     combinedMovieCreditsData,
   } = useGetCombinedMovieCredits();
-
-  const movieCardClick = (id: number) => {
-    navigation.navigate("ViewMore", {
-      movieId: id,
-    });
-  };
 
   useEffect(() => {
     getCombinedMovieCredits(castId);
@@ -86,7 +82,7 @@ export const CombinedCredits: React.FC<combinedCreditsProps> = ({ castId }) => {
               <MovieCard
                 items={item}
                 index={index}
-                viewMore={() => movieCardClick(item.id)}
+                viewMore={() => movieCardClick(item.id, item.media_type)}
               />
             )}
             horizontal={true}

@@ -27,7 +27,7 @@ export interface RootStackParamList extends ParamListBase {
     castId: number;
   };
   ExtensiveViewMore: {
-    movieId: number;
+    tvSeriesId: number;
   };
 }
 

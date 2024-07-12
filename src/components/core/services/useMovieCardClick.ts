@@ -6,7 +6,7 @@ export const useMovieCardClick = () => {
   const movieCardClick = (id: number, media_type: string) => {
     if (media_type !== "movie") {
       navigation.navigate("ExtensiveViewMore", {
-        movieId: id,
+        tvSeriesId: id,
       });
     } else {
       navigation.navigate("ViewMore", {

@@ -1,13 +1,21 @@
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { AppButton, AppText } from "@src/components/shared";
 import { useAuthentication } from "@src/functions/hooks/services";
-import { DVH, DVW, font, moderateScale, verticalScale } from "@src/resources";
+import {
+  DVH,
+  DVW,
+  font,
+  layout,
+  moderateScale,
+  verticalScale,
+} from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext, useState } from "react";
 import {
   Image,
   Platform,
+  StatusBar,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -39,43 +47,43 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
           backgroundColor: theme === "dark" ? colors.black : colors.white,
         },
       ]}>
+      <View
+        style={[
+          styles.container2,
+          {
+            backgroundColor:
+              theme === "dark" ? colors.primaryColor : colors.primaryColor2,
+          },
+        ]}>
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+          <Image
+            resizeMode='contain'
+            source={require("@src/assets/images/experience.png")}
+            style={{
+              width: DVW(25),
+              height: DVH(25),
+              borderRadius: 50,
+              borderColor: "white",
+            }}
+          />
+          <AppText
+            fontRegular
+            sizeSmall
+            style={{
+              marginTop: verticalScale(-30),
+              color: colors.white,
+            }}>
+            adebayobunmisolomon@gamil.com
+          </AppText>
+        </View>
+      </View>
       <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
         <>
-          <View
-            style={[
-              styles.container2,
-              {
-                backgroundColor:
-                  theme === "dark" ? colors.primaryColor : colors.primaryColor2,
-              },
-            ]}>
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
-              <Image
-                resizeMode='contain'
-                source={require("@src/assets/images/experience.png")}
-                style={{
-                  width: DVW(25),
-                  height: DVH(25),
-                  borderRadius: 50,
-                  borderColor: "white",
-                }}
-              />
-              <AppText
-                fontRegular
-                sizeSmall
-                style={{
-                  marginTop: verticalScale(-30),
-                  color: colors.white,
-                }}>
-                adebayobunmisolomon@gamil.com
-              </AppText>
-            </View>
-          </View>
           <View style={styles.list}>
             {drawerScreens.map((screen, index) => (
               <View key={index}>
@@ -218,18 +226,16 @@ const styles = StyleSheet.create({
   },
 
   container2: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: verticalScale(-50),
+    flexDirection: "column",
+    paddingTop:
+      Platform.OS === "android" ? StatusBar.currentHeight : layout.size10,
     height: DVH(30),
-    alignContent: "center",
-    justifyContent: "center",
     paddingHorizontal: font.size10,
     overflow: "hidden",
   },
-
   list: {
-    marginTop: DVH(7),
+    marginTop: DVH(2),
+    paddingBottom: DVH(10),
   },
   bottomContainer: {
     alignSelf: "center",

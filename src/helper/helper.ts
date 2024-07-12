@@ -6,7 +6,6 @@ import {
   xtensiveSearchDataType,
 } from "@src/functions/api/store";
 import { certificationType, likedMovieDataType } from "@src/types/types";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 export const truncateText = (str: string) => {
   if (str.length > 20) {

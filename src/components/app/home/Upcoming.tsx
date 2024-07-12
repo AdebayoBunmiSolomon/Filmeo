@@ -2,7 +2,6 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { NextButton, PrevButton } from "@src/common";
 import { MovieCard } from "@src/components/card";
 import { Loader } from "@src/components/core";
-import { useMovieCardClick } from "@src/components/core/services";
 import { AppText } from "@src/components/shared";
 import { useGetUpcomingMovies } from "@src/functions/api/services/movies";
 import { layout, verticalScale } from "@src/resources";
@@ -16,7 +15,11 @@ export const UpcomingMovies: React.FC<{}> = () => {
   const { theme } = useContext(ThemeContext);
   const { upcomingMoviesData, loading, nextBtn, prevBtn } =
     useGetUpcomingMovies();
-  const { movieCardClick } = useMovieCardClick();
+  const movieCardClick = (id: number) => {
+    navigation.navigate("ViewMore", {
+      movieId: id,
+    });
+  };
   return (
     <View style={styles.container}>
       <AppText
@@ -53,7 +56,7 @@ export const UpcomingMovies: React.FC<{}> = () => {
                 <MovieCard
                   items={item}
                   index={index}
-                  viewMore={() => movieCardClick(item.id, item.media_type)}
+                  viewMore={() => movieCardClick(item.id)}
                 />
               </View>
             )}

@@ -49,7 +49,7 @@ const MovieCastSubComp: React.FC<movieCastSubCompProps> = ({
           )}
           <Image
             source={{ uri: `${item.uri}` }}
-            resizeMode='cover'
+            resizeMode='stretch'
             style={styles.img}
             onLoadStart={() => handleImageLoadStart(index)}
             onLoadEnd={() => handleImageLoadEnd(index)}

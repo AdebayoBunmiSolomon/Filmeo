@@ -1,7 +1,5 @@
-import { IMAGE_BASE_URL } from "@env";
 import { Loader } from "@src/components/core";
 import { AppText } from "@src/components/shared";
-import { useGetMovieReviews } from "@src/functions/api/services/movies";
 import { convertDateTimeISOtoHTMLDate } from "@src/helper/helper";
 import { DVH, DVW, moderateScale, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
@@ -9,32 +7,33 @@ import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext, useEffect } from "react";
 import {
   FlatList,
-  StyleSheet,
-  View,
   TouchableOpacity,
+  View,
   Image,
+  StyleSheet,
 } from "react-native";
 import { Fontisto } from "@expo/vector-icons";
+import { useGetTvSeriesReviews } from "@src/functions/api/services/tv";
+import { IMAGE_BASE_URL } from "@env";
 
-type movieReviewProps = {
-  movieId: number;
+type seriesReviewProps = {
+  tvSeriesId: number;
 };
 
-export const MovieReview: React.FC<movieReviewProps> = ({ movieId }) => {
-  const { movieReviewData, getMovieReviews, loading, isError } =
-    useGetMovieReviews();
+export const SeriesReview: React.FC<seriesReviewProps> = ({ tvSeriesId }) => {
+  const { tvSeriesReviewData, getTvSeriesReview, isError, loading } =
+    useGetTvSeriesReviews();
   const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
-    getMovieReviews(movieId);
-    console.log("data is", movieReviewData);
+    getTvSeriesReview(tvSeriesId);
   }, []);
   return (
     <>
       {isError ? (
         <View>
           <AppText>Error occurred.</AppText>
-          <TouchableOpacity onPress={() => getMovieReviews(movieId)}>
+          <TouchableOpacity onPress={() => getTvSeriesReview(tvSeriesId)}>
             <AppText>click to refresh</AppText>
           </TouchableOpacity>
         </View>
@@ -43,7 +42,7 @@ export const MovieReview: React.FC<movieReviewProps> = ({ movieId }) => {
           sizes='small'
           color={theme === "dark" ? colors.primaryColor2 : colors.primaryColor}
         />
-      ) : movieReviewData && movieReviewData.length !== 0 ? (
+      ) : tvSeriesReviewData && tvSeriesReviewData.length !== 0 ? (
         <View
           style={{
             width: "100%",
@@ -55,7 +54,7 @@ export const MovieReview: React.FC<movieReviewProps> = ({ movieId }) => {
             Reviews
           </AppText>
           <FlatList
-            data={movieReviewData}
+            data={tvSeriesReviewData}
             style={styles.flatListContainer}
             keyExtractor={(items, index) => items.id + index.toString()}
             renderItem={({ item, index }) => (

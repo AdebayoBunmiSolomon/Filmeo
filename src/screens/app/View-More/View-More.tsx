@@ -7,6 +7,7 @@ import {
   useGetMovieCast,
   useGetMovieDetails,
   useGetMovieImages,
+  useGetMovieReviews,
 } from "@src/functions/api/services/movies";
 import { Loader } from "@src/components/core";
 import { ThemeContext } from "@src/resources/Theme";
@@ -39,6 +40,8 @@ export const ViewMore = ({
   const { isMovieCastError, movieCastLoading, getMovieCast, movieCastData } =
     useGetMovieCast(); // get movie casts
   const { likeAMovieToWatchList, likeMovieLoading } = useLikedMovie();
+  const { movieReviewData } = useGetMovieReviews();
+
   useEffect(() => {
     if (isFocused && movieId) {
       getMovieDetails(movieId);
@@ -75,7 +78,10 @@ export const ViewMore = ({
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,
-              paddingBottom: verticalScale(20),
+              paddingBottom:
+                movieReviewData && movieReviewData.length !== 0
+                  ? verticalScale(20)
+                  : verticalScale(70),
             }}
             showsVerticalScrollIndicator={false}>
             <MovieImage

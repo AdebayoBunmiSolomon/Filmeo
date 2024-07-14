@@ -1,5 +1,5 @@
 import { AppText } from "@src/components/shared";
-import { moderateScale, verticalScale } from "@src/resources";
+import { verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import React, { useContext } from "react";
@@ -24,7 +24,7 @@ export const MovieOtherInfo: React.FC<movieOtherInfoProps> = ({
     <View
       style={{
         marginBottom:
-          Platform.OS === "ios" ? verticalScale(-10) : verticalScale(-27),
+          Platform.OS === "ios" ? verticalScale(10) : verticalScale(15),
         marginTop: verticalScale(10),
       }}>
       <DataTable>

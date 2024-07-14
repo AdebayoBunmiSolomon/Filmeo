@@ -14,7 +14,7 @@ import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { Error } from "@src/common";
 import { IMAGE_BASE_URL } from "@env";
-import { verticalScale } from "@src/resources";
+import { moderateScale, verticalScale } from "@src/resources";
 import { useLikedMovie } from "@src/functions/hooks/services";
 import {
   MovieCast,
@@ -25,6 +25,11 @@ import {
   VideoThriller,
 } from "@src/components/app/view-more";
 import { useIsFocused } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
+import {
+  MovieNetworks,
+  MovieOtherInfo,
+} from "@src/components/app/view-more/sub-components";
 
 export const ViewMore = ({
   route,
@@ -102,6 +107,43 @@ export const ViewMore = ({
                 {movieDetails.overview}
               </AppText>
             </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                gap: moderateScale(5),
+              }}>
+              <AppText fontRegular sizeBody gray>
+                Vote Count:
+              </AppText>
+              <AntDesign
+                name='like2'
+                color={
+                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor
+                }
+                size={moderateScale(20)}
+              />
+              <AppText fontBold mainColor>
+                |
+              </AppText>
+              <AppText fontRegular mainColor>
+                {movieDetails.vote_count}
+              </AppText>
+            </View>
+            {movieDetails.production_companies &&
+              movieDetails.production_companies.length !== 0 && (
+                <MovieNetworks
+                  imgData={movieDetails.production_companies}
+                  title='Prod. Companies'
+                />
+              )}
+            <MovieOtherInfo
+              numberOfEpisodes={"0"}
+              numberOfSeasons={"0"}
+              productionCountries={[]}
+              spokenLanguages={[]}
+            />
             <View style={styles.movieCastAndImageContainer}>
               <MovieImageList
                 movieImageData={movieImageData}

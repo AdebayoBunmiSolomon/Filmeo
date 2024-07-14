@@ -144,7 +144,10 @@ export const ExtensiveViewMore = ({
               </AppText>
             </View>
             {tvSeriesData.networks && tvSeriesData.networks.length !== 0 && (
-              <MovieNetworks imgData={tvSeriesData.networks} />
+              <MovieNetworks
+                imgData={tvSeriesData.networks}
+                title='Movie Networks'
+              />
             )}
             <MovieOtherInfo
               numberOfEpisodes={tvSeriesData.number_of_episodes}

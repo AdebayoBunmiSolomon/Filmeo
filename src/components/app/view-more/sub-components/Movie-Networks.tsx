@@ -11,16 +11,26 @@ import { FlatList } from "react-native-gesture-handler";
 
 type movieNetworkProps = {
   imgData: any[];
+  title?: string;
 };
 
-export const MovieNetworks: React.FC<movieNetworkProps> = ({ imgData }) => {
+export const MovieNetworks: React.FC<movieNetworkProps> = ({
+  imgData,
+  title,
+}) => {
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
   const { theme } = useContext(ThemeContext);
   return (
     <>
-      <AppText fontSemibold sizeMedium black>
-        Movie Networks
+      <AppText
+        fontSemibold
+        sizeMedium
+        black
+        style={{
+          paddingBottom: moderateScale(10),
+        }}>
+        {title}
       </AppText>
       <FlatList
         data={imgData}

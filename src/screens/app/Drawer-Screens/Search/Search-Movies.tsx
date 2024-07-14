@@ -129,7 +129,7 @@ export const SearchMovies = ({
                 <MovieCard
                   items={item}
                   index={index}
-                  viewMore={() => movieCardClick(item.id, item.media_type)}
+                  viewMore={() => movieCardClick(item.id)}
                 />
               </View>
             )}

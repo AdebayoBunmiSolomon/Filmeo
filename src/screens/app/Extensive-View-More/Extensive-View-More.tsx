@@ -126,7 +126,7 @@ export const ExtensiveViewMore = ({
                 justifyContent: "flex-end",
                 gap: moderateScale(5),
               }}>
-              <AppText fontRegular sizeBody>
+              <AppText fontRegular sizeBody gray>
                 Vote Count:
               </AppText>
               <AntDesign

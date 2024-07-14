@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     width: DVW(50),
     overflow: "hidden",
     alignItems: "center",
-    marginLeft: DVW(-15),
+    marginLeft: DVW(-12),
   },
   imgContainer: {
     borderRadius: 50,

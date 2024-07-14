@@ -1,7 +1,10 @@
 import { AppText } from "@src/components/shared";
 import { moderateScale, verticalScale } from "@src/resources";
-import React from "react";
+import { colors } from "@src/resources/Colors";
+import { ThemeContext } from "@src/resources/Theme";
+import React, { useContext } from "react";
 import { Platform, StyleSheet, View } from "react-native";
+import { DataTable } from "react-native-paper";
 
 type movieOtherInfoProps = {
   numberOfSeasons: any;
@@ -16,71 +19,77 @@ export const MovieOtherInfo: React.FC<movieOtherInfoProps> = ({
   productionCountries,
   spokenLanguages,
 }) => {
+  const { theme } = useContext(ThemeContext);
   return (
     <View
       style={{
         marginBottom:
           Platform.OS === "ios" ? verticalScale(-10) : verticalScale(-27),
+        marginTop: verticalScale(10),
       }}>
-      <View style={styles.otherInfoSubContainer}>
-        <AppText fontSemibold gray sizeSmall>
-          Number of Seasons:
-        </AppText>
-        <AppText fontRegular mainColor sizeSmall>
-          {numberOfSeasons}
-        </AppText>
-      </View>
-      <View style={styles.otherInfoSubContainer}>
-        <AppText fontSemibold gray sizeSmall>
-          Number of Episodes:
-        </AppText>
-        <AppText fontRegular mainColor sizeSmall>
-          {numberOfEpisodes}
-        </AppText>
-      </View>
-      <View
-        style={[
-          styles.otherInfoSubContainer,
-          {
-            flexWrap: "wrap",
-          },
-        ]}>
-        <AppText fontSemibold gray sizeSmall>
-          Production Countries:
-        </AppText>
-        {productionCountries &&
-          productionCountries.map((items, index) => (
-            <AppText key={index} fontRegular mainColor sizeSmall>
-              {items.name} ,
+      <DataTable>
+        <DataTable.Header style={styles.tableHeader}>
+          <DataTable.Title>Seasons</DataTable.Title>
+          <DataTable.Title>Episodes</DataTable.Title>
+          <DataTable.Title>Prod. Countries</DataTable.Title>
+          <DataTable.Title>Spoken Lang.</DataTable.Title>
+        </DataTable.Header>
+        <DataTable.Row>
+          <DataTable.Cell style={styles.cell}>
+            <AppText fontRegular black sizeSmall style={styles.text}>
+              {numberOfSeasons}
             </AppText>
-          ))}
-      </View>
-      <View
-        style={[
-          styles.otherInfoSubContainer,
-          {
-            flexWrap: "wrap",
-          },
-        ]}>
-        <AppText fontSemibold gray sizeSmall>
-          Spoken Languages:
-        </AppText>
-        {spokenLanguages &&
-          spokenLanguages.map((items, index) => (
-            <AppText key={index} fontRegular mainColor sizeSmall>
-              {items.name} ,
+          </DataTable.Cell>
+          <DataTable.Cell style={styles.cell}>
+            <AppText fontRegular black sizeSmall style={styles.text}>
+              {numberOfEpisodes}
             </AppText>
-          ))}
-      </View>
+          </DataTable.Cell>
+          <DataTable.Cell style={styles.cell}>
+            {productionCountries &&
+              productionCountries.map((items, index) => (
+                <AppText
+                  key={index}
+                  fontRegular
+                  black
+                  sizeSmall
+                  style={styles.text}>
+                  {items.name}
+                  {index === productionCountries.length - 1 ? "" : ", "}
+                </AppText>
+              ))}
+          </DataTable.Cell>
+          <DataTable.Cell style={styles.cell}>
+            {spokenLanguages &&
+              spokenLanguages.map((items, index) => (
+                <AppText
+                  key={index}
+                  fontRegular
+                  black
+                  sizeSmall
+                  style={styles.text}>
+                  {items.name}
+                  {index === spokenLanguages.length - 1 ? "" : ", "}
+                </AppText>
+              ))}
+          </DataTable.Cell>
+        </DataTable.Row>
+      </DataTable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  otherInfoContainer: {},
-  otherInfoSubContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: moderateScale(5),
+  cell: {
+    flex: 1,
+    padding: 10,
+    justifyContent: "center", // Centers the text vertically
+  },
+  text: {
+    flex: 1,
+    flexWrap: "wrap", // Ensures the text wraps within the cell
+  },
+  tableHeader: {
+    backgroundColor: colors.lightGray, // Optional: Add a background color for the header
   },
 });

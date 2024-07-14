@@ -60,7 +60,7 @@ export const TrendingMovies: React.FC<{}> = () => {
               <MovieCard
                 items={item}
                 index={index}
-                viewMore={() => movieCardClick(item.id, item.media_type)}
+                viewMore={() => movieCardClick(item.id)}
               />
             )}
             horizontal={true}

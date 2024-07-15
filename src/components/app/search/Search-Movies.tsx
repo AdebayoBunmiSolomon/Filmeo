@@ -14,7 +14,8 @@ import {
 } from "react-native";
 import { AdultSelection } from "./Adult-Selection";
 import { RegionSelection } from "./Region-Selection";
-import { useMultiSearchMovie } from "@src/functions/api/services/movies";
+import { useSearchMovies } from "@src/functions/api/services/search";
+import { returnBooleanConstraintsForYesOrNoSelection } from "@src/helper/helper";
 
 type searchMoviesCompProps = {
   visible: boolean;
@@ -29,7 +30,7 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
   const [showRegionSel, setShowRegionSel] = useState<boolean>(false);
   const [selectedRegionItem, setSelectedRegionItem] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<string>("");
-  const { multiSearchMovie, loading } = useMultiSearchMovie();
+  const { getSearchMovie, loading } = useSearchMovies();
   const {
     control,
     handleSubmit,
@@ -44,7 +45,10 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
   const onSubmit = (data: searchMovieCompFormType) => {
     if (data) {
       console.log(data);
-      multiSearchMovie(data.movieTitle, data.includeAdult, 1);
+      const includeAdult = returnBooleanConstraintsForYesOrNoSelection(
+        data.includeAdult
+      );
+      getSearchMovie(data.movieTitle, includeAdult, 1);
     }
   };
 

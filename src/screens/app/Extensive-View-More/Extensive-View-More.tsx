@@ -2,12 +2,12 @@ import { RootStackScreenProps } from "@src/router/Types";
 import React, { useContext, useEffect } from "react";
 import { Screen } from "@src/screens/Screen";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { AppText, Header } from "@src/components/shared";
-import { Loader } from "@src/components/core";
+import { AppText, BrowserButton, Header } from "@src/components/shared";
+import { CountNShare, Loader } from "@src/components/core";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { Error, ListButton } from "@src/common";
-import { moderateScale, verticalScale } from "@src/resources";
+import { DVW, verticalScale } from "@src/resources";
 import { useIsFocused } from "@react-navigation/native";
 import {
   useGetTvSeriesDetails,
@@ -29,7 +29,6 @@ import {
   MovieNetworks,
   MovieOtherInfo,
 } from "@src/components/app/view-more/sub-components";
-import { AntDesign } from "@expo/vector-icons";
 
 export const ExtensiveViewMore = ({
   route,
@@ -119,29 +118,9 @@ export const ExtensiveViewMore = ({
                 {tvSeriesData.overview}
               </AppText>
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                gap: moderateScale(5),
-              }}>
-              <AppText fontRegular sizeBody gray>
-                Vote Count:
-              </AppText>
-              <AntDesign
-                name='like2'
-                color={
-                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor
-                }
-                size={moderateScale(20)}
-              />
-              <AppText fontBold mainColor>
-                |
-              </AppText>
-              <AppText fontRegular mainColor>
-                {tvSeriesData.vote_count}
-              </AppText>
+            <View style={styles.browserNShareContainer}>
+              <BrowserButton url={tvSeriesData.homepage} />
+              <CountNShare item={tvSeriesData} />
             </View>
             {tvSeriesData.networks && tvSeriesData.networks.length !== 0 && (
               <MovieNetworks
@@ -200,5 +179,13 @@ const styles = StyleSheet.create({
   },
   movieCastAndImageContainer: {
     gap: verticalScale(10),
+  },
+  browserNShareContainer: {
+    flexDirection: "row",
+    paddingHorizontal: DVW(2),
+    backgroundColor: colors.lightGray,
+    marginTop: verticalScale(-10),
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

@@ -2,19 +2,19 @@ import { RootStackScreenProps } from "@src/router/Types";
 import React, { useContext, useEffect } from "react";
 import { Screen } from "@src/screens/Screen";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { AppText, Header } from "@src/components/shared";
+import { AppText, BrowserButton, Header } from "@src/components/shared";
 import {
   useGetMovieCast,
   useGetMovieDetails,
   useGetMovieImages,
   useGetMovieReviews,
 } from "@src/functions/api/services/movies";
-import { Loader } from "@src/components/core";
+import { Loader, CountNShare } from "@src/components/core";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { Error } from "@src/common";
 import { IMAGE_BASE_URL } from "@env";
-import { moderateScale, verticalScale } from "@src/resources";
+import { DVW, verticalScale } from "@src/resources";
 import { useLikedMovie } from "@src/functions/hooks/services";
 import {
   MovieCast,
@@ -25,16 +25,12 @@ import {
   VideoThriller,
 } from "@src/components/app/view-more";
 import { useIsFocused } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons";
 import {
   MovieNetworks,
   MovieOtherInfo,
 } from "@src/components/app/view-more/sub-components";
 
-export const ViewMore = ({
-  route,
-  navigation,
-}: RootStackScreenProps<"ViewMore">) => {
+export const ViewMore = ({ route }: RootStackScreenProps<"ViewMore">) => {
   const { theme } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const { movieId } = route.params;
@@ -107,29 +103,9 @@ export const ViewMore = ({
                 {movieDetails.overview}
               </AppText>
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                gap: moderateScale(5),
-              }}>
-              <AppText fontRegular sizeBody gray>
-                Vote Count:
-              </AppText>
-              <AntDesign
-                name='like2'
-                color={
-                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor
-                }
-                size={moderateScale(20)}
-              />
-              <AppText fontBold mainColor>
-                |
-              </AppText>
-              <AppText fontRegular mainColor>
-                {movieDetails.vote_count}
-              </AppText>
+            <View style={styles.browserNShareContainer}>
+              <BrowserButton url={movieDetails.homepage} />
+              <CountNShare item={movieDetails} />
             </View>
             {movieDetails.production_companies &&
               movieDetails.production_companies.length !== 0 && (
@@ -181,5 +157,13 @@ const styles = StyleSheet.create({
   },
   movieCastAndImageContainer: {
     gap: verticalScale(10),
+  },
+  browserNShareContainer: {
+    flexDirection: "row",
+    paddingHorizontal: DVW(2),
+    backgroundColor: colors.lightGray,
+    marginTop: verticalScale(-10),
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

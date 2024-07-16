@@ -6,7 +6,7 @@ export const useSharing = () => {
     const isSharingAvailable = await Sharing.isAvailableAsync();
     if (isSharingAvailable) {
       await Sharing.shareAsync(fileUrl, {
-        dialogTitle: "Share movie details",
+        dialogTitle: "Share movie detail",
       });
     } else {
       console.log("No sharing available on this device");

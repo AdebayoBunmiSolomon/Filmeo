@@ -12,7 +12,7 @@ type countNShareProps = {
 };
 
 export const CountNShare: React.FC<countNShareProps> = ({ item }) => {
-  const { shareFeature } = useSharing();
+  const { shareHttpUrl } = useSharing();
   const { theme } = useContext(ThemeContext);
   return (
     <View
@@ -40,7 +40,7 @@ export const CountNShare: React.FC<countNShareProps> = ({ item }) => {
         style={{
           paddingHorizontal: moderateScale(10),
         }}
-        onPress={() => shareFeature(item.homepage)}>
+        onPress={() => shareHttpUrl(item.homepage)}>
         <FontAwesome
           name='share-alt'
           color={theme === "dark" ? colors.primaryColor2 : colors.primaryColor}

@@ -1,10 +1,11 @@
 import { AppText } from "@src/components/shared";
+import { useGetCharacterOfAMovie } from "@src/functions/api/services/cast";
 import { truncateText } from "@src/helper/helper";
 import { useImageLoader } from "@src/hooks/state";
 import { DVH, DVW, layout, moderateScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { memo, useContext } from "react";
+import React, { memo, useContext, useEffect } from "react";
 import {
   View,
   Image,
@@ -27,6 +28,12 @@ const MovieCastSubComp: React.FC<movieCastSubCompProps> = ({
   const { theme } = useContext(ThemeContext);
   const { imageLoading, handleImageLoadEnd, handleImageLoadStart } =
     useImageLoader();
+  const { getCharacterOfAMovie } = useGetCharacterOfAMovie();
+
+  useEffect(() => {
+    getCharacterOfAMovie(item.id);
+  }, []);
+
   return (
     <>
       <View style={styles.container}>
@@ -48,8 +55,12 @@ const MovieCastSubComp: React.FC<movieCastSubCompProps> = ({
             />
           )}
           <Image
-            source={{ uri: `${item.uri}` }}
-            resizeMode='stretch'
+            source={
+              item.uri
+                ? { uri: `${item.uri}` }
+                : require("@src/assets/images/no-img.png")
+            }
+            resizeMode={item.uri ? "stretch" : "center"}
             style={styles.img}
             onLoadStart={() => handleImageLoadStart(index)}
             onLoadEnd={() => handleImageLoadEnd(index)}

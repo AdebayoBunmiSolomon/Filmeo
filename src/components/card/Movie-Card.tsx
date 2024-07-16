@@ -48,8 +48,12 @@ export const MovieCard: React.FC<movieCardProps> = ({
           )}
           <View>
             <Image
-              source={{ uri: `${IMAGE_BASE_URL}${items.poster_path}` }}
-              resizeMode='cover'
+              source={
+                items.poster_path
+                  ? { uri: `${IMAGE_BASE_URL}${items.poster_path}` }
+                  : require("@src/assets/images/no-img.png")
+              }
+              resizeMode={items.poster_path ? "cover" : "center"}
               style={styles.img}
               onLoadStart={() => handleImageLoadStart(index)}
               onLoadEnd={() => handleImageLoadEnd(index)}

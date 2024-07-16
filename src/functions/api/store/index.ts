@@ -14,3 +14,4 @@ export * from "./useTvSeriesStore";
 export * from "./useTvSeriesImageStore";
 export * from "./useTvSeriesCastStore";
 export * from "./useTvSeriesReviewStore";
+export * from "./useSearchPeopleStore";

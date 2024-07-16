@@ -127,7 +127,7 @@ export const AppText: React.FC<appTextProps> = ({
             paddingHorizontal: style?.paddingHorizontal
               ? style?.paddingHorizontal
               : undefined,
-            flexWrap: style?.flexWrap || undefined,
+            flexWrap: style?.flexWrap ? style?.flexWrap : undefined,
           },
         ]}>
         {children}

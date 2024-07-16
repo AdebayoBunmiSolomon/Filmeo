@@ -59,7 +59,7 @@ export const SearchMovies = ({
           render={({ field }) => (
             <AppInput
               searchInput
-              placeholder='search keyword here'
+              placeholder='search movies name'
               label=''
               error={errors?.keyword?.message}
               value={field.value}

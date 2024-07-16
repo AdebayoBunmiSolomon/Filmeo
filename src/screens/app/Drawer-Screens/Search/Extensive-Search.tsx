@@ -59,7 +59,7 @@ export const ExtensiveSearch = ({
           render={({ field }) => (
             <AppInput
               searchInput
-              placeholder='search keyword here'
+              placeholder='search movies, series here'
               label=''
               error={errors?.keyword?.message}
               value={field.value}

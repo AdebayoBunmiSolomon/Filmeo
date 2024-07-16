@@ -49,7 +49,6 @@ export const MovieCast: React.FC<movieCastProps> = ({
           keyExtractor={(items, index) => items.id + index.toString()}
           renderItem={({ item, index }) => (
             <>
-              {/* <AppText>Hello</AppText> */}
               <MovieCastSubComp
                 item={item}
                 index={index}

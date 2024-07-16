@@ -15,12 +15,15 @@ import { ThemeContext } from "@src/resources/Theme";
 import { Loader } from "@src/components/core";
 import { Error, NextButton, PrevButton } from "@src/common";
 import { SearchXtensiveMoviesComp } from "@src/components/app/search";
+import { MovieCard } from "@src/components/card";
+import { useMovieCardClick } from "@src/components/core/services";
 
 export const ExtensiveSearch = ({
   navigation,
 }: DrawerStackScreenProps<"ExtensiveSearch">) => {
   const { theme } = useContext(ThemeContext);
   const [showSearchMovie, setShowSearchMovies] = useState<boolean>(false);
+  const { movieCardClick } = useMovieCardClick();
   const {
     handleSubmit,
     formState: { errors },
@@ -42,7 +45,11 @@ export const ExtensiveSearch = ({
     pageNumber,
   } = useExtensiveSearch();
 
-  const onSubmit = async (data: searchKeywordType) => {};
+  const onSubmit = async (data: searchKeywordType) => {
+    if (data) {
+      getXtensiveSearch(queryStringVal, false, pageNumber);
+    }
+  };
   return (
     <>
       <Screen>
@@ -52,7 +59,7 @@ export const ExtensiveSearch = ({
           render={({ field }) => (
             <AppInput
               searchInput
-              placeholder='search keyword here'
+              placeholder='search movies, series here'
               label=''
               error={errors?.keyword?.message}
               value={field.value}
@@ -116,12 +123,14 @@ export const ExtensiveSearch = ({
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item, index }) => (
               <View
-                key={index}
                 style={{
                   paddingLeft: moderateScale(6),
-                  flexDirection: "column",
                 }}>
-                <AppText>{"name" in item ? item.name : item.title}</AppText>
+                <MovieCard
+                  items={item}
+                  index={index}
+                  viewMore={() => movieCardClick(item.id, item.media_type)}
+                />
               </View>
             )}
             numColumns={2}

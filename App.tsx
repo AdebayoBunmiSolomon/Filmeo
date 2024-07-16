@@ -8,6 +8,7 @@ import { AppLoader } from "@src/screens/App-Loader";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PaperProvider } from "react-native-paper";
 
 export default function App() {
   const { appState } = useAppStateCheck();
@@ -43,14 +44,16 @@ export default function App() {
   return (
     <>
       <ThemeProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <StatusBar style='auto' />
-          {isLoadingFontComplete ? (
-            <AppLoader />
-          ) : (
-            <Router isAuthenticated={isAuthenticated} />
-          )}
-        </GestureHandlerRootView>
+        <PaperProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <StatusBar style='auto' />
+            {isLoadingFontComplete ? (
+              <AppLoader />
+            ) : (
+              <Router isAuthenticated={isAuthenticated} />
+            )}
+          </GestureHandlerRootView>
+        </PaperProvider>
       </ThemeProvider>
     </>
   );

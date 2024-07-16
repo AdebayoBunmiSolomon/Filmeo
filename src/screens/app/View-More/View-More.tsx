@@ -2,18 +2,19 @@ import { RootStackScreenProps } from "@src/router/Types";
 import React, { useContext, useEffect } from "react";
 import { Screen } from "@src/screens/Screen";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { AppText, Header } from "@src/components/shared";
+import { AppText, BrowserButton, Header } from "@src/components/shared";
 import {
   useGetMovieCast,
   useGetMovieDetails,
   useGetMovieImages,
+  useGetMovieReviews,
 } from "@src/functions/api/services/movies";
-import { Loader } from "@src/components/core";
+import { Loader, CountNShare } from "@src/components/core";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { Error } from "@src/common";
 import { IMAGE_BASE_URL } from "@env";
-import { verticalScale } from "@src/resources";
+import { DVW, verticalScale } from "@src/resources";
 import { useLikedMovie } from "@src/functions/hooks/services";
 import {
   MovieCast,
@@ -24,11 +25,12 @@ import {
   VideoThriller,
 } from "@src/components/app/view-more";
 import { useIsFocused } from "@react-navigation/native";
+import {
+  MovieNetworks,
+  MovieOtherInfo,
+} from "@src/components/app/view-more/sub-components";
 
-export const ViewMore = ({
-  route,
-  navigation,
-}: RootStackScreenProps<"ViewMore">) => {
+export const ViewMore = ({ route }: RootStackScreenProps<"ViewMore">) => {
   const { theme } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const { movieId } = route.params;
@@ -39,6 +41,8 @@ export const ViewMore = ({
   const { isMovieCastError, movieCastLoading, getMovieCast, movieCastData } =
     useGetMovieCast(); // get movie casts
   const { likeAMovieToWatchList, likeMovieLoading } = useLikedMovie();
+  const { movieReviewData } = useGetMovieReviews();
+
   useEffect(() => {
     if (isFocused && movieId) {
       getMovieDetails(movieId);
@@ -75,7 +79,10 @@ export const ViewMore = ({
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,
-              paddingBottom: verticalScale(20),
+              paddingBottom:
+                movieReviewData && movieReviewData.length !== 0
+                  ? verticalScale(20)
+                  : verticalScale(70),
             }}
             showsVerticalScrollIndicator={false}>
             <MovieImage
@@ -96,6 +103,23 @@ export const ViewMore = ({
                 {movieDetails.overview}
               </AppText>
             </View>
+            <View style={styles.browserNShareContainer}>
+              <BrowserButton url={movieDetails.homepage} />
+              <CountNShare item={movieDetails} />
+            </View>
+            {movieDetails.production_companies &&
+              movieDetails.production_companies.length !== 0 && (
+                <MovieNetworks
+                  imgData={movieDetails.production_companies}
+                  title='Prod. Companies'
+                />
+              )}
+            <MovieOtherInfo
+              numberOfEpisodes={"0"}
+              numberOfSeasons={"0"}
+              productionCountries={[]}
+              spokenLanguages={[]}
+            />
             <View style={styles.movieCastAndImageContainer}>
               <MovieImageList
                 movieImageData={movieImageData}
@@ -133,5 +157,13 @@ const styles = StyleSheet.create({
   },
   movieCastAndImageContainer: {
     gap: verticalScale(10),
+  },
+  browserNShareContainer: {
+    flexDirection: "row",
+    paddingHorizontal: DVW(2),
+    backgroundColor: colors.lightGray,
+    marginTop: verticalScale(-10),
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

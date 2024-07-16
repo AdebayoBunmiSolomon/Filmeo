@@ -3,12 +3,13 @@ import { endpoint } from "@src/api/endpoints/endpoints";
 import { GetRequest } from "@src/api/request";
 import { returnBooleanConstraintsForYesOrNoSelection } from "@src/helper/helper";
 import { useState } from "react";
-import { useSearchMovieStore } from "../../store";
+import { useXtensiveMovieSearchStore } from "../../store";
 
 export const useMultiSearchMovie = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const { searchMovieData, setSearchMovieData } = useSearchMovieStore();
+  const { xtensiveSearchData, setXtensiveSearchData } =
+    useXtensiveMovieSearchStore();
 
   const multiSearchMovie = async (
     queryString: string,
@@ -28,17 +29,17 @@ export const useMultiSearchMovie = () => {
       );
       if (status === 200) {
         console.log(data.results);
-        setSearchMovieData(data.results);
+        setXtensiveSearchData(data.results);
         setIsError(false);
       } else {
         console.log("Error searching multi movie");
         setIsError(true);
-        setSearchMovieData([]);
+        setXtensiveSearchData([]);
       }
     } catch (err: any) {
       console.log("Error", err);
       setIsError(true);
-      setSearchMovieData([]);
+      setXtensiveSearchData([]);
     } finally {
       setLoading(false);
     }
@@ -52,7 +53,7 @@ export const useMultiSearchMovie = () => {
     loading,
     isError,
     multiSearchMovie,
-    searchMovieData,
+    xtensiveSearchData,
     xTensiveSearchMovie,
   };
 };

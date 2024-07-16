@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    width: "92%",
+    width: Platform.OS === "ios" ? "95%" : "96%",
     height: "100%",
     alignSelf: "center",
     paddingTop:

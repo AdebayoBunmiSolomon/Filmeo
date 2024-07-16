@@ -3,7 +3,7 @@ import { AppText } from "@src/components/shared";
 import { layout } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
-import React, { SetStateAction, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 interface IListButtonProps {
@@ -48,7 +48,7 @@ export const ListButton: React.FC<IListButtonProps> = ({
                 <TouchableOpacity
                   onPress={() => {
                     setSelectedIndex(index);
-                    setSelectedItem(items.name);
+                    setSelectedItem("name" in items ? items.name : items.title);
                   }}
                   key={index}
                   style={[
@@ -74,7 +74,7 @@ export const ListButton: React.FC<IListButtonProps> = ({
                           ? colors.white
                           : undefined,
                     }}>
-                    {items.name}
+                    {"name" in items ? items.name : items.title}
                   </AppText>
                 </TouchableOpacity>
               ))}

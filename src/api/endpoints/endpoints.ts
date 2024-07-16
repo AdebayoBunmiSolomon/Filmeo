@@ -13,4 +13,12 @@ export enum endpoint {
   GET_MOVIE_REVIEW = "/3/movie/",
   GET_COMBINED_MOVIE_CREDITS_OF_CAST = "/3/person/",
   GET_MOVIE_BY_MULTI_SEARCH = "/3/search/multi?",
+  GET_TV_SERIES_DETAILS = "/3/tv/",
+  GET_TV_SERIES_IMAGES = "/3/tv/",
+  GET_CAST_OF_TV_SERIES = "/3/tv/",
+  GET_TV_SERIES_REVIEWS = "/3/tv/",
+  GET_TV_SERIES_YOUTUBE_KEY = "/3/tv/",
+  GET_PERSONS_BY_SEARCH = "/3/search/person?",
+  GET_CHARACTER_OF_MOVIE = "/3/person/",
+  GET_CHARACTER_OF_PERSON = "/3/person/",
 }

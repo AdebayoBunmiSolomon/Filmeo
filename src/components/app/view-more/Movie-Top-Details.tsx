@@ -18,18 +18,24 @@ export const MovieTopDetails: React.FC<movieTopDetailsProps> = ({
     <>
       <View style={styles.movieDetailsTopContainer}>
         <AppText fontBold sizeLarge style={styles.movieTextTitle}>
-          {movieDetails.title}
+          {"name" in movieDetails ? movieDetails.name : movieDetails.title}
         </AppText>
         <View style={styles.movieDetailsTextContainer}>
           <AppText fontSemibold sizeSmall gray>
             {movieDetails.status}&nbsp;&nbsp;&nbsp;|
           </AppText>
           <AppText fontSemibold sizeSmall gray>
-            {getYearFromDateValue(String(movieDetails.release_date))}
+            {getYearFromDateValue(
+              String(
+                "first_air_date" in movieDetails
+                  ? movieDetails.first_air_date
+                  : movieDetails.release_date
+              )
+            )}
             &nbsp;&nbsp;&nbsp;|
           </AppText>
           <AppText fontSemibold sizeSmall gray>
-            {movieDetails.runtime}mins&nbsp;&nbsp;&nbsp;
+            {"runtime" ? movieDetails.runtime : null}mins&nbsp;&nbsp;&nbsp;
           </AppText>
         </View>
         <View style={styles.mainScrollContainer}>

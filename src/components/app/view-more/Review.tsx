@@ -43,7 +43,7 @@ export const MovieReview: React.FC<movieReviewProps> = ({ movieId }) => {
           sizes='small'
           color={theme === "dark" ? colors.primaryColor2 : colors.primaryColor}
         />
-      ) : (
+      ) : movieReviewData && movieReviewData.length !== 0 ? (
         <View
           style={{
             width: "100%",
@@ -54,88 +54,73 @@ export const MovieReview: React.FC<movieReviewProps> = ({ movieId }) => {
           <AppText fontSemibold sizeBody black>
             Reviews
           </AppText>
-          {movieReviewData ? (
-            <FlatList
-              data={movieReviewData}
-              style={styles.flatListContainer}
-              keyExtractor={(items, index) => items.id + index.toString()}
-              renderItem={({ item, index }) => (
-                <View key={index} style={styles.itemsContainer}>
-                  <View style={styles.topItemsContentContainer}>
-                    <View style={styles.imageContainer}>
-                      {item.author_details.avatar_path ? (
-                        <Image
-                          source={{
-                            uri: `${IMAGE_BASE_URL}${item.author_details.avatar_path}`,
-                          }}
-                          resizeMode='cover'
-                          style={styles.avatar}
-                        />
-                      ) : (
-                        <Image
-                          source={require("@src/assets/images/experience.png")}
-                          resizeMode='cover'
-                          style={styles.avatar}
-                        />
-                      )}
-                    </View>
-                    <View style={styles.itemName}>
-                      <AppText fontRegular sizeSmall mainColor>
-                        {item.author}
-                      </AppText>
-                      <AppText fontSemibold sizeSmall gray>
-                        {"@" + item.author_details.username}
-                      </AppText>
-                    </View>
+          <FlatList
+            data={movieReviewData}
+            style={styles.flatListContainer}
+            keyExtractor={(items, index) => items.id + index.toString()}
+            renderItem={({ item, index }) => (
+              <View key={index} style={styles.itemsContainer}>
+                <View style={styles.topItemsContentContainer}>
+                  <View style={styles.imageContainer}>
+                    {item.author_details.avatar_path ? (
+                      <Image
+                        source={{
+                          uri: `${IMAGE_BASE_URL}${item.author_details.avatar_path}`,
+                        }}
+                        resizeMode='cover'
+                        style={styles.avatar}
+                      />
+                    ) : (
+                      <Image
+                        source={require("@src/assets/images/experience.png")}
+                        resizeMode='cover'
+                        style={styles.avatar}
+                      />
+                    )}
                   </View>
-                  <AppText
-                    fontLight
-                    sizeSmall
-                    gray
-                    style={{
-                      textAlign: "justify",
-                    }}>
-                    {item.content}
-                  </AppText>
-                  <AppText fontBold sizeSmall black>
-                    Posted - {convertDateTimeISOtoHTMLDate(item.created_at)}
-                  </AppText>
-                  <AppText fontSemibold sizeSmall gray>
-                    <Fontisto
-                      name='star'
-                      size={moderateScale(15)}
-                      color={"#FFD700"}
-                    />{" "}
-                    {item.author_details.rating
-                      ? item.author_details.rating
-                      : "NIL"}{" "}
-                    / 10
-                  </AppText>
+                  <View style={styles.itemName}>
+                    <AppText fontRegular sizeSmall mainColor>
+                      {item.author}
+                    </AppText>
+                    <AppText fontSemibold sizeSmall gray>
+                      {"@" + item.author_details.username}
+                    </AppText>
+                  </View>
                 </View>
-              )}
-              horizontal={false}
-              showsVerticalScrollIndicator={false}
-              initialNumToRender={2}
-              maxToRenderPerBatch={2}
-              windowSize={2}
-              updateCellsBatchingPeriod={100}
-            />
-          ) : (
-            <View
-              style={[
-                {
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flex: 1,
-                },
-              ]}>
-              <AppText fontRegular sizeBody gray>
-                Uh oh, no reviews for this movie posted yet
-              </AppText>
-            </View>
-          )}
+                <AppText
+                  fontLight
+                  sizeSmall
+                  gray
+                  style={{
+                    textAlign: "justify",
+                  }}>
+                  {item.content}
+                </AppText>
+                <AppText fontBold sizeSmall black>
+                  Posted - {convertDateTimeISOtoHTMLDate(item.created_at)}
+                </AppText>
+                <AppText fontSemibold sizeSmall gray>
+                  <Fontisto
+                    name='star'
+                    size={moderateScale(15)}
+                    color={"#FFD700"}
+                  />{" "}
+                  {item.author_details.rating
+                    ? item.author_details.rating
+                    : "NIL"}{" "}
+                  / 10
+                </AppText>
+              </View>
+            )}
+            horizontal={false}
+            showsVerticalScrollIndicator={false}
+            initialNumToRender={2}
+            maxToRenderPerBatch={2}
+            windowSize={2}
+            updateCellsBatchingPeriod={100}
+          />
         </View>
-      )}
+      ) : null}
     </>
   );
 };

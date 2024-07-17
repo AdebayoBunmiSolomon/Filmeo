@@ -73,3 +73,36 @@ export const adultSelection = [
     title: "No",
   },
 ];
+
+export const aboutUs = [
+  {
+    title: "Trending Movies",
+    description:
+      "Stay updated with the hottest movies that everyone is talking about.",
+  },
+  {
+    title: "Upcoming Movies",
+    description:
+      "Never miss out on future blockbusters. Get the scoop on movies that are set to hit the screens soon.",
+  },
+  {
+    title: "Search for Movies and Series",
+    description:
+      "Looking for something specific? Use our search feature to find any movie or series in our extensive database.",
+  },
+  {
+    title: "Watch Trailers",
+    description:
+      "Get a sneak peek of movies and series with our high-quality trailers.",
+  },
+  {
+    title: "Create a Watch List",
+    description:
+      "Keep track of what you want to watch next by adding movies and series to your personalized watch list.",
+  },
+  {
+    title: "Cast Information",
+    description:
+      "Interested in knowing more about your favorite actors? Search for cast members and explore their biographies and filmographies.",
+  },
+];

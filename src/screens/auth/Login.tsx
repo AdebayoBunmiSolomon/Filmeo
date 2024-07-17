@@ -14,9 +14,11 @@ import { loginSchema } from "@src/form/validation";
 import { loginFormType } from "@src/form/types";
 import { KeyboardDismissal } from "@src/components/core";
 import { useAuthentication } from "@src/functions/hooks/services/useAuthentication";
+import { useSeenOnboarding } from "@src/hooks/state";
 
 export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
   const { Login, loading } = useAuthentication();
+  const { registerOnboarding } = useSeenOnboarding();
   const { theme } = useContext(ThemeContext);
   const {
     control,
@@ -30,6 +32,7 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
   const onSubmit = async (data: loginFormType) => {
     if (data) {
       await Login();
+      await registerOnboarding();
     }
   };
 

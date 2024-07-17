@@ -8,10 +8,14 @@ export type authScreenTypes = {
 };
 
 export const authScreens: authScreenTypes[] = [
-  {
-    screenName: "Onboarding",
-    component: AuthScreens.Onboarding,
-  },
+  // {
+  //   screenName: "Onboarding",
+  //   component: AuthScreens.Onboarding,
+  // },
+  // {
+  //   screenName: "GetStarted",
+  //   component: AuthScreens.GetStarted,
+  // },
   {
     screenName: "Login",
     component: AuthScreens.Login,
@@ -23,9 +27,5 @@ export const authScreens: authScreenTypes[] = [
   {
     screenName: "RegisterFlowTwo",
     component: AuthScreens.RegisterFlowTwo,
-  },
-  {
-    screenName: "GetStarted",
-    component: AuthScreens.GetStarted,
   },
 ];

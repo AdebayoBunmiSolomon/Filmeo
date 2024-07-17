@@ -5,7 +5,7 @@ import { AppText, Header } from "@src/components/shared";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { DVH, DVW, layout, verticalScale } from "@src/resources";
 import { aboutUs } from "@src/constant/data";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
 import { useIsFocused } from "@react-navigation/native";
 
 export const About = ({}: BottomTabBarScreenProps<"About">) => {

@@ -4,7 +4,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow $(Filmeo) to access your photos."
+          "photosPermission": "Allow Filmeo to access your photos."
         }
       ]
     ],
@@ -17,7 +17,12 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "dark": {
+        "image": "./assets/splash1.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#000000"
+      }
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {

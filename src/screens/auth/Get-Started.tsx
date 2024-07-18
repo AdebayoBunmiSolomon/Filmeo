@@ -18,7 +18,6 @@ export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
     <>
       <Screen>
         <Header
-          onPress={() => navigation.goBack()}
           title='Get Started'
           rightIcon={
             <FontAwesome

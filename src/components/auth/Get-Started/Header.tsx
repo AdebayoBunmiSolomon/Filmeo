@@ -5,6 +5,7 @@ import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { layout } from "@src/resources";
 import { AppText } from "@src/components/shared";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 type headerProps = {
   onPress?: () => void;
@@ -14,16 +15,22 @@ type headerProps = {
 };
 
 export const Header: React.FC<headerProps> = ({
-  onPress,
   title,
   rightIcon,
   onPressRightIcon,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const navigation: NavigationProp<any> = useNavigation();
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity
+          onPress={() => {
+            const canGoBack = navigation.canGoBack();
+            if (canGoBack) {
+              navigation.goBack();
+            }
+          }}>
           <AntDesign
             name='arrowleft'
             color={

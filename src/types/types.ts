@@ -74,3 +74,9 @@ export type dataStructure = {
     PL: certificationType;
   };
 };
+
+export type settingsType = {
+  title: string;
+  icon: React.ElementType;
+  function: () => void;
+}[];

@@ -10,6 +10,7 @@ import { layout } from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { Loader } from "../core";
+import { useAppButton } from "@src/hooks/state";
 
 type appButtonProps = {
   title: string;
@@ -19,6 +20,7 @@ type appButtonProps = {
   style?: StyleProp<ViewStyle> | any;
   outline?: boolean;
   onPress: () => void;
+  danger?: boolean;
 };
 
 export const AppButton: React.FC<appButtonProps> = ({
@@ -29,8 +31,10 @@ export const AppButton: React.FC<appButtonProps> = ({
   style,
   outline,
   onPress,
+  danger,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const { getAppBtnBgColor } = useAppButton(outline, danger);
   const borderColor =
     theme === "dark" ? colors.primaryColor : colors.primaryColor;
 
@@ -43,7 +47,7 @@ export const AppButton: React.FC<appButtonProps> = ({
             style,
             styles.buttonContainer,
             {
-              backgroundColor: "transparent",
+              backgroundColor: getAppBtnBgColor(),
               width: style?.width || "100%",
               borderWidth: layout.size2,
               borderColor: style?.borderColor || borderColor,
@@ -82,8 +86,7 @@ export const AppButton: React.FC<appButtonProps> = ({
             style,
             styles.buttonContainer,
             {
-              backgroundColor:
-                theme === "dark" ? colors.primaryColor : colors.primaryColor2,
+              backgroundColor: getAppBtnBgColor(),
               width: style?.width || "100%",
             },
           ]}

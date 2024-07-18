@@ -52,7 +52,6 @@ export const RegisterFlowOne = ({
   return (
     <Screen>
       <Header
-        onPress={() => navigation.goBack()}
         title='Register'
         rightIcon={
           <FontAwesome6

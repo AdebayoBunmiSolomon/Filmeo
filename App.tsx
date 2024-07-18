@@ -5,7 +5,6 @@ import { useAppStateCheck, useCachedResources } from "@src/hooks/state";
 import { ThemeProvider } from "@src/resources/Theme";
 import { Router } from "@src/router/Router";
 import { AppLoader } from "@src/screens/App-Loader";
-import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from "react-native-paper";
@@ -46,7 +45,6 @@ export default function App() {
       <ThemeProvider>
         <PaperProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
-            <StatusBar style='auto' />
             {isLoadingFontComplete ? (
               <AppLoader />
             ) : (

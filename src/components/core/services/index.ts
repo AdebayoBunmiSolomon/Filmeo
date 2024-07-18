@@ -4,3 +4,4 @@ export * from "./useGallery";
 export * from "./useMovieCardClick";
 export * from "./useSharing";
 export * from "./useOpenBrowser";
+export * from "./useToggleSwitch";

@@ -41,7 +41,6 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
       <KeyboardDismissal>
         <View>
           <Header
-            onPress={() => navigation.goBack()}
             title='Login'
             rightIcon={
               <Entypo

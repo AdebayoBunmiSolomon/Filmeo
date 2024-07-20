@@ -2,9 +2,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuthStore } from "../store";
 import { storageKey } from "@src/cache";
 import { useState } from "react";
+import { useUserDataStore } from "@src/hooks/store";
 
 export const useAuthentication = () => {
   const { setIsAuthenticated } = useAuthStore();
+  const { setUserData, userData } = useUserDataStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -43,6 +45,13 @@ export const useAuthentication = () => {
     try {
       await AsyncStorage.removeItem(storageKey.AUTHENTICATED);
       setIsAuthenticated(false);
+      setUserData({
+        ...userData,
+        id: "" || 0,
+        email: "",
+        name: "",
+        picture: "",
+      });
     } catch (err: any) {
       console.log("Error logging out", err);
       setIsError(true);

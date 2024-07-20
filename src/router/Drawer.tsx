@@ -30,6 +30,8 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { useUserDataStore } from "@src/hooks/store";
+import { normalizeSpaces } from "@src/helper/helper";
 
 type drawerProps = {
   props: any;
@@ -38,7 +40,9 @@ type drawerProps = {
 export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
   const { theme } = useContext(ThemeContext);
   const { logOut, loading } = useAuthentication();
+  const { userData } = useUserDataStore();
   const [expanded, setExpanded] = useState<boolean>(false);
+  const imageSize = DVW(25);
   return (
     <View
       style={[
@@ -60,27 +64,33 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            overflow: "hidden",
+            borderRadius: imageSize / 2,
+            marginTop: verticalScale(40),
           }}>
           <Image
-            resizeMode='contain'
-            source={require("@src/assets/images/experience.png")}
+            resizeMode='cover'
+            source={
+              userData && userData.picture
+                ? { uri: userData.picture }
+                : require("@src/assets/images/experience.png")
+            }
             style={{
-              width: DVW(25),
-              height: DVH(25),
-              borderRadius: 50,
-              borderColor: "white",
+              width: imageSize,
+              height: imageSize,
+              borderRadius: imageSize / 2,
             }}
           />
-          <AppText
-            fontRegular
-            sizeSmall
-            style={{
-              marginTop: verticalScale(-30),
-              color: colors.white,
-            }}>
-            adebayobunmisolomon@gamil.com
-          </AppText>
         </View>
+        <AppText
+          fontRegular
+          sizeSmall
+          style={{
+            color: colors.white,
+            alignSelf: "center",
+          }}>
+          @{userData && normalizeSpaces(String(userData.name))}
+        </AppText>
       </View>
       <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
         <>

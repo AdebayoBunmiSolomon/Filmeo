@@ -12,12 +12,16 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@src/form/validation";
 import { loginFormType } from "@src/form/types";
-import { KeyboardDismissal } from "@src/components/core";
+import { KeyboardDismissal, Loader } from "@src/components/core";
 import { useAuthentication } from "@src/functions/hooks/services/useAuthentication";
-import { useSeenOnboarding } from "@src/hooks/state";
+import { useGoogleSignIn, useSeenOnboarding } from "@src/hooks/state";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
 
 export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
   const { Login, loading } = useAuthentication();
+  const { promptAsync, gLoading } = useGoogleSignIn();
   const { registerOnboarding } = useSeenOnboarding();
   const { theme } = useContext(ThemeContext);
   const {
@@ -98,23 +102,32 @@ export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
               Or
             </AppText>
 
-            <TouchableOpacity style={styles.googleBtn}>
-              <Image
-                source={require("@src/assets/icons/google.png")}
-                resizeMode='center'
-                style={{
-                  width: DVW(7),
-                  height: DVH(7),
-                }}
-              />
-              <AppText
-                fontRegular
-                sizeBody
-                style={{
-                  color: theme === "dark" ? colors.white : colors.white,
-                }}>
-                Sign in With Google
-              </AppText>
+            <TouchableOpacity
+              style={styles.googleBtn}
+              disabled={gLoading}
+              onPress={() => promptAsync()}>
+              {gLoading ? (
+                <Loader sizes='small' color={colors.white} />
+              ) : (
+                <>
+                  <Image
+                    source={require("@src/assets/icons/google.png")}
+                    resizeMode='center'
+                    style={{
+                      width: DVW(7),
+                      height: DVH(7),
+                    }}
+                  />
+                  <AppText
+                    fontRegular
+                    sizeBody
+                    style={{
+                      color: theme === "dark" ? colors.white : colors.white,
+                    }}>
+                    Sign in With Google
+                  </AppText>
+                </>
+              )}
             </TouchableOpacity>
           </View>
         </View>

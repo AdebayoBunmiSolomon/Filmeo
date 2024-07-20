@@ -8,6 +8,7 @@ import { AppText } from "./AppText";
 import { getGreetings, truncateText } from "@src/helper/helper";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { DrawerActions } from "@react-navigation/native";
+import { useUserDataStore } from "@src/hooks/store";
 
 type headerProps = {
   backHeader: boolean;
@@ -23,6 +24,7 @@ export const Header: React.FC<headerProps> = ({
   showRightIcon,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const { userData } = useUserDataStore();
   const navigation: NavigationProp<any> = useNavigation();
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -66,7 +68,11 @@ export const Header: React.FC<headerProps> = ({
                 ]}>
                 <Image
                   resizeMode='contain'
-                  source={require("@src/assets/images/experience.png")}
+                  source={
+                    userData && userData.picture
+                      ? { uri: userData.picture }
+                      : require("@src/assets/images/experience.png")
+                  }
                   style={{
                     width: "100%",
                     height: "100%",
@@ -80,7 +86,7 @@ export const Header: React.FC<headerProps> = ({
           </TouchableOpacity>
           {showUsername && (
             <AppText sizeMedium fontBold black>
-              {truncateText(`Adebayo Bunmi Solomon`)}
+              {truncateText(userData && String(userData.name))}
             </AppText>
           )}
         </View>

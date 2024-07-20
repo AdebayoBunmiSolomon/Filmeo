@@ -214,3 +214,16 @@ export const filterNonMediaTypes = (data: xtensiveSearchDataType) => {
     return movieResults;
   }
 };
+
+/**
+ * This function returns the value of the input string with white spaces
+ * without white spaces.. e.g. 'Bunmi Solomon' to 'bunmisolomon'
+ */
+export const normalizeSpaces = (inputString: string) => {
+  return inputString
+    .trim() // Remove leading and trailing whitespace
+    .replace(/\s+/g, " ") // Replace multiple spaces with a single space
+    .split(" ") // Split the string into an array of words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize the first letter of each word
+    .join(" "); // Join the words back into a single string
+};

@@ -3,6 +3,8 @@ import { useAuthStore } from "../store";
 import { storageKey } from "@src/cache";
 import { useState } from "react";
 import { useUserDataStore } from "@src/hooks/store";
+import { signOut } from "firebase/auth";
+import { firebaseAuth } from "@src/api/configuration/firebase";
 
 export const useAuthentication = () => {
   const { setIsAuthenticated } = useAuthStore();
@@ -45,6 +47,7 @@ export const useAuthentication = () => {
     try {
       await AsyncStorage.removeItem(storageKey.AUTHENTICATED);
       setIsAuthenticated(false);
+      signOut(firebaseAuth);
       setUserData({
         ...userData,
         id: "" || 0,

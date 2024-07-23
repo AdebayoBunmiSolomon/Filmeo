@@ -4,4 +4,5 @@ declare module "@env" {
   export const IMAGE_BASE_URL: string;
   export const CLOUD_CONSOLE_WEB_CLIENT_ID_DEV: string;
   export const CLOUD_CONSOLE_ANDROID_CLIENT_ID_DEV: string;
+  export const CLOUD_CONSOLE_IOS_CLIENT_ID_DEV: string;
 }

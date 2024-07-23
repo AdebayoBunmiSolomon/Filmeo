@@ -21,6 +21,7 @@ module.exports = function (api) {
             "IMAGE_BASE_URL",
             "CLOUD_CONSOLE_WEB_CLIENT_ID_DEV",
             "CLOUD_CONSOLE_ANDROID_CLIENT_ID_DEV",
+            "CLOUD_CONSOLE_IOS_CLIENT_ID_DEV",
           ],
           safe: false,
           allowUndefined: true,

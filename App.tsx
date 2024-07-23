@@ -1,7 +1,11 @@
 import { useAuthentication } from "@src/functions/hooks/services";
 import { useAuthStore } from "@src/functions/hooks/store";
 import { isUserLoggedInOnDevice } from "@src/helper/helper";
-import { useAppStateCheck, useCachedResources } from "@src/hooks/state";
+import {
+  useAppStateCheck,
+  useCachedResources,
+  // useCheckIfUserDataEmpty,
+} from "@src/hooks/state";
 import { ThemeProvider } from "@src/resources/Theme";
 import { Router } from "@src/router/Router";
 import { AppLoader } from "@src/screens/App-Loader";
@@ -16,6 +20,7 @@ export default function App() {
     useCachedResources();
   const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   const [logoutTimer, setLogoutTimer] = useState<NodeJS.Timeout | null>(null);
+  // const { checkIfUserDataEmpty } = useCheckIfUserDataEmpty();
 
   const checkIsLoggedInOnDevice = async () => {
     const isLoggedIn = await isUserLoggedInOnDevice();
@@ -25,6 +30,12 @@ export default function App() {
     checkIsLoggedInOnDevice();
     loadResourcesAndDataAsync();
   }, []);
+
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     checkIfUserDataEmpty();
+  //   }
+  // }, [isAuthenticated]);
 
   //Log-out user when app is in background after a minute
   useEffect(() => {

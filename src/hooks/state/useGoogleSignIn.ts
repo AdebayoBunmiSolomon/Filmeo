@@ -14,7 +14,6 @@ import { useSeenOnboarding } from "./useSeenOnboarding";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
-import { useUserDataStore } from "../store";
 
 const config = {
   iosClientId: CLOUD_CONSOLE_IOS_CLIENT_ID_DEV,
@@ -25,7 +24,6 @@ export const useGoogleSignIn = () => {
   const { setIsAuthenticated } = useAuthStore();
   const { registerOnboarding } = useSeenOnboarding();
   const [gLoading, setGloading] = useState<boolean>(false);
-  const { setUserData, userData } = useUserDataStore();
 
   const handleToken = useCallback(async () => {
     setGloading(true);
@@ -34,13 +32,27 @@ export const useGoogleSignIn = () => {
       if (response?.type === "success") {
         const { id_token } = response?.params;
         const credential = GoogleAuthProvider.credential(id_token);
-        await signInWithCredential(firebaseAuth, credential);
-        await registerOnboarding();
-        await AsyncStorage.setItem(
-          storageKey.AUTHENTICATED,
-          JSON.stringify(true)
-        );
-        setIsAuthenticated(true);
+        const result = await signInWithCredential(firebaseAuth, credential);
+        if (result.user) {
+          const userAuthData = {
+            id: result.user.uid,
+            email: result.user.email,
+            name: result.user.displayName,
+            picture: result.user.photoURL,
+          };
+          await registerOnboarding();
+          await AsyncStorage.setItem(
+            storageKey.AUTHENTICATED,
+            JSON.stringify(true)
+          );
+          await AsyncStorage.setItem(
+            storageKey.USER_DATA,
+            JSON.stringify(userAuthData)
+          );
+          setIsAuthenticated(true);
+        } else {
+          console.log("Error signIn-In to google");
+        }
       }
     } catch (err: any) {
       console.log("Error", err);
@@ -64,15 +76,8 @@ export const useGoogleSignIn = () => {
         };
         await AsyncStorage.setItem(
           storageKey.USER_DATA,
-          JSON.stringify(userData)
+          JSON.stringify(userAuthData)
         );
-        setUserData({
-          ...userData,
-          id: userAuthData.id,
-          email: userAuthData.email,
-          name: userAuthData.name,
-          picture: userAuthData.picture,
-        });
       } else {
         console.log("Error logging in");
       }

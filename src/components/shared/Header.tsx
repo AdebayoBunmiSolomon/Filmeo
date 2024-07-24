@@ -1,4 +1,10 @@
-import { DVW, layout, moderateScale, verticalScale } from "@src/resources";
+import {
+  DVW,
+  font,
+  layout,
+  moderateScale,
+  verticalScale,
+} from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,13 +35,14 @@ export const Header: React.FC<headerProps> = ({
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
+
   const goBack = () => {
     navigation.goBack();
   };
   return (
     <View
       style={{
-        paddingBottom: verticalScale(10),
+        paddingBottom: verticalScale(0.2),
       }}>
       <View style={styles.headerContainer}>
         <View
@@ -84,11 +91,26 @@ export const Header: React.FC<headerProps> = ({
               {title}
             </AppText>
           </TouchableOpacity>
-          {showUsername && (
-            <AppText sizeMedium fontBold black>
-              {truncateText(userData && String(userData.name))}
-            </AppText>
-          )}
+          <View>
+            {showUsername && (
+              <AppText sizeMedium fontBold black>
+                {truncateText(userData && String(userData.name))}
+              </AppText>
+            )}
+            {backHeader ? null : (
+              <React.Fragment>
+                <AppText
+                  sizeSmall
+                  fontBold
+                  black
+                  style={{
+                    marginTop: verticalScale(-5),
+                  }}>
+                  {getGreetings().time}
+                </AppText>
+              </React.Fragment>
+            )}
+          </View>
         </View>
         {showRightIcon && (
           <TouchableOpacity>
@@ -98,15 +120,6 @@ export const Header: React.FC<headerProps> = ({
               color={theme === "dark" ? colors.gray : colors.gray}
             />
           </TouchableOpacity>
-        )}
-      </View>
-      <View style={styles.headerTitle}>
-        {backHeader ? null : (
-          <React.Fragment>
-            <AppText sizeSmall fontBold black>
-              {getGreetings().time}
-            </AppText>
-          </React.Fragment>
         )}
       </View>
     </View>

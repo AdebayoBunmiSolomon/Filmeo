@@ -1,10 +1,4 @@
-import {
-  DVW,
-  font,
-  layout,
-  moderateScale,
-  verticalScale,
-} from "@src/resources";
+import { DVW, layout, moderateScale, verticalScale } from "@src/resources";
 import { colors } from "@src/resources/Colors";
 import { ThemeContext } from "@src/resources/Theme";
 import { Ionicons } from "@expo/vector-icons";

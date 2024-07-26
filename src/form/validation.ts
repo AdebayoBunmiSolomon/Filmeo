@@ -42,3 +42,7 @@ export const xTensiveSearchMovieCompFormSchema = yup.object().shape({
   movieTitle: yup.string().required("movie title is required"),
   includeAdult: yup.string().required("please include adult"),
 });
+
+export const otpInputFormSchema = yup.object().shape({
+  otpInput: yup.string().required("one time pin is required"),
+});

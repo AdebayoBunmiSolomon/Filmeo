@@ -1,10 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
+import { useState } from "react";
 
 export const useSeenOnboarding = () => {
+  const [onboardingSeenLoading, setOnboardingSeenLoading] =
+    useState<boolean>(false);
   const checkIfOnboardingSeen = async () => {
+    setOnboardingSeenLoading(true);
     let state;
     try {
+      setOnboardingSeenLoading(true);
       const status = await AsyncStorage.getItem(storageKey.SEEN_ONBOARDING);
       const parsedStatus = JSON.parse(status!);
       if (parsedStatus !== null) {
@@ -23,6 +28,8 @@ export const useSeenOnboarding = () => {
     } catch (err: any) {
       console.log("Error", err);
       return false;
+    } finally {
+      setOnboardingSeenLoading(false);
     }
   };
 
@@ -42,5 +49,6 @@ export const useSeenOnboarding = () => {
   return {
     checkIfOnboardingSeen,
     registerOnboarding,
+    onboardingSeenLoading,
   };
 };

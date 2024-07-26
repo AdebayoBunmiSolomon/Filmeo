@@ -1,13 +1,21 @@
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_APP_ID,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_MESSENGER_SENDER_ID,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+} from "@env";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDtyHlwgPVmgnO5vALQenceMulXqR4-gx4",
-  authDomain: "filmeo-64ef8.firebaseapp.com",
-  projectId: "filmeo-64ef8",
-  storageBucket: "filmeo-64ef8.appspot.com",
-  messagingSenderId: "1086812467696",
-  appId: "1:1086812467696:web:75dd31b439a9c601622d35",
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSENGER_SENDER_ID,
+  appId: FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

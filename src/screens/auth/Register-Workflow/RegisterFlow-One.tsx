@@ -28,22 +28,13 @@ export const RegisterFlowOne = ({
 
   const onSubmit = (data: registerFlowOneFormType) => {
     //this holds the data to be submitted without the confirm-password
-    const registerFlowOneFormData: registerFlowOneFormType = {
-      fullName: data.fullName,
-      email: data.email,
-      phoneNumber: data.phoneNumber,
-    };
     // if data not empty, navigate with data
-    if (
-      registerFlowOneFormData.email &&
-      registerFlowOneFormData.fullName &&
-      registerFlowOneFormData.phoneNumber
-    ) {
+    if (data.email && data.fullName && data.phoneNumber) {
       navigation.navigate("RegisterFlowTwo", {
         data: {
-          email: registerFlowOneFormData.email,
-          fullName: registerFlowOneFormData.fullName,
-          phoneNumber: registerFlowOneFormData.phoneNumber,
+          email: data.email,
+          fullName: data.fullName,
+          phoneNumber: data.phoneNumber,
         },
       });
     }
@@ -71,7 +62,9 @@ export const RegisterFlowOne = ({
               label='Full Name'
               placeholder='John Doe'
               value={field.value}
-              onChangeText={(text) => field.onChange(text)}
+              onChangeText={(text) => {
+                field.onChange(text);
+              }}
               error={errors?.fullName?.message}
             />
           )}
@@ -99,9 +92,11 @@ export const RegisterFlowOne = ({
           render={({ field }) => (
             <AppInput
               label='Phone Number'
-              placeholder='09076544967'
+              placeholder='80 000 0000'
               value={field.value}
-              onChangeText={(text) => field.onChange(text)}
+              onChangeText={(text) => {
+                field.onChange(text);
+              }}
               error={errors?.phoneNumber?.message}
               phoneNumberInput
             />

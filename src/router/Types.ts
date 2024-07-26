@@ -8,6 +8,9 @@ export interface AuthStackParamList extends ParamListBase {
   Onboarding: undefined;
   Login: undefined;
   RegisterFlowOne: undefined;
+  Otp: {
+    data: { email: string; fullName: string; phoneNumber: string };
+  };
   RegisterFlowTwo: {
     data: { email: string; fullName: string; phoneNumber: string };
   };

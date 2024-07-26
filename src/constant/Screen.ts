@@ -12,10 +12,6 @@ export const authScreens: authScreenTypes[] = [
   //   screenName: "Onboarding",
   //   component: AuthScreens.Onboarding,
   // },
-  // {
-  //   screenName: "GetStarted",
-  //   component: AuthScreens.GetStarted,
-  // },
   {
     screenName: "Login",
     component: AuthScreens.Login,
@@ -27,5 +23,9 @@ export const authScreens: authScreenTypes[] = [
   {
     screenName: "RegisterFlowTwo",
     component: AuthScreens.RegisterFlowTwo,
+  },
+  {
+    screenName: "Otp",
+    component: AuthScreens.Otp,
   },
 ];

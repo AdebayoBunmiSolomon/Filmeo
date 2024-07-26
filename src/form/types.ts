@@ -37,3 +37,7 @@ export interface xtensiveSearchMovieCompFormType {
   movieTitle: string;
   includeAdult: string;
 }
+
+export interface otpFormType {
+  otpInput: string;
+}

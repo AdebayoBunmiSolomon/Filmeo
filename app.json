@@ -1,8 +1,10 @@
 {
   "expo": {
+    "notification": {
+      "icon": "./assets/icon.png",
+      "color": "#8d2fc7"
+    },
     "plugins": [
-      "@react-native-firebase/app",
-      "@react-native-firebase/auth",
       [
         "expo-image-picker",
         {

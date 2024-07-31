@@ -12,8 +12,10 @@ import { AppLoader } from "@src/screens/App-Loader";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from "react-native-paper";
+import registerNNPushToken from "native-notify";
 
 export default function App() {
+  registerNNPushToken(22709, "Ppth0iDHY6THpkeI5kmdbb");
   const { appState } = useAppStateCheck();
   const { logOut } = useAuthentication();
   const { isLoadingFontComplete, loadResourcesAndDataAsync } =
@@ -26,6 +28,7 @@ export default function App() {
     const isLoggedIn = await isUserLoggedInOnDevice();
     setIsAuthenticated(isLoggedIn);
   };
+
   useEffect(() => {
     checkIsLoggedInOnDevice();
     loadResourcesAndDataAsync();

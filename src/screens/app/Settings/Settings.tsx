@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Screen } from "../../Screen";
 import {
   AppButton,
+  AppInput,
   AppText,
   Header,
   ToggleSwitch,
@@ -20,6 +21,9 @@ import {
   Image,
 } from "react-native";
 import { useToggleSwitch } from "@src/components/core/services";
+import { usePushNotification } from "@src/hooks/state/usePushNotification";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storageKey } from "@src/cache";
 
 const settings: settingsType = [
   {
@@ -46,6 +50,21 @@ const settings: settingsType = [
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { switchToggle, switchOn } = useToggleSwitch();
+  // const { expoPushToken } = usePushNotification();
+  const [cachedToken, setCachedToken] = useState<string>("");
+
+  useEffect(() => {
+    const loadToken = async () => {
+      const token = await AsyncStorage.getItem(storageKey.PUSH_TOKEN);
+      const parsedToken = JSON.parse(token!);
+      if (parsedToken !== null) {
+        setCachedToken(parsedToken);
+      } else {
+        setCachedToken("No token found on device");
+      }
+    };
+    loadToken();
+  }, []);
 
   useEffect(() => {
     toggleTheme(switchOn);
@@ -64,6 +83,7 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
             styles.settingsContainer,
             {
               backgroundColor: colors.lightGray,
+              marginBottom: verticalScale(20),
             },
           ]}>
           {settings &&
@@ -103,6 +123,7 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
               );
             })}
         </View>
+        <AppInput value={cachedToken} placeholder='' label='' />
         <AppButton
           title='Delete Account'
           style={styles.deleteAcctButton}

@@ -39,8 +39,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.RECORD_AUDIO"],
-      "package": "com.adebunmy.filmeo"
+      "permissions": [
+        "NOTIFICATIONS",
+        "VIBRATE",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.adebunmy.filmeo",
+      "googleServicesFile": "./android/app/google-services.json",
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"

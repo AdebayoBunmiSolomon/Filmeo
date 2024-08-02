@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "318108379748",
-    "project_id": "filmeo-sms",
-    "storage_bucket": "filmeo-sms.appspot.com"
+    "project_number": "1086812467696",
+    "project_id": "filmeo-64ef8",
+    "storage_bucket": "filmeo-64ef8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:318108379748:android:7e9c2137429789df208d71",
+        "mobilesdk_app_id": "1:1086812467696:android:c40af22e741c6c47622d35",
         "android_client_info": {
           "package_name": "com.adebunmy.filmeo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1086812467696-f18djnp17b58gv678okopjndjp6qph1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLWG4UZu9Y1nqyygDgHBPes-_VSOq-sDI"
+          "current_key": "AIzaSyCsB9-gZmHZK2O6nA4XyySEk0IlDxSq4-Q"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1086812467696-f18djnp17b58gv678okopjndjp6qph1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

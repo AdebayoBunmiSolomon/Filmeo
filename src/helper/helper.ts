@@ -227,3 +227,33 @@ export const normalizeSpaces = (inputString: string) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize the first letter of each word
     .join(" "); // Join the words back into a single string
 };
+
+/**
+ *
+ * @param length gives the length or number of characters to be returned
+ * @returns a given set of characters randomly
+ */
+export const generateRandomId = (length: number) => {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  const characterLength = characters.length;
+
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characterLength));
+  }
+  return result;
+};
+
+/**
+ *
+ * @returns the current date value as in year-month-day
+ */
+export const getCurrentDate = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.toLocaleDateString("default", { month: "long" });
+  const day = date.getDay();
+  const currDate = year + "-" + month + "-" + day;
+  return currDate;
+};

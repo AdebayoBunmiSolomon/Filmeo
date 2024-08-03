@@ -6,6 +6,7 @@ import {
   useCachedResources,
   useCheckIfUserDataEmpty,
 } from "@src/hooks/state";
+import { usePushNotification } from "@src/hooks/state/usePushNotification";
 import { ThemeProvider } from "@src/resources/Theme";
 import { Router } from "@src/router/Router";
 import { AppLoader } from "@src/screens/App-Loader";
@@ -21,11 +22,19 @@ export default function App() {
   const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   const [logoutTimer, setLogoutTimer] = useState<NodeJS.Timeout | null>(null);
   const { checkIfUserDataEmpty } = useCheckIfUserDataEmpty();
+  const { expoPushToken } = usePushNotification();
 
   const checkIsLoggedInOnDevice = async () => {
     const isLoggedIn = await isUserLoggedInOnDevice();
     setIsAuthenticated(isLoggedIn);
   };
+
+  //save push token to device and firestore
+  useEffect(() => {
+    if (expoPushToken) {
+      console.log(expoPushToken);
+    }
+  }, [expoPushToken]);
 
   useEffect(() => {
     checkIsLoggedInOnDevice();

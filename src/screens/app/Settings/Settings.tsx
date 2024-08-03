@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Screen } from "../../Screen";
 import {
   AppButton,
-  AppInput,
   AppText,
   Header,
   ToggleSwitch,
@@ -21,9 +20,9 @@ import {
   Image,
 } from "react-native";
 import { useToggleSwitch } from "@src/components/core/services";
-import { usePushNotification } from "@src/hooks/state/usePushNotification";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
+import { usePushNotification } from "@src/hooks/state/usePushNotification";
 
 const settings: settingsType = [
   {
@@ -50,7 +49,6 @@ const settings: settingsType = [
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { switchToggle, switchOn } = useToggleSwitch();
-  const { expoPushToken } = usePushNotification();
   const [cachedToken, setCachedToken] = useState<string>("");
 
   useEffect(() => {

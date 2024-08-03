@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
+import { useSavePushToken } from "@src/functions/firebase/services";
+import Constants from "expo-constants";
+import { generateRandomId, getCurrentDate } from "@src/helper/helper";
 
 export interface PushNotificationState {
   notification?: Notifications.Notification;
@@ -28,13 +30,21 @@ export const usePushNotification = (): PushNotificationState => {
   >();
   const notificationListener = useRef<Notifications.Subscription>();
   const responseListener = useRef<Notifications.Subscription>();
+  const { savePushTokenToFirestore } = useSavePushToken();
 
   const saveExpoPushTokenToCacheAndFireStore = async (token: any) => {
     await AsyncStorage.setItem(
       storageKey.PUSH_TOKEN,
       JSON.stringify(token.data)
     );
-    console.log("Token saved successfully", token);
+    await savePushTokenToFirestore({
+      id: generateRandomId(10),
+      date_created: getCurrentDate(),
+      device_name:
+        Platform.OS === "android" ? Constants.deviceName : Device?.modelName,
+      device_type: Platform.OS,
+      token: token.data,
+    });
   };
 
   async function registerPushNotificationAsync() {

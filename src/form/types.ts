@@ -41,3 +41,11 @@ export interface xtensiveSearchMovieCompFormType {
 export interface otpFormType {
   otpInput: string;
 }
+
+export interface tokenFormDataType {
+  date_created: string | undefined;
+  device_name: string | undefined | null;
+  device_type: string | undefined;
+  id: string | undefined;
+  token: string | undefined;
+}

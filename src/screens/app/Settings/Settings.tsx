@@ -50,7 +50,7 @@ const settings: settingsType = [
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { switchToggle, switchOn } = useToggleSwitch();
-  // const { expoPushToken } = usePushNotification();
+  const { expoPushToken } = usePushNotification();
   const [cachedToken, setCachedToken] = useState<string>("");
 
   useEffect(() => {
@@ -123,7 +123,13 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
               );
             })}
         </View>
-        <AppInput value={cachedToken} placeholder='' label='' />
+        <AppText fontRegular sizeBody black>
+          Filmeo push token:
+        </AppText>
+        <AppText fontExtraLight sizeBody gray>
+          {cachedToken}
+        </AppText>
+        {/* <AppInput value={cachedToken} placeholder='' label='' /> */}
         <AppButton
           title='Delete Account'
           style={styles.deleteAcctButton}

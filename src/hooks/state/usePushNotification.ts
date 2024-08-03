@@ -29,6 +29,14 @@ export const usePushNotification = (): PushNotificationState => {
   const notificationListener = useRef<Notifications.Subscription>();
   const responseListener = useRef<Notifications.Subscription>();
 
+  const saveExpoPushTokenToCacheAndFireStore = async (token: any) => {
+    await AsyncStorage.setItem(
+      storageKey.PUSH_TOKEN,
+      JSON.stringify(token.data)
+    );
+    console.log("Token saved successfully", token);
+  };
+
   async function registerPushNotificationAsync() {
     let token;
     if (Platform.OS === "android") {
@@ -58,14 +66,13 @@ export const usePushNotification = (): PushNotificationState => {
     } else {
       console.log("Error: please use a physical device");
     }
-    await AsyncStorage.setItem(storageKey.PUSH_TOKEN, JSON.stringify(token));
     return token ? token : token;
   }
 
   useEffect(() => {
     registerPushNotificationAsync().then((token) => {
       setExpoPushToken(token);
-      console.log(token);
+      saveExpoPushTokenToCacheAndFireStore(token);
     });
 
     notificationListener.current =

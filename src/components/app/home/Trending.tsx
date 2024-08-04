@@ -9,11 +9,9 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { MovieCard } from "@src/components/card";
 import { ListButton } from "@src/common";
 import { trendingMovieTimeWindow } from "@src/constant/data";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useMovieCardClick } from "@src/components/core/services";
 
 export const TrendingMovies: React.FC<{}> = () => {
-  const navigation: NavigationProp<any> = useNavigation();
   const { theme } = useContext(ThemeContext);
   const { loading, trendingMoviesData, setTimeWindow } = useGetTrendingMovies();
   const { movieCardClick } = useMovieCardClick();

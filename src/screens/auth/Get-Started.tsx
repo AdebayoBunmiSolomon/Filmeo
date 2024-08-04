@@ -1,5 +1,5 @@
 import { AuthScreenProps } from "@src/router/Types";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Screen } from "../Screen";
 import { Image, StyleSheet, View } from "react-native";
 import { Header } from "@src/components/auth";
@@ -9,10 +9,19 @@ import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import { AppButton, DropDown } from "@src/components/shared";
 import { useVisibility } from "@src/hooks/state";
+import { usePushNotification } from "@src/hooks/state/usePushNotification";
 
 export const GetStarted = ({ navigation }: AuthScreenProps<"GetStarted">) => {
   const { theme } = useContext(ThemeContext);
   const { dropDownVisible, onToggleDropDownVisible } = useVisibility();
+  const { expoPushToken } = usePushNotification();
+
+  //save push token to device and firestore
+  useEffect(() => {
+    if (expoPushToken) {
+      console.log(expoPushToken);
+    }
+  }, [expoPushToken]);
 
   return (
     <>

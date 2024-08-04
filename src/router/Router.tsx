@@ -11,6 +11,7 @@ type routerProps = {
 
 export const Router = ({ isAuthenticated }: routerProps) => {
   const { theme } = useContext(ThemeContext);
+
   return (
     <>
       <NavigationContainer>

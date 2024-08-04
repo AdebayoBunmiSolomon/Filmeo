@@ -41,7 +41,6 @@ export const useExtensiveSearch = () => {
       );
       filteredMovie = filterNonMediaTypes(data.results);
       if (status === 200 && filteredMovie) {
-        console.log(filteredMovie);
         setXtensiveSearchData(filteredMovie);
         setIsError(false);
       } else {
@@ -55,12 +54,55 @@ export const useExtensiveSearch = () => {
     }
   };
 
+  const getXtensiveSearchOfMovieFromNotification = async (
+    queryString: string,
+    includeAdult: boolean,
+    pageNumber: number
+  ) => {
+    try {
+      let filteredMovie;
+      setLoading(true);
+      setIsError(false);
+
+      const { data, status } = await GetRequest(
+        `${endpoint.GET_MOVIE_BY_MULTI_SEARCH}query=${queryString}&include_adult=${includeAdult}&page=${pageNumber}`,
+        header,
+        {}
+      );
+      filteredMovie = filterNonMediaTypes(data.results);
+      if (status === 200 && filteredMovie) {
+        console.log("Filtered movie", filteredMovie);
+        setIsError(false);
+        return {
+          mediaTypeOfMovie: filteredMovie[0].media_type,
+          id: filteredMovie[0].id,
+        };
+      } else {
+        console.log("Error getting movie or tv info");
+        setIsError(true);
+        return {
+          mediaTypeOfMovie: undefined,
+          id: undefined,
+        };
+      }
+    } catch (err: any) {
+      console.log("Error", err);
+      return {
+        mediaTypeOfMovie: undefined,
+        id: undefined,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getXtensiveSearch(queryStringVal, include_adult, pageNumber);
   }, [queryStringVal, include_adult, pageNumber]);
 
   return {
     getXtensiveSearch,
+    getXtensiveSearchOfMovieFromNotification,
     loading,
     isError,
     xtensiveSearchData,

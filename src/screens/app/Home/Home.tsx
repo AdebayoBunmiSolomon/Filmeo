@@ -7,9 +7,19 @@ import { ScrollView, View } from "react-native";
 import { verticalScale } from "@src/resources";
 import { useGetGenre } from "@src/functions/api/services/movies";
 import { Error, ListButton } from "@src/common";
+import { usePushNotification } from "@src/hooks/state/usePushNotification";
 
 export const Home = ({}: BottomTabBarScreenProps<"Home">) => {
   const { genreData, loading, getMovieGenres, isError } = useGetGenre();
+
+  const { expoPushToken } = usePushNotification();
+
+  //save push token to device and firestore
+  useEffect(() => {
+    if (expoPushToken) {
+      console.log(expoPushToken);
+    }
+  }, [expoPushToken]);
 
   useEffect(() => {
     getMovieGenres();

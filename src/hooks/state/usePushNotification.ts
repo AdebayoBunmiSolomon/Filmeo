@@ -7,6 +7,8 @@ import { storageKey } from "@src/cache";
 import { useSavePushToken } from "@src/functions/firebase/services";
 import Constants from "expo-constants";
 import { generateRandomId, getCurrentDate } from "@src/helper/helper";
+import { useMovieCardClick } from "@src/components/core/services";
+import { useExtensiveSearch } from "@src/functions/api/services/search";
 
 export interface PushNotificationState {
   notification?: Notifications.Notification;
@@ -14,6 +16,8 @@ export interface PushNotificationState {
 }
 
 export const usePushNotification = (): PushNotificationState => {
+  const { movieCardClick } = useMovieCardClick();
+  const { getXtensiveSearchOfMovieFromNotification } = useExtensiveSearch();
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldPlaySound: true,
@@ -55,6 +59,7 @@ export const usePushNotification = (): PushNotificationState => {
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: "#FF231F7C",
+        enableVibrate: true,
       });
     }
 
@@ -90,10 +95,30 @@ export const usePushNotification = (): PushNotificationState => {
         setNotification(notification);
       });
 
+    //this is triggered to open the app once the notification is clicked from the
+    //notification bar
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
-      });
+      Notifications.addNotificationResponseReceivedListener(
+        async (response) => {
+          const title = response.notification.request.content?.data?.title;
+          const mediaType =
+            response.notification.request.content?.data?.mediaType;
+          if (title) {
+            console.log(mediaType);
+            try {
+              const { id, mediaTypeOfMovie } =
+                await getXtensiveSearchOfMovieFromNotification(title, false, 1);
+              if (id && mediaTypeOfMovie === "movie") {
+                movieCardClick(id);
+              } else {
+                movieCardClick(id, mediaTypeOfMovie);
+              }
+            } catch (error) {
+              console.error("Error handling notification:", error);
+            }
+          }
+        }
+      );
 
     return () => {
       Notifications.removeNotificationSubscription(

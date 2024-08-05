@@ -33,7 +33,7 @@ export const useAuthentication = () => {
         setIsError(true);
       }
     } catch (err) {
-      console.log("Error processing if user is logged in", err);
+      console.log("Error", err);
       setIsAuthenticated(false);
       setIsError(true);
     } finally {

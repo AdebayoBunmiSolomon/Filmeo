@@ -71,7 +71,7 @@ export const useExtensiveSearch = () => {
       );
       filteredMovie = filterNonMediaTypes(data.results);
       if (status === 200 && filteredMovie) {
-        console.log("Filtered movie", filteredMovie);
+        // console.log("Filtered movie", filteredMovie);
         setIsError(false);
         return {
           mediaTypeOfMovie: filteredMovie[0].media_type,

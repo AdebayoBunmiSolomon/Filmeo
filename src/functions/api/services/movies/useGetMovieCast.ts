@@ -25,7 +25,7 @@ export const useGetMovieCast = () => {
       if (status === 200) {
         const castData = appendBaseUrlToMovieCastList(data.cast, baseUrl);
         setMovieCastData(castData);
-        console.log(data);
+        // console.log(data);
         setIsMovieCastError(false);
       } else {
         console.log("Error get movies cast");

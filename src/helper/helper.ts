@@ -57,7 +57,7 @@ export const isUserLoggedInOnDevice = async () => {
       return false;
     }
   } catch (err) {
-    console.log(err);
+    console.log("Error", err);
     return false;
   }
 };

@@ -13,7 +13,7 @@ export const MovieTopDetails: React.FC<movieTopDetailsProps> = ({
 }) => {
   const lengthOfMovieGenres: number =
     movieDetails && movieDetails.genres.length - 1;
-  console.log(lengthOfMovieGenres);
+  // console.log(lengthOfMovieGenres);
   return (
     <>
       <View style={styles.movieDetailsTopContainer}>

@@ -9,6 +9,8 @@ import Constants from "expo-constants";
 import { generateRandomId, getCurrentDate } from "@src/helper/helper";
 import { useMovieCardClick } from "@src/components/core/services";
 import { useExtensiveSearch } from "@src/functions/api/services/search";
+import { useAuthStore } from "@src/functions/hooks/store";
+// import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 export interface PushNotificationState {
   notification?: Notifications.Notification;
@@ -17,6 +19,8 @@ export interface PushNotificationState {
 
 export const usePushNotification = (): PushNotificationState => {
   const { movieCardClick } = useMovieCardClick();
+  // const navigation: NavigationProp<any> = useNavigation();
+  const { isAuthenticated } = useAuthStore();
   const { getXtensiveSearchOfMovieFromNotification } = useExtensiveSearch();
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -103,6 +107,19 @@ export const usePushNotification = (): PushNotificationState => {
           const title = response.notification.request.content?.data?.title;
           const mediaType =
             response.notification.request.content?.data?.mediaType;
+          //validate to check if user is logged in or not
+          if (!isAuthenticated) {
+            console.log("User is not authenticated");
+            // Alert.alert("Error", "User is not authenticated", [
+            //   {
+            //     text: "Ok",
+            //     onPress: () => {
+            //       navigation.navigate("Login");
+            //     },
+            //   },
+            // ]);
+            return;
+          }
           if (title) {
             console.log(mediaType);
             try {

@@ -25,7 +25,7 @@ export const useCameraServices = () => {
       });
 
       if (!result.canceled) {
-        console.log(result);
+        // console.log(result);
         setImage(result.assets[0].uri);
         setCapturedImage(result.assets[0].uri);
       }

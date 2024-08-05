@@ -40,7 +40,7 @@ export const useGetTvSeriesDetails = () => {
       const videoKey = await getYouTubeVideoId(tvSeriesId);
       setLoading(true);
       if (status === 200) {
-        console.log("data", data);
+        // console.log("data", data);
         setTvSeriesVideoKey(videoKey);
         setTvSeriesData(data);
       } else {

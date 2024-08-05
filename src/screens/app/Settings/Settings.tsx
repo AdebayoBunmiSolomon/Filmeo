@@ -22,34 +22,35 @@ import {
 import { useToggleSwitch } from "@src/components/core/services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
-import { usePushNotification } from "@src/hooks/state/usePushNotification";
-
-const settings: settingsType = [
-  {
-    title: "Edit Details",
-    icon: AntDesign,
-    function: () => {
-      console.log("Edit Details");
-    },
-  },
-  {
-    title: "Preferred Theme",
-    icon: MaterialCommunityIcons,
-    function: () => {},
-  },
-  {
-    title: "Log-Out",
-    icon: Entypo,
-    function: () => {
-      console.log("Log-out");
-    },
-  },
-];
+import { useAuthStore } from "@src/functions/hooks/store";
+import { useAuthentication } from "@src/functions/hooks/services";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { switchToggle, switchOn } = useToggleSwitch();
   const [cachedToken, setCachedToken] = useState<string>("");
+  const { logOut } = useAuthentication();
+  const settings: settingsType = [
+    {
+      title: "Edit Details",
+      icon: AntDesign,
+      function: () => {
+        console.log("Edit Details");
+      },
+    },
+    {
+      title: "Preferred Theme",
+      icon: MaterialCommunityIcons,
+      function: () => {},
+    },
+    {
+      title: "Log-Out",
+      icon: Entypo,
+      function: () => {
+        logOut();
+      },
+    },
+  ];
 
   useEffect(() => {
     const loadToken = async () => {

@@ -46,7 +46,7 @@ export const useGetMovieDetails = () => {
         setIsError(false);
       } else {
         setIsError(true);
-        console.log("Error processing get request");
+        // console.log("Error processing get request");
       }
     } catch (err: any) {
       console.log("Error", err);

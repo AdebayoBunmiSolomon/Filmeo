@@ -13,7 +13,7 @@ export const useGetCombinedMovieCredits = () => {
   const getCombinedMovieCredits = async (castId: number) => {
     setLoading(true);
     setIsError(false);
-    console.log(castId);
+    // console.log(castId);
     try {
       const { status, data } = await GetRequest(
         `${endpoint.GET_COMBINED_MOVIE_CREDITS_OF_CAST}${castId}/combined_credits`,

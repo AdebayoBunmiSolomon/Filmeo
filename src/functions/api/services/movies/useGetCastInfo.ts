@@ -19,7 +19,7 @@ export const useGetCastInformation = () => {
         {}
       );
       if (status === 200) {
-        console.log(data);
+        // console.log(data);
         setCastInfoData(data);
         setIsError(false);
       } else {

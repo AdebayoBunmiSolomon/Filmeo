@@ -33,7 +33,7 @@ export const useGetTvSeriesCast = () => {
         setIsTvSeriesCastError(true);
       }
     } catch (err: any) {
-      console.log(err);
+      console.log("Error", err);
       setIsTvSeriesCastError(true);
     } finally {
       setTvSeriesCastLoading(false);

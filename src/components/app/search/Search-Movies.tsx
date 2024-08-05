@@ -44,7 +44,7 @@ export const SearchMoviesComp: React.FC<searchMoviesCompProps> = ({
 
   const onSubmit = (data: searchMovieCompFormType) => {
     if (data) {
-      console.log(data);
+      // console.log(data);
       const includeAdult = returnBooleanConstraintsForYesOrNoSelection(
         data.includeAdult
       );

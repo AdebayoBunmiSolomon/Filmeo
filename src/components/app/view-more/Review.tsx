@@ -27,7 +27,7 @@ export const MovieReview: React.FC<movieReviewProps> = ({ movieId }) => {
 
   useEffect(() => {
     getMovieReviews(movieId);
-    console.log("data is", movieReviewData);
+    // console.log("data is", movieReviewData);
   }, []);
   return (
     <>

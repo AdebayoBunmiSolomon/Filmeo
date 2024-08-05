@@ -40,7 +40,7 @@ export const useSearchMovies = () => {
         console.log("Error searching movies");
       }
     } catch (err: any) {
-      console.log("Error processing data", err);
+      console.log("Error", err);
       setIsError(false);
     } finally {
       setLoading(false);

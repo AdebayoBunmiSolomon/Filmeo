@@ -39,7 +39,7 @@ export const SearchXtensiveMoviesComp: React.FC<
 
   const onSubmit = (data: xtensiveSearchMovieCompFormType) => {
     if (data) {
-      console.log(data);
+      // console.log(data);
       multiSearchMovie(data.movieTitle, data.includeAdult, 1);
     }
   };

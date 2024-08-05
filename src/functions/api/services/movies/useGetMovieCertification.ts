@@ -28,7 +28,7 @@ export const useGetMovieCertification = () => {
         return undefined;
       }
     } catch (err: any) {
-      console.log(err);
+      console.log("Error", err);
       return undefined;
     }
   };

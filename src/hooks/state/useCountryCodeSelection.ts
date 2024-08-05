@@ -20,7 +20,7 @@ export const useCountryCodeSelection = () => {
       const response = countries.filter((item) =>
         item.name.toLowerCase().includes(queryValue?.toLowerCase())
       );
-      console.log(response);
+      // console.log(response);
       return response;
     } else {
       return countries;

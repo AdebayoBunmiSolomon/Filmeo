@@ -59,7 +59,7 @@ export const useLikedMovie = () => {
         );
       }
     } catch (err: any) {
-      console.log(err);
+      console.log("Error", err);
     } finally {
       setLikeMovieLoading(false);
     }

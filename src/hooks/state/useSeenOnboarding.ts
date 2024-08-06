@@ -10,6 +10,7 @@ export const useSeenOnboarding = () => {
     let state;
     try {
       setOnboardingSeenLoading(true);
+      // await AsyncStorage.removeItem(storageKey.SEEN_ONBOARDING);
       const status = await AsyncStorage.getItem(storageKey.SEEN_ONBOARDING);
       const parsedStatus = JSON.parse(status!);
       if (parsedStatus !== null) {

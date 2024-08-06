@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthScreenProps } from "@src/router/Types";
 import { Screen } from "@src/screens/Screen";
 import { Header } from "@src/components/auth";
@@ -10,108 +10,156 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerFlowOneFormSchema } from "@src/form/validation";
 import { AppButton, AppInput } from "@src/components/shared";
-import { ScrollContainer } from "@src/components/core";
+import { ModalMessage, ScrollContainer } from "@src/components/core";
 import { registerFlowOneFormType } from "@src/form/types";
+import { useSaveUser } from "@src/functions/firebase/services";
+import { convertInputValueToLowercaseAndRemoveWhiteSpace } from "@src/helper/helper";
 
-export const RegisterFlowOne = ({
-  navigation,
-}: AuthScreenProps<"RegisterFlowOne">) => {
+export const RegisterFlowOne = ({}: AuthScreenProps<"RegisterFlowOne">) => {
+  const { firstFlow, flowOneFrmErr, loading, setModalMessage, modalMessage } =
+    useSaveUser();
   const { theme } = useContext(ThemeContext);
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm<registerFlowOneFormType>({
     mode: "onChange",
     resolver: yupResolver(registerFlowOneFormSchema),
   });
 
-  const onSubmit = (data: registerFlowOneFormType) => {
-    //this holds the data to be submitted without the confirm-password
-    // if data not empty, navigate with data
-    if (data.email && data.fullName && data.phoneNumber) {
-      navigation.navigate("RegisterFlowTwo", {
-        data: {
-          email: data.email,
-          fullName: data.fullName,
-          phoneNumber: data.phoneNumber,
-        },
+  useEffect(() => {
+    if (flowOneFrmErr.fullname) {
+      setError("fullname", {
+        type: "custom",
+        message: "fullname is already taken",
       });
+      return;
+    } else {
+      clearErrors("fullname");
     }
+
+    if (flowOneFrmErr.email) {
+      setError("email", {
+        type: "custom",
+        message: "email is already taken",
+      });
+      return;
+    } else {
+      clearErrors("email");
+    }
+
+    if (flowOneFrmErr.phone_number) {
+      setError("phone_number", {
+        type: "custom",
+        message: "phone number is already taken",
+      });
+      return;
+    } else {
+      clearErrors("phone_number");
+    }
+  }, [flowOneFrmErr.fullname, flowOneFrmErr.email, flowOneFrmErr.phone_number]);
+
+  const onSubmit = async (data: registerFlowOneFormType) => {
+    await firstFlow({
+      email: convertInputValueToLowercaseAndRemoveWhiteSpace(data.email),
+      fullname: convertInputValueToLowercaseAndRemoveWhiteSpace(data.fullname),
+      phone_number: convertInputValueToLowercaseAndRemoveWhiteSpace(
+        data.phone_number
+      ),
+    });
   };
 
   return (
-    <Screen>
-      <Header
-        title='Register'
-        rightIcon={
-          <FontAwesome6
-            name='user-pen'
-            color={
-              theme === "dark" ? colors.primaryColor : colors.primaryColor2
-            }
-            size={layout.size18}
+    <>
+      <Screen>
+        <Header
+          title='Register'
+          rightIcon={
+            <FontAwesome6
+              name='user-pen'
+              color={
+                theme === "dark" ? colors.primaryColor : colors.primaryColor2
+              }
+              size={layout.size18}
+            />
+          }
+        />
+        <ScrollContainer style={{ flex: 1 }}>
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <AppInput
+                label='Full Name'
+                placeholder='John Doe'
+                value={field.value}
+                onChangeText={(text) => {
+                  field.onChange(text);
+                }}
+                error={errors?.fullname?.message}
+              />
+            )}
+            name='fullname'
+            defaultValue=''
           />
+
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <AppInput
+                label='Email'
+                placeholder='JohnDoe@gmail.com'
+                value={field.value}
+                onChangeText={(text) => field.onChange(text)}
+                error={errors?.email?.message}
+              />
+            )}
+            name='email'
+            defaultValue=''
+          />
+
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <AppInput
+                label='Phone Number'
+                placeholder='80 000 0000'
+                value={field.value}
+                onChangeText={(text) => {
+                  field.onChange(text);
+                }}
+                error={errors?.phone_number?.message}
+                phoneNumberInput
+              />
+            )}
+            name='phone_number'
+            defaultValue=''
+          />
+        </ScrollContainer>
+        <AppButton
+          title='Next'
+          onPress={handleSubmit(onSubmit)}
+          style={{
+            marginBottom: layout.size10,
+          }}
+          isLoading={loading}
+        />
+      </Screen>
+
+      <ModalMessage
+        visible={modalMessage.visible}
+        setVisible={() =>
+          setModalMessage({ ...modalMessage, visible: !modalMessage.visible })
         }
+        title={modalMessage.title}
+        btnTitle={modalMessage.btnTitle}
+        onPress={() => {}}
+        type={modalMessage.type}
+        enteringAnimation='ZoomIn'
+        exitingAnimation='ZoomOut'
       />
-      <ScrollContainer style={{ flex: 1 }}>
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <AppInput
-              label='Full Name'
-              placeholder='John Doe'
-              value={field.value}
-              onChangeText={(text) => {
-                field.onChange(text);
-              }}
-              error={errors?.fullName?.message}
-            />
-          )}
-          name='fullName'
-          defaultValue=''
-        />
-
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <AppInput
-              label='Email'
-              placeholder='JohnDoe@gmail.com'
-              value={field.value}
-              onChangeText={(text) => field.onChange(text)}
-              error={errors?.email?.message}
-            />
-          )}
-          name='email'
-          defaultValue=''
-        />
-
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <AppInput
-              label='Phone Number'
-              placeholder='80 000 0000'
-              value={field.value}
-              onChangeText={(text) => {
-                field.onChange(text);
-              }}
-              error={errors?.phoneNumber?.message}
-              phoneNumberInput
-            />
-          )}
-          name='phoneNumber'
-          defaultValue=''
-        />
-      </ScrollContainer>
-      <AppButton
-        title='Next'
-        onPress={handleSubmit(onSubmit)}
-        style={{
-          marginBottom: layout.size10,
-        }}
-      />
-    </Screen>
+    </>
   );
 };

@@ -257,3 +257,11 @@ export const getCurrentDate = () => {
   const currDate = year + "-" + month + "-" + day;
   return currDate;
 };
+
+export const convertInputValueToLowercaseAndRemoveWhiteSpace = (
+  value: string
+) => {
+  const cValueToLowerCase = value.toLocaleLowerCase();
+  const removeWhiteSpaceInValue = cValueToLowerCase.trim();
+  return removeWhiteSpaceInValue;
+};

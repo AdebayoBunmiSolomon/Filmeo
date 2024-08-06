@@ -4,9 +4,9 @@ export interface loginFormType {
 }
 
 export interface registerFlowOneFormType {
-  fullName: string;
+  fullname: string;
   email: string;
-  phoneNumber: string;
+  phone_number: string;
 }
 
 export interface registerFlowTwoFormType {
@@ -15,11 +15,14 @@ export interface registerFlowTwoFormType {
 }
 
 export interface createUser {
-  userName: string;
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  password: string;
+  fullname: string | undefined;
+  email: string | undefined;
+  phone_number: string | undefined;
+  username: string | undefined;
+  password: string | undefined;
+  avatar_url: string | undefined;
+  created_at: string | undefined;
+  updated_at: string | undefined;
 }
 
 export interface searchKeywordType {
@@ -48,4 +51,16 @@ export interface tokenFormDataType {
   device_type: string | undefined;
   id: string | undefined;
   token: string | undefined;
+}
+
+export interface flowOneFormDataType {
+  fullname: string | undefined;
+  email: string | undefined;
+  phone_number: string | undefined;
+}
+
+export interface flowTwoFormDataType {
+  username: string | undefined;
+  password: string | undefined;
+  // avatar_url: File;
 }

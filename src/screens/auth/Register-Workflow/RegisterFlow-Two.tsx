@@ -11,29 +11,36 @@ import { colors } from "@src/resources/Colors";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerFlowTwoFormSchema } from "@src/form/validation";
-import { createUser, registerFlowTwoFormType } from "@src/form/types";
+import { createUser } from "@src/form/types";
 import { registerFlowTwoFormLookUp } from "@src/form/lookup";
-import { useModalMessage } from "@src/hooks/state";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { RegisterSheetModal } from "@src/components/auth/Register/Sheet-Modal";
 import { useSheetModalServices } from "@src/components/core/services";
 import { useImageStore } from "@src/components/core/store";
+import {
+  convertInputValueToLowercaseAndRemoveWhiteSpace,
+  getCurrentDate,
+} from "@src/helper/helper";
+import { useSaveUser } from "@src/functions/firebase/services";
+import { StackActions } from "@react-navigation/native";
 
 export const RegisterFlowTwo = ({
   navigation,
   route,
 }: AuthScreenProps<"RegisterFlowTwo">) => {
   const { theme } = useContext(ThemeContext);
-  const { modalMessage, setModalMessage } = useModalMessage();
   const { data } = route.params ?? { data: undefined };
   const { isModalVisible, setIsModalVisible } = useSheetModalServices();
   const { capturedImage } = useImageStore();
   const flowOneData = data && data;
+  const { secondFlow, flowTwoFrmErr, loading, modalMessage, setModalMessage } =
+    useSaveUser();
   const {
     control,
     handleSubmit,
     setError,
+    clearErrors,
     formState: { errors },
     setValue,
   } = useForm<registerFlowTwoFormLookUp>({
@@ -41,33 +48,35 @@ export const RegisterFlowTwo = ({
     resolver: yupResolver(registerFlowTwoFormSchema),
   });
 
-  const onSubmit = (data: registerFlowTwoFormLookUp) => {
-    const formData: registerFlowTwoFormType = {
-      userName: data.userName,
-      password: data.password,
+  const onSubmit = async (data: registerFlowTwoFormLookUp) => {
+    const createUserData: createUser = {
+      fullname: convertInputValueToLowercaseAndRemoveWhiteSpace(
+        flowOneData.fullName
+      ),
+      email: convertInputValueToLowercaseAndRemoveWhiteSpace(flowOneData.email),
+      phone_number: convertInputValueToLowercaseAndRemoveWhiteSpace(
+        flowOneData.phoneNumber
+      ),
+      username: convertInputValueToLowercaseAndRemoveWhiteSpace(data.username),
+      password: convertInputValueToLowercaseAndRemoveWhiteSpace(data.password),
+      avatar_url: "bunmi.jpg",
+      created_at: getCurrentDate(),
+      updated_at: getCurrentDate(),
     };
-    if (data.confirmPassword !== formData.password) {
-      setError("confirmPassword", {
-        type: "custom",
-        message: "Confirm password and password not match",
-      });
-    } else {
-      const createUserData: createUser = {
-        fullName: flowOneData.fullName,
-        email: flowOneData.email,
-        phoneNumber: flowOneData.phoneNumber,
-        userName: formData.userName,
-        password: formData.password,
-      };
-      setModalMessage({
-        ...modalMessage,
-        visible: !modalMessage.visible,
-        title: "Registration successful, proceed to login",
-        btnTitle: "Ok",
-        type: "success",
-      });
-    }
+    await secondFlow(createUserData);
   };
+
+  useEffect(() => {
+    if (flowTwoFrmErr.username) {
+      setError("username", {
+        type: "custom",
+        message: "username is already taken",
+      });
+      return;
+    } else {
+      clearErrors("username");
+    }
+  }, [flowTwoFrmErr.username]);
 
   useEffect(() => {
     if (capturedImage) {
@@ -149,10 +158,10 @@ export const RegisterFlowTwo = ({
                 placeholder='johndoe12345'
                 value={field.value}
                 onChangeText={(text) => field.onChange(text)}
-                error={errors?.userName?.message}
+                error={errors?.username?.message}
               />
             )}
-            name='userName'
+            name='username'
             defaultValue=''
           />
 
@@ -194,6 +203,7 @@ export const RegisterFlowTwo = ({
           style={{
             marginBottom: layout.size10,
           }}
+          isLoading={loading}
         />
       </Screen>
       <ModalMessage
@@ -203,7 +213,7 @@ export const RegisterFlowTwo = ({
         }
         title={modalMessage.title}
         btnTitle={modalMessage.btnTitle}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.dispatch(StackActions.replace("Login", {}))}
         type={modalMessage.type}
         enteringAnimation='SlideInDown'
         exitingAnimation='SlideOutDown'
@@ -212,7 +222,6 @@ export const RegisterFlowTwo = ({
         visible={isModalVisible}
         setVisible={setIsModalVisible}
       />
-      {/* <CameraModal2 visible={false} onRequestCloseModal={setIsModalVisible} /> */}
     </>
   );
 };

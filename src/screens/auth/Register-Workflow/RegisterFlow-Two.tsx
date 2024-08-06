@@ -48,6 +48,23 @@ export const RegisterFlowTwo = ({
     resolver: yupResolver(registerFlowTwoFormSchema),
   });
 
+  useEffect(() => {
+    if (flowTwoFrmErr.username) {
+      setError("username", {
+        type: "custom",
+        message: "username is already taken",
+      });
+    } else {
+      clearErrors("username");
+    }
+  }, [flowTwoFrmErr]);
+
+  useEffect(() => {
+    if (capturedImage) {
+      setValue("image", capturedImage);
+    }
+  }, [capturedImage]);
+
   const onSubmit = async (data: registerFlowTwoFormLookUp) => {
     const createUserData: createUser = {
       fullname: convertInputValueToLowercaseAndRemoveWhiteSpace(
@@ -65,24 +82,6 @@ export const RegisterFlowTwo = ({
     };
     await secondFlow(createUserData);
   };
-
-  useEffect(() => {
-    if (flowTwoFrmErr.username) {
-      setError("username", {
-        type: "custom",
-        message: "username is already taken",
-      });
-      return;
-    } else {
-      clearErrors("username");
-    }
-  }, [flowTwoFrmErr.username]);
-
-  useEffect(() => {
-    if (capturedImage) {
-      setValue("image", capturedImage);
-    }
-  }, [capturedImage]);
 
   return (
     <>

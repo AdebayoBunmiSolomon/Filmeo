@@ -124,7 +124,7 @@ export const useSaveUser = () => {
           "username",
           flowTwoData.username
         );
-        //fullname error trapper
+        //username error trapper
         if (username.error) {
           setFlowTwoFrmErr((prev) => ({
             ...prev,

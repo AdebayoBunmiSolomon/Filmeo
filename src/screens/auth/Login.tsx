@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthScreenProps } from "@src/router/Types";
 import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { Header } from "@src/components/auth";
@@ -12,127 +12,168 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@src/form/validation";
 import { loginFormType } from "@src/form/types";
-import { KeyboardDismissal, Loader } from "@src/components/core";
-import { useAuthentication } from "@src/functions/hooks/services/useAuthentication";
-import { useGoogleSignIn, useSeenOnboarding } from "@src/hooks/state";
+import { KeyboardDismissal, Loader, ModalMessage } from "@src/components/core";
+import { useGoogleSignIn } from "@src/hooks/state";
 import * as WebBrowser from "expo-web-browser";
+import { useLogin } from "@src/functions/firebase/services";
+import { convertInputValueToLowercaseAndRemoveWhiteSpace } from "@src/helper/helper";
 
 WebBrowser.maybeCompleteAuthSession();
 
-export const Login = ({ navigation }: AuthScreenProps<"Login">) => {
-  const { Login, loading } = useAuthentication();
+export const Login = ({}: AuthScreenProps<"Login">) => {
   const { promptAsync, gLoading } = useGoogleSignIn();
-  const { registerOnboarding } = useSeenOnboarding();
   const { theme } = useContext(ThemeContext);
+  const {
+    fireStoreLogin,
+    loading,
+    loginFormErr,
+    modalMessage,
+    setModalMessage,
+  } = useLogin();
   const {
     control,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<loginFormType>({
     mode: "onChange",
     resolver: yupResolver(loginSchema),
   });
 
+  useEffect(() => {
+    if (loginFormErr.username) {
+      setError("username", {
+        type: "custom",
+        message: "username not found",
+      });
+    } else {
+      clearErrors("username");
+    }
+  }, [loginFormErr]);
+
   const onSubmit = async (data: loginFormType) => {
     if (data) {
-      await Login();
-      await registerOnboarding();
+      await fireStoreLogin({
+        username: convertInputValueToLowercaseAndRemoveWhiteSpace(
+          data.username
+        ),
+        password: convertInputValueToLowercaseAndRemoveWhiteSpace(
+          data.password
+        ),
+      });
     }
   };
 
   return (
-    <Screen>
-      <KeyboardDismissal>
-        <View>
-          <Header
-            title='Login'
-            rightIcon={
-              <Entypo
-                name='key'
-                color={
-                  theme === "dark" ? colors.primaryColor : colors.primaryColor2
-                }
-                size={layout.size18}
-              />
-            }
-          />
+    <>
+      <Screen>
+        <KeyboardDismissal>
           <View>
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <AppInput
-                  label='Username or Email'
-                  placeholder='example@gmail.com'
-                  error={errors?.userName?.message}
-                  value={field.value}
-                  onChangeText={(text) => field.onChange(text)}
-                  onSubmitEditing={() => console.log("Hello, username")}
+            <Header
+              title='Login'
+              rightIcon={
+                <Entypo
+                  name='key'
+                  color={
+                    theme === "dark"
+                      ? colors.primaryColor
+                      : colors.primaryColor2
+                  }
+                  size={layout.size18}
                 />
-              )}
-              name='userName'
-              defaultValue=''
+              }
             />
-
-            <Controller
-              control={control}
-              render={({ field }) => (
-                <AppInput
-                  label='Password'
-                  placeholder='********'
-                  passwordInput
-                  error={errors?.password?.message}
-                  value={field.value}
-                  onChangeText={(text) => field.onChange(text)}
-                />
-              )}
-              name='password'
-              defaultValue=''
-            />
-            <AppButton
-              title='Continue'
-              onPress={handleSubmit(onSubmit)}
-              style={{
-                alignSelf: "center",
-                marginTop: layout.size6,
-                backgroundColor: "red",
-              }}
-              isLoading={loading}
-            />
-            <AppText style={styles.orText} fontSemibold sizeBody gray>
-              Or
-            </AppText>
-
-            <TouchableOpacity
-              style={styles.googleBtn}
-              disabled={gLoading}
-              onPress={() => promptAsync()}>
-              {gLoading ? (
-                <Loader sizes='small' color={colors.white} />
-              ) : (
-                <>
-                  <Image
-                    source={require("@src/assets/icons/google.png")}
-                    resizeMode='center'
-                    style={{
-                      width: DVW(7),
-                      height: DVH(7),
-                    }}
+            <View>
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <AppInput
+                    label='Username or Email'
+                    placeholder='example@gmail.com'
+                    error={errors?.username?.message}
+                    value={field.value}
+                    onChangeText={(text) => field.onChange(text)}
+                    onSubmitEditing={() => console.log("Hello, username")}
                   />
-                  <AppText
-                    fontRegular
-                    sizeBody
-                    style={{
-                      color: theme === "dark" ? colors.white : colors.white,
-                    }}>
-                    Sign in With Google
-                  </AppText>
-                </>
-              )}
-            </TouchableOpacity>
+                )}
+                name='username'
+                defaultValue=''
+              />
+
+              <Controller
+                control={control}
+                render={({ field }) => (
+                  <AppInput
+                    label='Password'
+                    placeholder='********'
+                    passwordInput
+                    error={errors?.password?.message}
+                    value={field.value}
+                    onChangeText={(text) => field.onChange(text)}
+                  />
+                )}
+                name='password'
+                defaultValue=''
+              />
+              <AppButton
+                title='Continue'
+                onPress={handleSubmit(onSubmit)}
+                style={{
+                  alignSelf: "center",
+                  marginTop: layout.size6,
+                  backgroundColor: "red",
+                }}
+                isLoading={loading}
+              />
+              <AppText style={styles.orText} fontSemibold sizeBody gray>
+                Or
+              </AppText>
+
+              <TouchableOpacity
+                style={styles.googleBtn}
+                disabled={gLoading}
+                onPress={() => promptAsync()}>
+                {gLoading ? (
+                  <Loader sizes='small' color={colors.white} />
+                ) : (
+                  <>
+                    <Image
+                      source={require("@src/assets/icons/google.png")}
+                      resizeMode='center'
+                      style={{
+                        width: DVW(7),
+                        height: DVH(7),
+                      }}
+                    />
+                    <AppText
+                      fontRegular
+                      sizeBody
+                      style={{
+                        color: theme === "dark" ? colors.white : colors.white,
+                      }}>
+                      Sign in With Google
+                    </AppText>
+                  </>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </KeyboardDismissal>
-    </Screen>
+        </KeyboardDismissal>
+      </Screen>
+      <ModalMessage
+        visible={modalMessage.visible}
+        setVisible={() =>
+          setModalMessage({ ...modalMessage, visible: !modalMessage.visible })
+        }
+        title={modalMessage.title}
+        btnTitle={modalMessage.btnTitle}
+        onPress={() => {}}
+        type={modalMessage.type}
+        enteringAnimation='BounceInUp'
+        exitingAnimation='BounceOutDown'
+      />
+    </>
   );
 };
 

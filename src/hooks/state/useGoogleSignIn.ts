@@ -9,11 +9,11 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 import { firebaseAuth } from "@src/api/configuration/firebase";
-import { useAuthStore } from "@src/functions/hooks/store";
 import { useSeenOnboarding } from "./useSeenOnboarding";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
+import { useAuthentication } from "@src/functions/hooks/services";
 
 const config = {
   iosClientId: CLOUD_CONSOLE_IOS_CLIENT_ID_DEV,
@@ -21,9 +21,9 @@ const config = {
 };
 export const useGoogleSignIn = () => {
   const [request, response, promptAsync] = Google.useAuthRequest(config);
-  const { setIsAuthenticated } = useAuthStore();
   const { registerOnboarding } = useSeenOnboarding();
   const [gLoading, setGloading] = useState<boolean>(false);
+  const { Login } = useAuthentication();
 
   const handleToken = useCallback(async () => {
     setGloading(true);
@@ -41,15 +41,11 @@ export const useGoogleSignIn = () => {
             picture: result.user.photoURL,
           };
           await registerOnboarding();
-          await AsyncStorage.setItem(
-            storageKey.AUTHENTICATED,
-            JSON.stringify(true)
-          );
+          await Login();
           await AsyncStorage.setItem(
             storageKey.USER_DATA,
             JSON.stringify(userAuthData)
           );
-          setIsAuthenticated(true);
         } else {
           console.log("Error signIn-In to google");
         }

@@ -12,6 +12,10 @@ type flowTwoFormDataErrType = {
   username: boolean;
 };
 
+type loginFormDataErr = {
+  username: boolean;
+};
+
 export const useFormValidation = () => {
   const [flowOneFrmErr, setFlowOneFrmErr] = useState<flowOneFormDataErrType>({
     fullname: false,
@@ -19,6 +23,9 @@ export const useFormValidation = () => {
     phone_number: false,
   });
   const [flowTwoFrmErr, setFlowTwoFrmErr] = useState<flowTwoFormDataErrType>({
+    username: false,
+  });
+  const [loginFormErr, setLoginFormErr] = useState<loginFormDataErr>({
     username: false,
   });
   const validateField = async (
@@ -39,7 +46,7 @@ export const useFormValidation = () => {
     } else {
       return {
         error: false,
-        message: "",
+        message: `${option} does not exist`,
       };
     }
   };
@@ -50,5 +57,7 @@ export const useFormValidation = () => {
     setFlowOneFrmErr,
     flowTwoFrmErr,
     setFlowTwoFrmErr,
+    loginFormErr,
+    setLoginFormErr,
   };
 };

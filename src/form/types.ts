@@ -1,5 +1,5 @@
 export interface loginFormType {
-  userName: string;
+  username: string;
   password: string;
 }
 
@@ -63,4 +63,9 @@ export interface flowTwoFormDataType {
   username: string | undefined;
   password: string | undefined;
   // avatar_url: File;
+}
+
+export interface loginFormDataType {
+  username: string | undefined;
+  password: string | undefined;
 }

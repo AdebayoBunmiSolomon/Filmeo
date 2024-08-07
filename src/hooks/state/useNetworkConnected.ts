@@ -2,6 +2,9 @@ import NetInfo, { NetInfoState } from "@react-native-community/netinfo";
 import { useNetworkStateStore } from "../store";
 import { useEffect } from "react";
 
+/**
+ * @networkState returns false which means it's connected but true means not connected
+ */
 export const useNetworkConnected = () => {
   const { setNetworkState, networkState } = useNetworkStateStore();
 

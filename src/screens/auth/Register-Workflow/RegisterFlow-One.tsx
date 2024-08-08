@@ -36,7 +36,6 @@ export const RegisterFlowOne = ({}: AuthScreenProps<"RegisterFlowOne">) => {
         type: "custom",
         message: "fullname is already taken",
       });
-      return;
     } else {
       clearErrors("fullname");
     }
@@ -46,7 +45,6 @@ export const RegisterFlowOne = ({}: AuthScreenProps<"RegisterFlowOne">) => {
         type: "custom",
         message: "email is already taken",
       });
-      return;
     } else {
       clearErrors("email");
     }
@@ -56,11 +54,10 @@ export const RegisterFlowOne = ({}: AuthScreenProps<"RegisterFlowOne">) => {
         type: "custom",
         message: "phone number is already taken",
       });
-      return;
     } else {
       clearErrors("phone_number");
     }
-  }, [flowOneFrmErr.fullname, flowOneFrmErr.email, flowOneFrmErr.phone_number]);
+  }, [flowOneFrmErr]);
 
   const onSubmit = async (data: registerFlowOneFormType) => {
     await firstFlow({

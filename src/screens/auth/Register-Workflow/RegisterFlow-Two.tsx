@@ -76,7 +76,7 @@ export const RegisterFlowTwo = ({
       ),
       username: convertInputValueToLowercaseAndRemoveWhiteSpace(data.username),
       password: convertInputValueToLowercaseAndRemoveWhiteSpace(data.password),
-      avatar_url: "bunmi.jpg",
+      avatar_url: "",
       created_at: getCurrentDate(),
       updated_at: getCurrentDate(),
     };

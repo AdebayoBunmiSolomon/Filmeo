@@ -89,7 +89,11 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
             color: colors.white,
             alignSelf: "center",
           }}>
-          @{userData && normalizeSpaces(String(userData.name))}
+          @
+          {userData &&
+            normalizeSpaces(
+              String(userData.name ? userData.name : userData.username)
+            )}
         </AppText>
       </View>
       <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>

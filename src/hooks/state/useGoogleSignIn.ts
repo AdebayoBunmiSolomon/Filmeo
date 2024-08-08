@@ -38,6 +38,7 @@ export const useGoogleSignIn = () => {
             id: result.user.uid,
             email: result.user.email,
             name: result.user.displayName,
+            username: null,
             picture: result.user.photoURL,
           };
           await registerOnboarding();

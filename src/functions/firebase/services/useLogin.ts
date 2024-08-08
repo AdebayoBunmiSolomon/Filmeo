@@ -68,6 +68,7 @@ export const useLogin = () => {
               email: data?.email,
               name: data?.fullname,
               picture: data?.avatar_url,
+              username: data?.username,
             };
             await AsyncStorage.setItem(
               storageKey.USER_DATA,

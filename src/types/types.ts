@@ -80,3 +80,24 @@ export type settingsType = {
   icon: React.ElementType;
   function: () => void;
 }[];
+
+// Define the structure of an asset
+interface Asset {
+  assetId: string;
+  base64: string | null;
+  duration: number | null;
+  exif: any;
+  fileName: string;
+  fileSize: number;
+  height: number;
+  mimeType: string;
+  type: string;
+  uri: string;
+  width: number;
+}
+
+// Define the structure of the image object
+export interface ImageType {
+  assets: Asset[];
+  canceled: boolean;
+}

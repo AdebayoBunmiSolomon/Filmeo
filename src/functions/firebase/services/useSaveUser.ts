@@ -6,6 +6,8 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useModalMessage, useNetworkConnected } from "@src/hooks/state";
 import { firestoreDB } from "@src/api/configuration/firebase";
 import { addDoc, collection } from "firebase/firestore";
+import { useImageStore } from "@src/components/core/store";
+import { useGetImageURL } from "./image";
 
 export const useSaveUser = () => {
   const {
@@ -19,6 +21,8 @@ export const useSaveUser = () => {
   const navigation: NavigationProp<any> = useNavigation();
   const { modalMessage, setModalMessage } = useModalMessage();
   const { networkState } = useNetworkConnected();
+  const { capturedImage } = useImageStore();
+  const { getImgURL } = useGetImageURL();
 
   const firstFlow = async (flowOneData: flowOneFormDataType) => {
     setLoading(true);
@@ -54,6 +58,7 @@ export const useSaveUser = () => {
             fullname: true,
           }));
           console.log(fullname.message);
+          return;
         } else {
           setFlowOneFrmErr((prev) => ({
             ...prev,
@@ -137,8 +142,10 @@ export const useSaveUser = () => {
             username: false,
           }));
         }
-        //final validation before taking user to the next screen
+        //final validation before saving user data and taking user to the next screen
         if (!username.error) {
+          const imageUrl = await getImgURL(capturedImage);
+          flowTwoData.avatar_url = imageUrl;
           const result = await addDoc(
             collection(firestoreDB, collections.user_collection),
             {

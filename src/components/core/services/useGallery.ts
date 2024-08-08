@@ -1,7 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import { useImageStore } from "../store";
 export const useGalleryService = () => {
-  const { setCapturedImage } = useImageStore();
+  const { setCapturedImage, capturedImage } = useImageStore();
 
   const pickImageFromGallery = async () => {
     // No permissions request is necessary for launching the image library
@@ -12,14 +12,16 @@ export const useGalleryService = () => {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log("gallery", result);
 
     if (!result.canceled) {
-      setCapturedImage(result.assets[0].uri);
+      const source = { uri: result.assets[0].uri };
+      setCapturedImage(source.uri);
     }
   };
 
   return {
+    capturedImage,
     pickImageFromGallery,
   };
 };

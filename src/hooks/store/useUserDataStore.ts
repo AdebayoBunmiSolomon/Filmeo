@@ -4,6 +4,7 @@ type userDataType = {
   id: string | number;
   email: string | null;
   name: string | null;
+  username: string | null;
   picture: string | null;
 };
 
@@ -18,6 +19,7 @@ export const useUserDataStore = create<IUserDataProps>((set) => ({
     email: "" || null,
     name: "" || null,
     picture: "" || null,
+    username: "" || null,
   },
   setUserData: (userData) => set({ userData: userData }),
 }));

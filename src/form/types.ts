@@ -19,8 +19,8 @@ export interface createUser {
   email: string | undefined;
   phone_number: string | undefined;
   username: string | undefined;
-  password: string | undefined;
-  avatar_url: string | undefined;
+  password: string | undefined | null;
+  avatar_url: string | undefined | null;
   created_at: string | undefined;
   updated_at: string | undefined;
 }

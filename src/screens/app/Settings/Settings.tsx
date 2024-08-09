@@ -22,14 +22,19 @@ import {
 import { useToggleSwitch } from "@src/components/core/services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
-import { useAuthStore } from "@src/functions/hooks/store";
 import { useAuthentication } from "@src/functions/hooks/services";
+import { useDeleteUser } from "@src/functions/firebase/services";
+import { ModalMessage } from "@src/components/core";
+import { useSeenOnboarding } from "@src/hooks/state";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { switchToggle, switchOn } = useToggleSwitch();
   const [cachedToken, setCachedToken] = useState<string>("");
   const { logOut } = useAuthentication();
+  const { unRegisterOnboarding } = useSeenOnboarding();
+  const { deleteUser, deleteLoading, modalMessage, setModalMessage } =
+    useDeleteUser();
   const settings: settingsType = [
     {
       title: "Edit Details",
@@ -69,81 +74,100 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
     toggleTheme(switchOn);
   }, [switchOn]);
   return (
-    <Screen>
-      <Header backHeader={true} title='Settings' />
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Image
-          source={require("@src/assets/icons/cinema.png")}
-          resizeMode='contain'
-          style={styles.image}
-        />
-        <View
-          style={[
-            styles.settingsContainer,
-            {
-              backgroundColor: colors.lightGray,
-              marginBottom: verticalScale(20),
-            },
-          ]}>
-          {settings &&
-            settings.map((items, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.settingsBtn}
-                  onPress={() => items.function()}>
-                  <View style={styles.titleContainer}>
-                    <items.icon
-                      name={
-                        items.title === settings[0].title
-                          ? "edit"
-                          : items.title === settings[1].title
-                          ? "theme-light-dark"
-                          : items.title === settings[2].title
-                          ? "log-out"
-                          : undefined
-                      }
-                      color={theme === "dark" ? colors.white : colors.black}
-                      size={moderateScale(25)}
-                    />
-                    <AppText fontRegular sizeSmall black>
-                      {items.title}
-                    </AppText>
-                  </View>
-                  <View>
-                    {items.title === settings[1].title && (
-                      <ToggleSwitch
-                        switchOn={switchOn}
-                        toggleSwitch={switchToggle}
+    <>
+      <Screen>
+        <Header backHeader={true} title='Settings' />
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Image
+            source={require("@src/assets/icons/cinema.png")}
+            resizeMode='contain'
+            style={styles.image}
+          />
+          <View
+            style={[
+              styles.settingsContainer,
+              {
+                backgroundColor: colors.lightGray,
+                marginBottom: verticalScale(20),
+              },
+            ]}>
+            {settings &&
+              settings.map((items, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.settingsBtn}
+                    onPress={() => items.function()}>
+                    <View style={styles.titleContainer}>
+                      <items.icon
+                        name={
+                          items.title === settings[0].title
+                            ? "edit"
+                            : items.title === settings[1].title
+                            ? "theme-light-dark"
+                            : items.title === settings[2].title
+                            ? "log-out"
+                            : undefined
+                        }
+                        color={theme === "dark" ? colors.white : colors.black}
+                        size={moderateScale(25)}
                       />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-        </View>
-        <AppText fontRegular sizeBody black>
-          Filmeo push token:
-        </AppText>
-        <AppText fontExtraLight sizeBody gray>
-          {cachedToken}
-        </AppText>
-        {/* <AppInput value={cachedToken} placeholder='' label='' /> */}
-        <AppButton
-          title='Delete Account'
-          style={styles.deleteAcctButton}
-          onPress={() => {}}
-          danger
-          rightIcon={
-            <AntDesign
-              name='delete'
-              color={colors.white}
-              size={moderateScale(20)}
-            />
-          }
-        />
-      </ScrollView>
-    </Screen>
+                      <AppText fontRegular sizeSmall black>
+                        {items.title}
+                      </AppText>
+                    </View>
+                    <View>
+                      {items.title === settings[1].title && (
+                        <ToggleSwitch
+                          switchOn={switchOn}
+                          toggleSwitch={switchToggle}
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+          </View>
+          <AppText fontRegular sizeBody black>
+            Filmeo push token:
+          </AppText>
+          <AppText fontExtraLight sizeBody gray>
+            {cachedToken}
+          </AppText>
+          <AppButton
+            title='Delete Account'
+            style={styles.deleteAcctButton}
+            onPress={async () => {
+              await deleteUser();
+              await unRegisterOnboarding();
+            }}
+            danger
+            rightIcon={
+              <AntDesign
+                name='delete'
+                color={colors.white}
+                size={moderateScale(20)}
+              />
+            }
+            isLoading={deleteLoading}
+          />
+        </ScrollView>
+      </Screen>
+      <ModalMessage
+        visible={modalMessage.visible}
+        setVisible={() =>
+          setModalMessage({ ...modalMessage, visible: !modalMessage.visible })
+        }
+        title={modalMessage.title}
+        btnTitle={modalMessage.btnTitle}
+        onPress={async () => {
+          await logOut();
+        }}
+        type={modalMessage.type}
+        enteringAnimation='BounceInUp'
+        exitingAnimation='BounceOutDown'
+      />
+    </>
   );
 };
 

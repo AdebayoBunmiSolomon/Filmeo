@@ -28,15 +28,22 @@ export const useGetImageURL = () => {
         // Get the download URL of the uploaded image
         const downloadURL = await getDownloadURL(snapshot.ref);
         console.log(filename);
-        return downloadURL;
+        return {
+          downloadURL: downloadURL,
+          imageName: filename,
+        };
       } else {
-        return null;
+        return {
+          downloadURL: null,
+          imageName: null,
+        };
       }
     } catch (err: unknown) {
       console.log("Error", err);
-      if (err instanceof Error) {
-        return err.toString();
-      }
+      return {
+        downloadURL: null,
+        imageName: null,
+      };
     } finally {
       setUploadLoading(false);
     }

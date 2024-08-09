@@ -20,6 +20,7 @@ export const useCheckIfUserDataEmpty = () => {
           email: userDataParsed.email,
           name: userDataParsed.name,
           picture: userDataParsed.picture,
+          avatar_name: userDataParsed.avatar_name,
         });
       } else {
         setIsUserDataEmpty(true);
@@ -29,6 +30,7 @@ export const useCheckIfUserDataEmpty = () => {
           email: "",
           name: "",
           picture: "",
+          avatar_name: "",
         });
         return null;
       }

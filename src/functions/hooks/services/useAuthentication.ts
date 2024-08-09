@@ -54,6 +54,8 @@ export const useAuthentication = () => {
         email: "",
         name: "",
         picture: "",
+        username: "",
+        avatar_name: "",
       });
     } catch (err: any) {
       console.log("Error logging out", err);

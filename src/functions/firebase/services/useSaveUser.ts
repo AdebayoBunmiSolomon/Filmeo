@@ -144,8 +144,9 @@ export const useSaveUser = () => {
         }
         //final validation before saving user data and taking user to the next screen
         if (!username.error) {
-          const imageUrl = await getImgURL(capturedImage);
-          flowTwoData.avatar_url = imageUrl;
+          const imageData = await getImgURL(capturedImage);
+          flowTwoData.avatar_url = imageData.downloadURL;
+          flowTwoData.avatar_name = imageData.imageName;
           const result = await addDoc(
             collection(firestoreDB, collections.user_collection),
             {

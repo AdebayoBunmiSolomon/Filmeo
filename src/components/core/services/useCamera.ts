@@ -1,11 +1,14 @@
 import * as ImagePicker from "expo-image-picker";
 import { Alert } from "react-native";
 import { useImageStore } from "../store";
+import { useState } from "react";
 
 export const useCameraServices = () => {
   const { setCapturedImage, capturedImage } = useImageStore();
+  const [cameraLoading, setCameraLoading] = useState<boolean>(false);
 
   const openCamera = async () => {
+    setCameraLoading(true);
     const status = await ImagePicker.requestCameraPermissionsAsync();
     if (status.granted !== true) {
       Alert.alert(
@@ -32,10 +35,13 @@ export const useCameraServices = () => {
         "Error",
         "An error occurred while trying to take a photo. Please try again."
       );
+    } finally {
+      setCameraLoading(false);
     }
   };
   return {
     capturedImage,
     openCamera,
+    cameraLoading,
   };
 };

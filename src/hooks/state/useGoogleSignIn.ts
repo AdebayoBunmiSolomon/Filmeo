@@ -40,6 +40,7 @@ export const useGoogleSignIn = () => {
             name: result.user.displayName,
             username: null,
             picture: result.user.photoURL,
+            avatar_name: "",
           };
           await registerOnboarding();
           await Login();

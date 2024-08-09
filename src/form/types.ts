@@ -21,6 +21,7 @@ export interface createUser {
   username: string | undefined;
   password: string | undefined | null;
   avatar_url: string | undefined | null;
+  avatar_name: string | undefined | null;
   created_at: string | undefined;
   updated_at: string | undefined;
 }

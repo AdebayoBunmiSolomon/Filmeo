@@ -10,7 +10,7 @@ export const useSeenOnboarding = () => {
     let state;
     try {
       setOnboardingSeenLoading(true);
-      // await AsyncStorage.removeItem(storageKey.SEEN_ONBOARDING);
+      //await AsyncStorage.removeItem(storageKey.SEEN_ONBOARDING);
       const status = await AsyncStorage.getItem(storageKey.SEEN_ONBOARDING);
       const parsedStatus = JSON.parse(status!);
       if (parsedStatus !== null) {
@@ -47,9 +47,23 @@ export const useSeenOnboarding = () => {
     }
   };
 
+  const unRegisterOnboarding = async () => {
+    const status = "false";
+    try {
+      await AsyncStorage.setItem(
+        storageKey.SEEN_ONBOARDING,
+        JSON.stringify(status)
+      );
+      console.log("Successfully un-registered onboarding");
+    } catch (err) {
+      console.log("Error un-registering onboarding:", err);
+    }
+  };
+
   return {
     checkIfOnboardingSeen,
     registerOnboarding,
     onboardingSeenLoading,
+    unRegisterOnboarding,
   };
 };

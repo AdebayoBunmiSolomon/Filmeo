@@ -2,7 +2,14 @@ import React, { useContext } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { AppText } from "../shared/AppText";
 import { AppButton } from "../shared/AppButton";
-import { DVH, DVW, layout, screenHeight, screenWidth } from "@src/resources";
+import {
+  DVH,
+  DVW,
+  layout,
+  screenHeight,
+  screenWidth,
+  verticalScale,
+} from "@src/resources";
 import { ThemeContext } from "@src/resources/Theme";
 import { colors } from "@src/resources/Colors";
 import Animated, {
@@ -175,8 +182,9 @@ const styles = StyleSheet.create({
     right: 0,
     width: screenWidth,
     height: "100%",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
+    paddingBottom: verticalScale(30),
   },
   messageContainer: {
     width: "90%",

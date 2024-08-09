@@ -1,4 +1,4 @@
-import { SheetModal } from "@src/components/core";
+import { Loader, SheetModal } from "@src/components/core";
 import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
@@ -21,8 +21,8 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
   setVisible,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const { openCamera } = useCameraServices();
-  const { pickImageFromGallery } = useGalleryService();
+  const { openCamera, cameraLoading } = useCameraServices();
+  const { pickImageFromGallery, galleryLoading } = useGalleryService();
   return (
     <>
       <SheetModal visible={visible} setVisible={setVisible} snapHeight='22%'>
@@ -39,13 +39,26 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
                       : colors.primaryColor2,
                 },
               ]}>
-              <FontAwesome5
-                name='images'
-                size={layout.size22}
-                color={
-                  theme === "dark" ? colors.primaryColor : colors.primaryColor2
-                }
-              />
+              {galleryLoading ? (
+                <Loader
+                  sizes='small'
+                  color={
+                    theme === "dark"
+                      ? colors.primaryColor2
+                      : colors.primaryColor
+                  }
+                />
+              ) : (
+                <FontAwesome5
+                  name='images'
+                  size={layout.size22}
+                  color={
+                    theme === "dark"
+                      ? colors.primaryColor
+                      : colors.primaryColor2
+                  }
+                />
+              )}
             </TouchableOpacity>
             <AppText fontRegular sizeBody black style={styles.appText}>
               Gallery
@@ -65,13 +78,26 @@ export const RegisterSheetModal: React.FC<registerSheetModalTypes> = ({
                       : colors.primaryColor2,
                 },
               ]}>
-              <Ionicons
-                name='camera'
-                size={layout.size22}
-                color={
-                  theme === "dark" ? colors.primaryColor : colors.primaryColor2
-                }
-              />
+              {cameraLoading ? (
+                <Loader
+                  sizes='small'
+                  color={
+                    theme === "dark"
+                      ? colors.primaryColor2
+                      : colors.primaryColor
+                  }
+                />
+              ) : (
+                <Ionicons
+                  name='camera'
+                  size={layout.size22}
+                  color={
+                    theme === "dark"
+                      ? colors.primaryColor
+                      : colors.primaryColor2
+                  }
+                />
+              )}
             </TouchableOpacity>
             <AppText fontRegular sizeBody black style={styles.appText}>
               Camera

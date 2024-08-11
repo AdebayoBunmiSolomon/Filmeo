@@ -23,18 +23,27 @@ import { useToggleSwitch } from "@src/components/core/services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
 import { useAuthentication } from "@src/functions/hooks/services";
-import { useDeleteUser } from "@src/functions/firebase/services";
-import { ModalMessage } from "@src/components/core";
-import { useSeenOnboarding } from "@src/hooks/state";
+import {
+  useDeleteUser,
+  useNotificationSubscription,
+} from "@src/functions/firebase/services";
+import { Loader, ModalMessage } from "@src/components/core";
+import { useModalMessage, useSeenOnboarding } from "@src/hooks/state";
+import { usePushTokenStore } from "@src/functions/firebase/store";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { switchToggle, switchOn } = useToggleSwitch();
+  const { pushToggleOn, togglePushNotification, subscribeLoading } =
+    useNotificationSubscription();
   const [cachedToken, setCachedToken] = useState<string>("");
   const { logOut } = useAuthentication();
   const { unRegisterOnboarding } = useSeenOnboarding();
-  const { deleteUser, deleteLoading, modalMessage, setModalMessage } =
-    useDeleteUser();
+  const { deleteUser, deleteLoading } = useDeleteUser();
+  const { setModalMessage, modalMessage } = useModalMessage();
+  const { pushTokenStore } = usePushTokenStore();
+  console.log("Push-token-store", pushTokenStore);
+
   const settings: settingsType = [
     {
       title: "Edit Details",
@@ -46,6 +55,11 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
     {
       title: "Preferred Theme",
       icon: MaterialCommunityIcons,
+      function: () => {},
+    },
+    {
+      title: "Subscribe to Push Notification",
+      icon: AntDesign,
       function: () => {},
     },
     {
@@ -99,19 +113,34 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
                     style={styles.settingsBtn}
                     onPress={() => items.function()}>
                     <View style={styles.titleContainer}>
-                      <items.icon
-                        name={
-                          items.title === settings[0].title
-                            ? "edit"
-                            : items.title === settings[1].title
-                            ? "theme-light-dark"
-                            : items.title === settings[2].title
-                            ? "log-out"
-                            : undefined
-                        }
-                        color={theme === "dark" ? colors.white : colors.black}
-                        size={moderateScale(25)}
-                      />
+                      <>
+                        {items.title === settings[2].title &&
+                        subscribeLoading === true ? (
+                          <Loader
+                            sizes='small'
+                            color={
+                              theme === "dark"
+                                ? colors.primaryColor2
+                                : colors.primaryColor
+                            }
+                          />
+                        ) : undefined}
+                        <items.icon
+                          name={
+                            items.title === settings[0].title
+                              ? "edit"
+                              : items.title === settings[1].title
+                              ? "theme-light-dark"
+                              : items.title === settings[2].title
+                              ? "notification"
+                              : items.title === settings[3].title
+                              ? "log-out"
+                              : undefined
+                          }
+                          color={theme === "dark" ? colors.white : colors.black}
+                          size={moderateScale(25)}
+                        />
+                      </>
                       <AppText fontRegular sizeSmall black>
                         {items.title}
                       </AppText>
@@ -121,6 +150,14 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
                         <ToggleSwitch
                           switchOn={switchOn}
                           toggleSwitch={switchToggle}
+                        />
+                      )}
+                      {items.title === settings[2].title && (
+                        <ToggleSwitch
+                          switchOn={pushToggleOn}
+                          toggleSwitch={() => {
+                            togglePushNotification();
+                          }}
                         />
                       )}
                     </View>

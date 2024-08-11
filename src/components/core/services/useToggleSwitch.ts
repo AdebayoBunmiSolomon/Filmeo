@@ -5,10 +5,15 @@ import { useContext, useEffect, useState } from "react";
 
 export const useToggleSwitch = () => {
   const [switchOn, setSwitchOn] = useState<boolean>(false);
+  const [pushToggleOn, setPushToggleOn] = useState<boolean>(false);
   const { theme, setTheme } = useContext(ThemeContext);
 
   const switchToggle = () => {
     setSwitchOn(!switchOn);
+  };
+
+  const togglePushNotification = () => {
+    setPushToggleOn(!pushToggleOn);
   };
 
   const loadSwitchOnOrOffFromStorage = async () => {
@@ -36,5 +41,8 @@ export const useToggleSwitch = () => {
     switchToggle,
     switchOn,
     setSwitchOn,
+    togglePushNotification,
+    pushToggleOn,
+    setPushToggleOn,
   };
 };

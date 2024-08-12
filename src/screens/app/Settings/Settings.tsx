@@ -28,8 +28,9 @@ import {
   useNotificationSubscription,
 } from "@src/functions/firebase/services";
 import { Loader, ModalMessage } from "@src/components/core";
-import { useModalMessage, useSeenOnboarding } from "@src/hooks/state";
+import { useSeenOnboarding } from "@src/hooks/state";
 import { usePushTokenStore } from "@src/functions/firebase/store";
+import { useModalMessage, useUserDataStore } from "@src/hooks/store";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -40,9 +41,8 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { logOut } = useAuthentication();
   const { unRegisterOnboarding } = useSeenOnboarding();
   const { deleteUser, deleteLoading } = useDeleteUser();
-  const { setModalMessage, modalMessage } = useModalMessage();
-  const { pushTokenStore } = usePushTokenStore();
-  console.log("Push-token-store", pushTokenStore);
+  const { modalMessage, setModalMessage } = useModalMessage();
+  const { userData } = useUserDataStore();
 
   const settings: settingsType = [
     {
@@ -93,9 +93,15 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
         <Header backHeader={true} title='Settings' />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <Image
-            source={require("@src/assets/icons/cinema.png")}
+            source={{ uri: String(userData.picture) }}
             resizeMode='contain'
-            style={styles.image}
+            style={[
+              styles.image,
+              {
+                borderColor:
+                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor,
+              },
+            ]}
           />
           <View
             style={[
@@ -176,7 +182,6 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
             style={styles.deleteAcctButton}
             onPress={async () => {
               await deleteUser();
-              await unRegisterOnboarding();
             }}
             danger
             rightIcon={
@@ -199,6 +204,7 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
         btnTitle={modalMessage.btnTitle}
         onPress={async () => {
           await logOut();
+          await unRegisterOnboarding();
         }}
         type={modalMessage.type}
         enteringAnimation='BounceInUp'
@@ -222,16 +228,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: DVW(0.2),
   },
   image: {
-    width: DVW(20),
-    height: DVH(10),
+    width: DVW(30),
+    height: DVH(15),
+    borderRadius: moderateScale(100),
+    borderWidth: DVW(0.5),
     alignSelf: "center",
-    marginBottom: verticalScale(30),
+    marginBottom: verticalScale(20),
   },
   deleteAcctButton: {
     marginTop: verticalScale(30),
   },
   scrollContainer: {
     flexGrow: 0.4,
+    marginTop: verticalScale(10),
   },
   titleContainer: {
     flexDirection: "row",

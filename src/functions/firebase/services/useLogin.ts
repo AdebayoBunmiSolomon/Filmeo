@@ -1,8 +1,4 @@
-import {
-  useModalMessage,
-  useNetworkConnected,
-  useSeenOnboarding,
-} from "@src/hooks/state";
+import { useNetworkConnected, useSeenOnboarding } from "@src/hooks/state";
 import { useState } from "react";
 import { useFormValidation } from "../rule";
 import { collections } from "../collection";
@@ -12,6 +8,7 @@ import { firestoreDB } from "@src/api/configuration/firebase";
 import { useAuthentication } from "@src/functions/hooks/services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
+import { useModalMessage } from "@src/hooks/store";
 
 export const useLogin = () => {
   const [loading, setLoading] = useState<boolean>(false);

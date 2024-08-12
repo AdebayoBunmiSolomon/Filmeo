@@ -3,11 +3,12 @@ import { createUser, flowOneFormDataType } from "@src/form/types";
 import { useFormValidation } from "../rule";
 import { collections } from "../collection";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { useModalMessage, useNetworkConnected } from "@src/hooks/state";
+import { useNetworkConnected } from "@src/hooks/state";
 import { firestoreDB } from "@src/api/configuration/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { useImageStore } from "@src/components/core/store";
 import { useGetImageURL } from "./image";
+import { useModalMessage } from "@src/hooks/store";
 
 export const useSaveUser = () => {
   const {

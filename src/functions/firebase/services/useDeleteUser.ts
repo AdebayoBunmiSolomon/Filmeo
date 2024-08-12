@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useDeleteImage } from "./image";
-import { useModalMessage, useNetworkConnected } from "@src/hooks/state";
+import { useNetworkConnected } from "@src/hooks/state";
 import { deleteDoc, doc } from "firebase/firestore";
 import { firestoreDB } from "@src/api/configuration/firebase";
 import { collections } from "../collection";
-import { useUserDataStore } from "@src/hooks/store";
+import { useModalMessage, useUserDataStore } from "@src/hooks/store";
+import { Alert } from "react-native";
 
 export const useDeleteUser = () => {
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
@@ -25,21 +26,37 @@ export const useDeleteUser = () => {
           type: "warning",
         });
       } else {
-        const imgDeleted = await deleteImg();
-        if (imgDeleted) {
-          await deleteDoc(
-            doc(firestoreDB, collections.user_collection, String(userData.id))
-          );
-          setModalMessage({
-            ...modalMessage,
-            visible: !modalMessage.visible,
-            title: `${userData.name?.toUpperCase()}'s data is deleted successfully`,
-            btnTitle: "Ok",
-            type: "success",
-          });
-        } else {
-          console.log("Image not deleted successfully");
-        }
+        Alert.alert("Delete user", "Are you sure you want to delete account?", [
+          {
+            text: "No",
+            onPress: () => console.log("No pressed"),
+          },
+          {
+            text: "Yes, Continue",
+            onPress: async () => {
+              setDeleteLoading(true);
+              const imgDeleted = await deleteImg();
+              if (imgDeleted) {
+                await deleteDoc(
+                  doc(
+                    firestoreDB,
+                    collections.user_collection,
+                    String(userData.id)
+                  )
+                );
+                setModalMessage({
+                  ...modalMessage,
+                  visible: !modalMessage.visible,
+                  title: `${userData.name?.toUpperCase()}'s data is deleted successfully`,
+                  btnTitle: "Ok",
+                  type: "success",
+                });
+              } else {
+                console.log("Image not deleted successfully");
+              }
+            },
+          },
+        ]);
       }
     } catch (err: any) {
       console.log("Error", err);
@@ -51,7 +68,5 @@ export const useDeleteUser = () => {
   return {
     deleteUser,
     deleteLoading,
-    modalMessage,
-    setModalMessage,
   };
 };

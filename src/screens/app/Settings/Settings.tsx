@@ -28,8 +28,6 @@ import {
   useNotificationSubscription,
 } from "@src/functions/firebase/services";
 import { Loader, ModalMessage } from "@src/components/core";
-import { useSeenOnboarding } from "@src/hooks/state";
-import { usePushTokenStore } from "@src/functions/firebase/store";
 import { useModalMessage, useUserDataStore } from "@src/hooks/store";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
@@ -39,7 +37,6 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
     useNotificationSubscription();
   const [cachedToken, setCachedToken] = useState<string>("");
   const { logOut } = useAuthentication();
-  const { unRegisterOnboarding } = useSeenOnboarding();
   const { deleteUser, deleteLoading } = useDeleteUser();
   const { modalMessage, setModalMessage } = useModalMessage();
   const { userData } = useUserDataStore();
@@ -90,110 +87,125 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   return (
     <>
       <Screen>
-        <Header backHeader={true} title='Settings' />
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <Image
-            source={{ uri: String(userData.picture) }}
-            resizeMode='contain'
-            style={[
-              styles.image,
-              {
-                borderColor:
-                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.settingsContainer,
-              {
-                backgroundColor: colors.lightGray,
-                marginBottom: verticalScale(20),
-              },
-            ]}>
-            {settings &&
-              settings.map((items, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.settingsBtn}
-                    onPress={() => items.function()}>
-                    <View style={styles.titleContainer}>
-                      <>
-                        {items.title === settings[2].title &&
-                        subscribeLoading === true ? (
-                          <Loader
-                            sizes='small'
-                            color={
-                              theme === "dark"
-                                ? colors.primaryColor2
-                                : colors.primaryColor
-                            }
-                          />
-                        ) : undefined}
-                        <items.icon
-                          name={
-                            items.title === settings[0].title
-                              ? "edit"
-                              : items.title === settings[1].title
-                              ? "theme-light-dark"
-                              : items.title === settings[2].title
-                              ? "notification"
-                              : items.title === settings[3].title
-                              ? "log-out"
-                              : undefined
-                          }
-                          color={theme === "dark" ? colors.white : colors.black}
-                          size={moderateScale(25)}
-                        />
-                      </>
-                      <AppText fontRegular sizeSmall black>
-                        {items.title}
-                      </AppText>
-                    </View>
-                    <View>
-                      {items.title === settings[1].title && (
-                        <ToggleSwitch
-                          switchOn={switchOn}
-                          toggleSwitch={switchToggle}
-                        />
-                      )}
-                      {items.title === settings[2].title && (
-                        <ToggleSwitch
-                          switchOn={pushToggleOn}
-                          toggleSwitch={() => {
-                            togglePushNotification();
-                          }}
-                        />
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-          </View>
-          <AppText fontRegular sizeBody black>
-            Filmeo push token:
-          </AppText>
-          <AppText fontExtraLight sizeBody gray>
-            {cachedToken}
-          </AppText>
-          <AppButton
-            title='Delete Account'
-            style={styles.deleteAcctButton}
-            onPress={async () => {
-              await deleteUser();
-            }}
-            danger
-            rightIcon={
-              <AntDesign
-                name='delete'
-                color={colors.white}
-                size={moderateScale(20)}
+        {subscribeLoading ? (
+          <View style={styles.loaderContainer}>
+            <View
+              style={[
+                styles.loaderBackground,
+                {
+                  backgroundColor:
+                    theme === "dark" ? colors.black : colors.white,
+                },
+              ]}>
+              <Loader
+                sizes='large'
+                color={
+                  theme === "dark" ? colors.primaryColor2 : colors.primaryColor
+                }
               />
-            }
-            isLoading={deleteLoading}
-          />
-        </ScrollView>
+            </View>
+          </View>
+        ) : (
+          <>
+            <Header backHeader={true} title='Settings' />
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+              <Image
+                source={{ uri: String(userData.picture) }}
+                resizeMode='contain'
+                style={[
+                  styles.image,
+                  {
+                    borderColor:
+                      theme === "dark"
+                        ? colors.primaryColor2
+                        : colors.primaryColor,
+                  },
+                ]}
+              />
+              <View
+                style={[
+                  styles.settingsContainer,
+                  {
+                    backgroundColor: colors.lightGray,
+                    marginBottom: verticalScale(20),
+                  },
+                ]}>
+                {settings &&
+                  settings.map((items, index) => {
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        style={styles.settingsBtn}
+                        onPress={() => items.function()}>
+                        <View style={styles.titleContainer}>
+                          <>
+                            <items.icon
+                              name={
+                                items.title === settings[0].title
+                                  ? "edit"
+                                  : items.title === settings[1].title
+                                  ? "theme-light-dark"
+                                  : items.title === settings[2].title
+                                  ? "notification"
+                                  : items.title === settings[3].title
+                                  ? "log-out"
+                                  : undefined
+                              }
+                              color={
+                                theme === "dark" ? colors.white : colors.black
+                              }
+                              size={moderateScale(25)}
+                            />
+                          </>
+                          <AppText fontRegular sizeSmall black>
+                            {items.title}
+                          </AppText>
+                        </View>
+                        <View>
+                          {items.title === settings[1].title && (
+                            <ToggleSwitch
+                              switchOn={switchOn}
+                              toggleSwitch={switchToggle}
+                            />
+                          )}
+                          {items.title === settings[2].title && (
+                            <ToggleSwitch
+                              switchOn={pushToggleOn}
+                              toggleSwitch={() => {
+                                togglePushNotification();
+                              }}
+                            />
+                          )}
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+              </View>
+              <AppText fontRegular sizeBody black>
+                Filmeo push token:
+              </AppText>
+              <AppText fontExtraLight sizeBody gray>
+                {cachedToken}
+              </AppText>
+              <AppButton
+                title='Delete Account'
+                style={styles.deleteAcctButton}
+                onPress={async () => {
+                  await deleteUser();
+                }}
+                danger
+                rightIcon={
+                  <AntDesign
+                    name='delete'
+                    color={colors.white}
+                    size={moderateScale(20)}
+                  />
+                }
+                isLoading={deleteLoading}
+              />
+            </ScrollView>
+          </>
+        )}
       </Screen>
       <ModalMessage
         visible={modalMessage.visible}
@@ -203,8 +215,7 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
         title={modalMessage.title}
         btnTitle={modalMessage.btnTitle}
         onPress={async () => {
-          await logOut();
-          await unRegisterOnboarding();
+          // await clearCacheOnDevice();
         }}
         type={modalMessage.type}
         enteringAnimation='BounceInUp'
@@ -246,5 +257,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: moderateScale(10),
+  },
+  loaderContainer: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    zIndex: 20,
+  },
+  loaderBackground: {
+    width: DVW(20),
+    height: DVH(10),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: moderateScale(20),
   },
 });

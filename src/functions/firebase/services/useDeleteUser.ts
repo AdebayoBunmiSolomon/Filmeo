@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useDeleteImage } from "./image";
-import { useNetworkConnected } from "@src/hooks/state";
+import { useNetworkConnected, useSeenOnboarding } from "@src/hooks/state";
 import { deleteDoc, doc } from "firebase/firestore";
 import { firestoreDB } from "@src/api/configuration/firebase";
 import { collections } from "../collection";
 import { useModalMessage, useUserDataStore } from "@src/hooks/store";
 import { Alert } from "react-native";
+import { useAuthentication } from "@src/functions/hooks/services";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storageKey } from "@src/cache";
+import { useNotificationSubscription } from "./useNotificationSubscription";
 
 export const useDeleteUser = () => {
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
@@ -13,6 +17,20 @@ export const useDeleteUser = () => {
   const { networkState } = useNetworkConnected();
   const { modalMessage, setModalMessage } = useModalMessage();
   const { userData } = useUserDataStore();
+  const { unRegisterOnboarding } = useSeenOnboarding();
+  const { logOut } = useAuthentication();
+  const { unsubScribeToPushNotification } = useNotificationSubscription();
+
+  const clearCacheOnDevice = async () => {
+    await unsubScribeToPushNotification();
+    await AsyncStorage.removeItem(storageKey.WATCH_LIST);
+    await AsyncStorage.removeItem(storageKey.THEME);
+    await logOut();
+    await unRegisterOnboarding();
+    await AsyncStorage.removeItem(storageKey.USER_DATA);
+    await AsyncStorage.removeItem(storageKey.PUSH_TOKEN);
+    await AsyncStorage.removeItem(storageKey.SUBSCRIBED_TO_PUSH_NOTIFICATION);
+  };
 
   const deleteUser = async () => {
     setDeleteLoading(true);
@@ -35,24 +53,31 @@ export const useDeleteUser = () => {
             text: "Yes, Continue",
             onPress: async () => {
               setDeleteLoading(true);
-              const imgDeleted = await deleteImg();
-              if (imgDeleted) {
-                await deleteDoc(
-                  doc(
-                    firestoreDB,
-                    collections.user_collection,
-                    String(userData.id)
-                  )
-                );
-                setModalMessage({
-                  ...modalMessage,
-                  visible: !modalMessage.visible,
-                  title: `${userData.name?.toUpperCase()}'s data is deleted successfully`,
-                  btnTitle: "Ok",
-                  type: "success",
-                });
-              } else {
-                console.log("Image not deleted successfully");
+              try {
+                const imgDeleted = await deleteImg();
+                if (imgDeleted) {
+                  await deleteDoc(
+                    doc(
+                      firestoreDB,
+                      collections.user_collection,
+                      String(userData.id)
+                    )
+                  );
+                  setModalMessage({
+                    ...modalMessage,
+                    visible: !modalMessage.visible,
+                    title: `${userData.name?.toUpperCase()}'s data is deleted successfully`,
+                    btnTitle: "Ok",
+                    type: "success",
+                  });
+                  await clearCacheOnDevice();
+                } else {
+                  console.log("Image not deleted successfully");
+                }
+              } catch (err: any) {
+                console.log("Error", err);
+              } finally {
+                setDeleteLoading(false);
               }
             },
           },
@@ -68,5 +93,6 @@ export const useDeleteUser = () => {
   return {
     deleteUser,
     deleteLoading,
+    clearCacheOnDevice,
   };
 };

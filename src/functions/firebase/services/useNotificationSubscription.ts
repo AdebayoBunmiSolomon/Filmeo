@@ -1,110 +1,128 @@
 import { useEffect, useState } from "react";
 import { usePushTokenStore } from "../store";
-import { useToggleSwitch } from "@src/components/core/services";
+import { useTogglePushNotification } from "@src/components/core/services";
 import { useNetworkConnected } from "@src/hooks/state";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { firestoreDB } from "@src/api/configuration/firebase";
 import { collections } from "../collection";
 import { useTokenValidation } from "../rule";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { storageKey } from "@src/cache";
 import { useModalMessage } from "@src/hooks/store";
+import { useCheckNotificationSubscription } from "./useCheckNotificationSubscription";
+import { useToggleNotificationStore } from "@src/components/core/store/useToggleNotificationStore";
 
-type subscribeToPushNotificationData = {
-  id: string;
-  subscribed: boolean;
-};
 export const useNotificationSubscription = () => {
-  const { pushToggleOn, togglePushNotification, setPushToggleOn } =
-    useToggleSwitch();
+  const {
+    saveSubscriptionToDeviceStorage,
+    checkPushNotificationSubscription,
+    getSubscriptionFromDeviceStorage,
+    removeSubscriptionFromDeviceStorage,
+  } = useCheckNotificationSubscription();
+  const { togglePushNotification } = useTogglePushNotification();
+  const { setPushToggleOn, pushToggleOn, isSubscriptionChecked } =
+    useToggleNotificationStore();
   const [subscribeLoading, setSubscribeLoading] = useState<boolean>(false);
   const { pushTokenStore } = usePushTokenStore();
   const { networkState } = useNetworkConnected();
   const { setModalMessage, modalMessage } = useModalMessage();
   const { validateToken } = useTokenValidation();
 
-  const checkPushNotificationSubscription = async () => {
-    const data = await getSubscriptionFromDeviceStorage();
-    if (data.subscribed === true) {
-      setPushToggleOn(true);
-      return true;
-    } else {
-      setPushToggleOn(false);
-      return false;
-    }
-  };
-
-  const getSubscriptionFromDeviceStorage = async () => {
-    const data = await AsyncStorage.getItem(
-      storageKey.SUBSCRIBED_TO_PUSH_NOTIFICATION
-    );
-    const parsedData = JSON.parse(data!);
-    if (parsedData !== null || undefined || "") {
-      return parsedData;
-    } else {
-      console.log("no record found");
-    }
-  };
-
-  const saveSubscriptionToDeviceStorage = async (
-    data: subscribeToPushNotificationData
-  ) => {
-    try {
-      await AsyncStorage.setItem(
-        storageKey.SUBSCRIBED_TO_PUSH_NOTIFICATION,
-        JSON.stringify(data)
-      );
-    } catch (err: any) {
-      console.log("Error", err);
-    }
-  };
-
-  const removeSubscriptionFromDeviceStorage = async () => {
-    try {
-      await AsyncStorage.removeItem(storageKey.SUBSCRIBED_TO_PUSH_NOTIFICATION);
-    } catch (err: any) {
-      console.log("Error", err);
-    }
-  };
-
   const unsubScribeToPushNotification = async () => {
-    //unsubscribe should check if it exists in DB before it does any operation
-    const isSubscribed = await checkPushNotificationSubscription();
-    if (isSubscribed) {
-      await removeSubscriptionFromDeviceStorage();
-      console.log("Un-subscribed to push notification");
+    setSubscribeLoading(true);
+    try {
+      if (networkState.networkState) {
+        setModalMessage({
+          ...modalMessage,
+          visible: !modalMessage.visible,
+          title: "Please connect device to a stable network",
+          btnTitle: "Ok",
+          type: "warning",
+        });
+      } else {
+        const token = await validateToken(
+          collections.subscribed_token_collection,
+          "token",
+          pushTokenStore.token
+        );
+        if (token?.isExits) {
+          console.log("deleted successfully");
+          const subscriptionData = await getSubscriptionFromDeviceStorage();
+          if (subscriptionData) {
+            await deleteDoc(
+              doc(
+                firestoreDB,
+                collections.subscribed_token_collection,
+                subscriptionData.id
+              )
+            );
+          }
+        }
+        await removeSubscriptionFromDeviceStorage();
+      }
+    } catch (err: any) {
+      console.log("Error", err);
+    } finally {
+      setSubscribeLoading(false);
     }
   };
 
   const subScribeToPushNotification = async () => {
-    const isSubscribed = await checkPushNotificationSubscription();
-    if (!isSubscribed) {
-      await saveSubscriptionToDeviceStorage({
-        id: "testing1234",
-        subscribed: true,
-      });
-      console.log("Subscribed to push notification");
+    setSubscribeLoading(true);
+    try {
+      if (networkState.networkState) {
+        setModalMessage({
+          ...modalMessage,
+          visible: !modalMessage.visible,
+          title: "Please connect device to a stable network",
+          btnTitle: "Ok",
+          type: "warning",
+        });
+      } else {
+        const token = await validateToken(
+          collections.subscribed_token_collection,
+          "token",
+          pushTokenStore.token
+        );
+        if (token?.isExits) {
+          console.log("token already exits, no need to subscribe");
+        } else {
+          const result = await addDoc(
+            collection(firestoreDB, collections.subscribed_token_collection),
+            {
+              ...pushTokenStore,
+            }
+          );
+          if (result.id) {
+            setModalMessage({
+              ...modalMessage,
+              visible: !modalMessage.visible,
+              title: "Successfully subscribed for push notification",
+              btnTitle: "Ok",
+              type: "success",
+            });
+          }
+          await saveSubscriptionToDeviceStorage({
+            id: result.id,
+            subscribed: true,
+          });
+          setPushToggleOn(true);
+        }
+      }
+    } catch (err: any) {
+      console.log("Error", err);
+    } finally {
+      setSubscribeLoading(false);
     }
   };
 
   useEffect(() => {
-    const initiateSubscription = async () => {
-      if (pushToggleOn) {
-        subScribeToPushNotification();
-      } else {
-        unsubScribeToPushNotification();
-      }
-    };
-    initiateSubscription();
-  }, [pushToggleOn]);
+    if (isSubscriptionChecked && pushToggleOn) {
+      subScribeToPushNotification();
+      console.log("is already subscribed and push toggle on");
+    } else if (isSubscriptionChecked && !pushToggleOn) {
+      unsubScribeToPushNotification();
+      console.log("is not already subscribed and push toggle off");
+    }
+  }, [pushToggleOn, isSubscriptionChecked]);
 
   return {
     checkPushNotificationSubscription,

@@ -6,6 +6,7 @@ type pushTokenDataType = {
   device_type: string | undefined;
   id: string | undefined;
   token: string | undefined;
+  subscribed: boolean | undefined;
 };
 
 interface IPushTokenProps {
@@ -20,6 +21,7 @@ export const usePushTokenStore = create<IPushTokenProps>((set) => ({
     device_type: "",
     id: "",
     token: "",
+    subscribed: false,
   },
   setPushTokenStore: (pushTokenStore) =>
     set({ pushTokenStore: pushTokenStore }),

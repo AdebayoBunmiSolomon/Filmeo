@@ -52,6 +52,7 @@ export interface tokenFormDataType {
   device_type: string | undefined;
   id: string | undefined;
   token: string | undefined;
+  subscribed: boolean | undefined;
 }
 
 export interface flowOneFormDataType {

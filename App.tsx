@@ -1,5 +1,3 @@
-import { useToggleNotificationStore } from "@src/components/core/store/useToggleNotificationStore";
-import { useCheckNotificationSubscription } from "@src/functions/firebase/services";
 import { useAuthentication } from "@src/functions/hooks/services";
 import { useAuthStore } from "@src/functions/hooks/store";
 import { isUserLoggedInOnDevice } from "@src/helper/helper";
@@ -23,22 +21,11 @@ export default function App() {
   const { isAuthenticated, setIsAuthenticated } = useAuthStore();
   const [logoutTimer, setLogoutTimer] = useState<NodeJS.Timeout | null>(null);
   const { checkIfUserDataEmpty } = useCheckIfUserDataEmpty();
-  const { checkPushNotificationSubscription } =
-    useCheckNotificationSubscription();
-  const { setIsSubscriptionChecked } = useToggleNotificationStore();
 
   const checkIsLoggedInOnDevice = async () => {
     const isLoggedIn = await isUserLoggedInOnDevice();
     setIsAuthenticated(isLoggedIn);
   };
-
-  useEffect(() => {
-    const checkPushSubscription = async () => {
-      setIsSubscriptionChecked(true);
-      await checkPushNotificationSubscription();
-    };
-    checkPushSubscription();
-  }, []);
 
   useEffect(() => {
     checkIsLoggedInOnDevice();

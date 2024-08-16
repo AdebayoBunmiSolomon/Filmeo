@@ -10,7 +10,6 @@ import { generateRandomId, getCurrentDate } from "@src/helper/helper";
 import { useMovieCardClick } from "@src/components/core/services";
 import { useExtensiveSearch } from "@src/functions/api/services/search";
 import { useAuthStore } from "@src/functions/hooks/store";
-// import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 export interface PushNotificationState {
   notification?: Notifications.Notification;
@@ -19,7 +18,6 @@ export interface PushNotificationState {
 
 export const usePushNotification = (): PushNotificationState => {
   const { movieCardClick } = useMovieCardClick();
-  // const navigation: NavigationProp<any> = useNavigation();
   const { isAuthenticated } = useAuthStore();
   const { getXtensiveSearchOfMovieFromNotification } = useExtensiveSearch();
   Notifications.setNotificationHandler({
@@ -52,6 +50,7 @@ export const usePushNotification = (): PushNotificationState => {
         Platform.OS === "android" ? Constants.deviceName : Device?.modelName,
       device_type: Platform.OS,
       token: token.data,
+      subscribed: false,
     });
   };
 

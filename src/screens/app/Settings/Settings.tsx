@@ -29,12 +29,14 @@ import {
 } from "@src/functions/firebase/services";
 import { Loader, ModalMessage } from "@src/components/core";
 import { useModalMessage, useUserDataStore } from "@src/hooks/store";
+import { useToggleNotificationStore } from "@src/components/core/store";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { switchToggle, switchOn } = useToggleSwitch();
-  const { pushToggleOn, togglePushNotification, subscribeLoading } =
+  const { togglePushNotification, subscribeLoading } =
     useNotificationSubscription();
+  const { pushToggleOn } = useToggleNotificationStore();
   const [cachedToken, setCachedToken] = useState<string>("");
   const { logOut } = useAuthentication();
   const { deleteUser, deleteLoading } = useDeleteUser();

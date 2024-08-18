@@ -50,12 +50,16 @@ export const useAuthentication = () => {
       signOut(firebaseAuth);
       setUserData({
         ...userData,
-        id: "" || 0,
+        id: "",
         email: "",
-        name: "",
-        picture: "",
-        username: "",
+        fullname: "",
+        avatar_url: "",
         avatar_name: "",
+        created_at: "",
+        updated_at: "",
+        phone_number: "",
+        password: "",
+        username: "",
       });
     } catch (err: any) {
       console.log("Error logging out", err);

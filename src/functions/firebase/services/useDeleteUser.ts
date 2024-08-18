@@ -29,7 +29,6 @@ export const useDeleteUser = () => {
     await unRegisterOnboarding();
     await AsyncStorage.removeItem(storageKey.USER_DATA);
     await AsyncStorage.removeItem(storageKey.PUSH_TOKEN);
-    await AsyncStorage.removeItem(storageKey.SUBSCRIBED_TO_PUSH_NOTIFICATION);
   };
 
   const deleteUser = async () => {
@@ -54,7 +53,9 @@ export const useDeleteUser = () => {
             onPress: async () => {
               setDeleteLoading(true);
               try {
-                const imgDeleted = await deleteImg();
+                const imgDeleted = await deleteImg(
+                  String(userData.avatar_name)
+                );
                 if (imgDeleted) {
                   await deleteDoc(
                     doc(
@@ -66,7 +67,7 @@ export const useDeleteUser = () => {
                   setModalMessage({
                     ...modalMessage,
                     visible: !modalMessage.visible,
-                    title: `${userData.name?.toUpperCase()}'s data is deleted successfully`,
+                    title: `${userData.fullname?.toUpperCase()}'s data is deleted successfully`,
                     btnTitle: "Ok",
                     type: "success",
                   });

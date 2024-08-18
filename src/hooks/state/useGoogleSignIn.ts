@@ -37,10 +37,14 @@ export const useGoogleSignIn = () => {
           const userAuthData = {
             id: result.user.uid,
             email: result.user.email,
-            name: result.user.displayName,
+            fullname: result.user.displayName,
             username: null,
-            picture: result.user.photoURL,
+            avatar_url: result.user.photoURL,
             avatar_name: "",
+            created_at: "",
+            updated_at: "",
+            phone_number: "",
+            password: "",
           };
           await registerOnboarding();
           await Login();
@@ -69,8 +73,14 @@ export const useGoogleSignIn = () => {
         const userAuthData = {
           id: user.uid,
           email: user.email,
-          name: user.displayName,
-          picture: user.photoURL,
+          fullname: user.displayName,
+          avatar_url: user.photoURL,
+          avatar_name: "",
+          created_at: "",
+          updated_at: "",
+          phone_number: "",
+          password: "",
+          username: "",
         };
         await AsyncStorage.setItem(
           storageKey.USER_DATA,

@@ -22,7 +22,7 @@ export const useSaveUser = () => {
   const navigation: NavigationProp<any> = useNavigation();
   const { modalMessage, setModalMessage } = useModalMessage();
   const { networkState } = useNetworkConnected();
-  const { capturedImage } = useImageStore();
+  const { capturedImage, setCapturedImage } = useImageStore();
   const { getImgURL } = useGetImageURL();
 
   const firstFlow = async (flowOneData: flowOneFormDataType) => {
@@ -162,6 +162,7 @@ export const useSaveUser = () => {
               btnTitle: "Ok",
               type: "success",
             });
+            setCapturedImage("");
           }
         }
       }

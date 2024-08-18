@@ -1,12 +1,16 @@
 import { create } from "zustand";
 
 type userDataType = {
-  id: string | number;
+  id: number | string;
   email: string | null;
-  name: string | null;
+  fullname: string | null;
+  avatar_url: string | null;
   username: string | null;
-  picture: string | null;
   avatar_name: string | null;
+  created_at: string | null;
+  password: string | null;
+  phone_number: string | null;
+  updated_at: string | null;
 };
 
 interface IUserDataProps {
@@ -18,10 +22,14 @@ export const useUserDataStore = create<IUserDataProps>((set) => ({
   userData: {
     id: "" || 0,
     email: "" || null,
-    name: "" || null,
-    picture: "" || null,
+    fullname: "" || null,
+    avatar_url: "" || null,
     username: "" || null,
     avatar_name: "" || null,
+    created_at: "" || null,
+    updated_at: "" || null,
+    password: "" || null,
+    phone_number: "" || null,
   },
   setUserData: (userData) => set({ userData: userData }),
 }));

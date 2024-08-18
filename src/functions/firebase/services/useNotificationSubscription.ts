@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTogglePushNotification } from "@src/components/core/services";
 import { useToggleNotificationStore } from "@src/components/core/store/useToggleNotificationStore";
 import { useSavePushToken } from "./useSavePushToken";
@@ -65,16 +65,16 @@ export const useNotificationSubscription = () => {
     }
   };
 
-  useEffect(() => {
-    const initiateSubscription = async () => {
-      if (pushToggleOn) {
-        await subScribeToPushNotification();
-      } else {
-        await unsubScribeToPushNotification();
-      }
-    };
-    initiateSubscription();
-  }, [pushToggleOn]);
+  // useEffect(() => {
+  //   const initiateSubscription = async () => {
+  //     if (pushToggleOn) {
+  //       await subScribeToPushNotification();
+  //     } else {
+  //       await unsubScribeToPushNotification();
+  //     }
+  //   };
+  //   initiateSubscription();
+  // }, [pushToggleOn]);
 
   return {
     subScribeToPushNotification,

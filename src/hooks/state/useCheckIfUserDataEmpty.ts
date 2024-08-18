@@ -13,14 +13,19 @@ export const useCheckIfUserDataEmpty = () => {
       const userDataParsed = JSON.parse(userDataJSON!);
       if (userDataParsed) {
         setIsUserDataEmpty(false);
-        console.log("user data is", userDataParsed);
+        // console.log("user data is", userDataParsed);
         setUserData({
           ...userData,
           id: userDataParsed.id,
           email: userDataParsed.email,
-          name: userDataParsed.name,
-          picture: userDataParsed.picture,
+          fullname: userDataParsed.fullname,
+          avatar_url: userDataParsed.avatar_url,
           avatar_name: userDataParsed.avatar_name,
+          created_at: userDataParsed.created_at,
+          updated_at: userDataParsed.updated_at,
+          phone_number: userDataParsed.phone_number,
+          password: userDataParsed.password,
+          username: userDataParsed.username,
         });
       } else {
         setIsUserDataEmpty(true);
@@ -28,9 +33,14 @@ export const useCheckIfUserDataEmpty = () => {
           ...userData,
           id: "",
           email: "",
-          name: "",
-          picture: "",
+          fullname: "",
+          avatar_url: "",
           avatar_name: "",
+          created_at: "",
+          updated_at: "",
+          phone_number: "",
+          password: "",
+          username: "",
         });
         return null;
       }

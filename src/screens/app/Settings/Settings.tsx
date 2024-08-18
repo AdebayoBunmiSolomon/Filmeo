@@ -22,7 +22,7 @@ import {
 import { useToggleSwitch } from "@src/components/core/services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storageKey } from "@src/cache";
-import { useAuthentication } from "@src/functions/hooks/services";
+import { useAuthentication, useSettings } from "@src/functions/hooks/services";
 import {
   useDeleteUser,
   useNotificationSubscription,
@@ -30,6 +30,7 @@ import {
 import { Loader, ModalMessage } from "@src/components/core";
 import { useModalMessage, useUserDataStore } from "@src/hooks/store";
 import { useToggleNotificationStore } from "@src/components/core/store";
+import { MediaOptions } from "@src/components/app/settings/Media-Options";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -42,6 +43,12 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { deleteUser, deleteLoading } = useDeleteUser();
   const { modalMessage, setModalMessage } = useModalMessage();
   const { userData } = useUserDataStore();
+  const {
+    setIsMediaOpenOption,
+    isOpenMediaOption,
+    isUploading,
+    capturedImage,
+  } = useSettings();
 
   const settings: settingsType = [
     {
@@ -111,19 +118,48 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
           <>
             <Header backHeader={true} title='Settings' />
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-              <Image
-                source={{ uri: String(userData.picture) }}
-                resizeMode='contain'
-                style={[
-                  styles.image,
-                  {
-                    borderColor:
-                      theme === "dark"
-                        ? colors.primaryColor2
-                        : colors.primaryColor,
-                  },
-                ]}
-              />
+              <View
+                style={{
+                  marginBottom: verticalScale(20),
+                }}>
+                <Image
+                  source={{
+                    uri: capturedImage
+                      ? capturedImage
+                      : String(userData.avatar_url),
+                  }}
+                  resizeMode='contain'
+                  style={[
+                    styles.image,
+                    {
+                      borderColor:
+                        theme === "dark"
+                          ? colors.primaryColor2
+                          : colors.primaryColor,
+                    },
+                  ]}
+                />
+                <TouchableOpacity
+                  onPress={() => setIsMediaOpenOption(!isOpenMediaOption)}
+                  style={[
+                    styles.editImgBtn,
+                    {
+                      backgroundColor:
+                        theme === "dark" ? colors.lightGray : colors.lightGray,
+                    },
+                  ]}>
+                  {isUploading ? (
+                    <Loader
+                      sizes='small'
+                      color={theme === "dark" ? colors.white : colors.black}
+                    />
+                  ) : (
+                    <AppText fontRegular sizeBody>
+                      Edit
+                    </AppText>
+                  )}
+                </TouchableOpacity>
+              </View>
               <View
                 style={[
                   styles.settingsContainer,
@@ -218,16 +254,31 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
         btnTitle={modalMessage.btnTitle}
         onPress={async () => {
           // await clearCacheOnDevice();
+          // await logOut();
         }}
         type={modalMessage.type}
         enteringAnimation='BounceInUp'
         exitingAnimation='BounceOutDown'
+      />
+      <MediaOptions
+        visible={isOpenMediaOption}
+        setVisible={() => setIsMediaOpenOption(!isOpenMediaOption)}
+        snapHeight='30%'
       />
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  editImgBtn: {
+    borderRadius: moderateScale(10),
+    width: DVW(30),
+    height: DVH(5),
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: verticalScale(-15),
+  },
   settingsContainer: {
     paddingBottom: verticalScale(10),
     paddingHorizontal: DVW(5),

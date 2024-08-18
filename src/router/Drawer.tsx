@@ -71,8 +71,8 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
           <Image
             resizeMode='cover'
             source={
-              userData && userData.picture
-                ? { uri: userData.picture }
+              userData.avatar_url && userData.avatar_url
+                ? { uri: userData.avatar_url }
                 : require("@src/assets/images/experience.png")
             }
             style={{
@@ -92,7 +92,7 @@ export const CustomDrawer: React.FC<drawerProps> = ({ props }) => {
           @
           {userData &&
             normalizeSpaces(
-              String(userData.name ? userData.name : userData.username)
+              String(userData.fullname ? userData.fullname : userData.fullname)
             )}
         </AppText>
       </View>

@@ -70,8 +70,8 @@ export const Header: React.FC<headerProps> = ({
                 <Image
                   resizeMode='contain'
                   source={
-                    userData && userData.picture
-                      ? { uri: userData.picture }
+                    userData && userData.avatar_url
+                      ? { uri: userData.avatar_url }
                       : require("@src/assets/images/experience.png")
                   }
                   style={{
@@ -88,7 +88,7 @@ export const Header: React.FC<headerProps> = ({
           <View>
             {showUsername && (
               <AppText sizeMedium fontBold black>
-                {truncateText(userData && String(userData.name))}
+                {truncateText(userData && String(userData.fullname))}
               </AppText>
             )}
             {backHeader ? null : (

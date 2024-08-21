@@ -3,6 +3,14 @@ export interface loginFormType {
   password: string;
 }
 
+export interface editDetailsFormType {
+  username: string;
+  password: string;
+  phone_number: string;
+  fullname: string;
+  email: string;
+}
+
 export interface registerFlowOneFormType {
   fullname: string;
   email: string;

@@ -97,4 +97,8 @@ export const otherScreen: ScreenConfig[] = [
     screenName: "ExtensiveViewMore",
     component: RootStackScreen.ExtensiveViewMore,
   },
+  {
+    screenName: "EditDetails",
+    component: RootStackScreen.EditDetails,
+  },
 ];

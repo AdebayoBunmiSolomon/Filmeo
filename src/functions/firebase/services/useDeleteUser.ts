@@ -23,6 +23,7 @@ export const useDeleteUser = () => {
 
   const clearCacheOnDevice = async () => {
     await unsubScribeToPushNotification();
+    await AsyncStorage.removeItem(storageKey.SEEN_ONBOARDING);
     await AsyncStorage.removeItem(storageKey.WATCH_LIST);
     await AsyncStorage.removeItem(storageKey.THEME);
     await logOut();
@@ -71,6 +72,7 @@ export const useDeleteUser = () => {
                     btnTitle: "Ok",
                     type: "success",
                   });
+                  await logOut();
                   await clearCacheOnDevice();
                 } else {
                   console.log("Image not deleted successfully");

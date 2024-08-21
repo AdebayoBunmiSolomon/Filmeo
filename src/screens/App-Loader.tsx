@@ -16,12 +16,14 @@ export const AppLoader: React.FC<{}> = () => {
           resizeMode='contain'
           style={styles.image}
         />
-        <AppText sizeXtraLarge>Filmeo</AppText>
+        <AppText sizeXtraLarge mainColor>
+          Filmeo
+        </AppText>
       </View>
       <View style={styles.loaderContainer}>
         <ActivityIndicator
           size={"large"}
-          color={theme === "dark" ? colors.white : colors.white}
+          color={theme === "dark" ? colors.primaryColor2 : colors.primaryColor}
         />
       </View>
     </Screen>

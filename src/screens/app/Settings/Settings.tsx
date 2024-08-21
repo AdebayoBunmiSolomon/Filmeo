@@ -31,6 +31,7 @@ import { Loader, ModalMessage } from "@src/components/core";
 import { useModalMessage, useUserDataStore } from "@src/hooks/store";
 import { useToggleNotificationStore } from "@src/components/core/store";
 import { MediaOptions } from "@src/components/app/settings/Media-Options";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -50,12 +51,14 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
     capturedImage,
   } = useSettings();
 
+  const navigation: NavigationProp<any> = useNavigation();
+
   const settings: settingsType = [
     {
       title: "Edit Details",
       icon: AntDesign,
       function: () => {
-        console.log("Edit Details");
+        navigation.navigate("EditDetails");
       },
     },
     {
@@ -140,7 +143,7 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
                   ]}
                 />
                 <TouchableOpacity
-                  onPress={() => setIsMediaOpenOption(!isOpenMediaOption)}
+                  onPress={() => {}}
                   style={[
                     styles.editImgBtn,
                     {
@@ -252,10 +255,7 @@ export const Settings = ({}: BottomTabBarScreenProps<"Settings">) => {
         }
         title={modalMessage.title}
         btnTitle={modalMessage.btnTitle}
-        onPress={async () => {
-          // await clearCacheOnDevice();
-          // await logOut();
-        }}
+        onPress={async () => {}}
         type={modalMessage.type}
         enteringAnimation='BounceInUp'
         exitingAnimation='BounceOutDown'

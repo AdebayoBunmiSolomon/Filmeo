@@ -52,3 +52,23 @@ export const xTensiveSearchMovieCompFormSchema = yup.object().shape({
 export const otpInputFormSchema = yup.object().shape({
   otpInput: yup.string().required("one time pin is required"),
 });
+
+export const editDetailsFormSchema = yup.object().shape({
+  username: yup.string().required("movie title is required"),
+  password: yup
+    .string()
+    .required("password is required")
+    .min(8, "password must be at least 8 characters long"),
+  phone_number: yup
+    .string()
+    .required("Phone number is required")
+    .matches(/^[0-9]+$/, "Phone number must contain only numeric values"),
+  fullname: yup.string().required("fullname is required"),
+  email: yup
+    .string()
+    .required("Email is required")
+    .matches(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+      "Invalid email format"
+    ),
+});

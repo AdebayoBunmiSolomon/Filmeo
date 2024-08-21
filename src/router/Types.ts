@@ -32,6 +32,7 @@ export interface RootStackParamList extends ParamListBase {
   ExtensiveViewMore: {
     tvSeriesId: number;
   };
+  EditDetails: undefined;
 }
 
 export type RootStackScreenProps<ScreenName extends keyof RootStackParamList> =

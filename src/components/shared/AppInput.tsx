@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     paddingVertical: layout.size2,
   },
   label: {
-    marginBottom: layout.size6,
+    marginBottom: layout.size2,
   },
   dropDownBtn: {
     padding: layout.size20,

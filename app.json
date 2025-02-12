@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "notification": {
       "icon": "./assets/icon.png",
       "color": "#8d2fc7"
